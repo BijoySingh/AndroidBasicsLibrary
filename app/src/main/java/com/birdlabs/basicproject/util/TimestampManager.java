@@ -1,6 +1,6 @@
 package com.birdlabs.basicproject.util;
 
-import android.content.Context;
+import com.birdlabs.basicproject.item.TimestampItem;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 /**
+ * Timestamp functions
  * Created by Bijoy on 5/25/2015.
  */
 public class TimestampManager implements Serializable {
@@ -18,21 +19,13 @@ public class TimestampManager implements Serializable {
     public static String MIDNIGHT = "Midnight";
     public static String NOON = "Noon";
     public static String COLON = ":";
-    public static Integer ONE_HOUR = 1000 * 60 * 60;
 
-    public boolean isNull = false;
-    public String timestamp, time, date;
-    public Calendar calender;
-
-    public TimestampManager(Context context, String timestamp) {
-        this.timestamp = timestamp;
-
+    public static TimestampItem getTimestampItem(String timestamp) {
         DateTime dateTime;
         try {
             dateTime = new DateTime(timestamp);
         } catch (Exception e) {
-            isNull = true;
-            return;
+            return new TimestampItem(timestamp, null, null, Calendar.getInstance());
         }
 
         dateTime = dateTime.toDateTime(DateTimeZone.UTC);
@@ -45,9 +38,11 @@ public class TimestampManager implements Serializable {
         String mm = dateTime.minuteOfHour().getAsText();
         String yyyy = dateTime.year().getAsText();
 
-        date = dd + SPACE + MMMM + SPACE + yyyy;
-        time = getTimeStr(hh, mm);
-        calender = getCalendar(yyyy, MM, dd, hh, mm);
+        String date = dd + SPACE + MMMM + SPACE + yyyy;
+        String time = getTimeStr(hh, mm);
+        Calendar calender = getCalendar(yyyy, MM, dd, hh, mm);
+
+        return new TimestampItem(timestamp, time, date, calender);
     }
 
     public static String getTimeStr(String hh, String mm) {
@@ -80,7 +75,7 @@ public class TimestampManager implements Serializable {
         Calendar calendar = Calendar.getInstance();
         calendar.set(
                 Integer.parseInt(yyyy),
-                Integer.parseInt(MM)-1,
+                Integer.parseInt(MM) - 1,
                 Integer.parseInt(dd),
                 Integer.parseInt(hh),
                 Integer.parseInt(mm)

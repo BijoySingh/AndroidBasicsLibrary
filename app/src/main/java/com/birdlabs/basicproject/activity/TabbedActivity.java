@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * the tabbed activity
  * Created by bijoy on 12/17/15.
  */
 public abstract class TabbedActivity extends AppCompatActivity {

@@ -20,11 +20,10 @@ import java.util.List;
 public abstract class RefreshBasedFragment<T> extends Fragment {
 
     public List<T> values = new ArrayList<>();
-    Context context;
-    String filename;
-    RecyclerView.LayoutManager layoutManager;
-    RecyclerView recyclerView;
-    SwipeRefreshLayout swipeRefreshLayout;
+    public Context context;
+    public RecyclerView.LayoutManager layoutManager;
+    public RecyclerView recyclerView;
+    public SwipeRefreshLayout swipeRefreshLayout;
 
     public void rerenderList(List<T> list) {
         ;

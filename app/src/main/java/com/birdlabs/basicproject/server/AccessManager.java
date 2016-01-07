@@ -1,7 +1,6 @@
 package com.birdlabs.basicproject.server;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -9,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
@@ -24,24 +24,24 @@ public abstract class AccessManager {
 
     public static final Integer TIMEOUT = 7500;
 
-    Context context;
+    public Context context;
 
     public AccessManager(Context context) {
         this.context = context;
     }
 
     public void get(final AccessItem access) {
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(
+        StringRequest request = new StringRequest(
                 Request.Method.GET, access.url, new Response
-                .Listener<JSONObject>() {
+                .Listener<String>() {
             @Override
-            public void onResponse(JSONObject json) {
-                handleGetResponse(json);
+            public void onResponse(String response) {
+                handleGetResponse(access, response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handleGetError(error);
+                handleGetError(access, error);
             }
         }) {
 
@@ -55,11 +55,11 @@ public abstract class AccessManager {
             }
         };
 
-        jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
+        request.setRetryPolicy(new DefaultRetryPolicy(
                 TIMEOUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Volley.newRequestQueue(context).add(jsonRequest);
+        Volley.newRequestQueue(context).add(request);
     }
 
     public void send(final AccessItem access,
@@ -71,13 +71,12 @@ public abstract class AccessManager {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject json) {
-                        Log.d(AccessManager.class.getSimpleName(), json.toString());
-                        handleSendResponse(json);
+                        handleSendResponse(access, json);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handleSendError(error);
+                handleSendError(access, error);
             }
         }) {
 
@@ -100,11 +99,11 @@ public abstract class AccessManager {
 
     public abstract Map<String, String> getAuthenticationData();
 
-    public abstract void handleGetResponse(JSONObject response);
+    public abstract void handleGetResponse(AccessItem access, String response);
 
-    public abstract void handleSendResponse(JSONObject response);
+    public abstract void handleSendResponse(AccessItem access, JSONObject response);
 
-    public abstract void handleGetError(VolleyError error);
+    public abstract void handleGetError(AccessItem access, VolleyError error);
 
-    public abstract void handleSendError(VolleyError error);
+    public abstract void handleSendError(AccessItem access, VolleyError error);
 }

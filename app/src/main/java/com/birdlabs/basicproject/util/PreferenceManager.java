@@ -11,7 +11,7 @@ import android.content.SharedPreferences;
  */
 public abstract class PreferenceManager {
 
-    Context context;
+    public Context context;
 
     abstract public String getPreferencesFolder();
 
@@ -28,7 +28,7 @@ public abstract class PreferenceManager {
     /**
      * Load the data from the shared preferences
      *
-     * @param key the key of the data
+     * @param key           the key of the data
      * @param defaultString the default string value
      * @return the value stored or a default
      */
@@ -69,7 +69,7 @@ public abstract class PreferenceManager {
     /**
      * Saves a integer variable
      *
-     * @param key  the key
+     * @param key     the key
      * @param integer the integer to store
      */
     public void save(String key, Integer integer) {
@@ -97,7 +97,7 @@ public abstract class PreferenceManager {
     /**
      * Gets the stored integer value
      *
-     * @param key         the key
+     * @param key            the key
      * @param defaultInteger integer if it wasnt stored before
      * @return the stored value as integer
      */

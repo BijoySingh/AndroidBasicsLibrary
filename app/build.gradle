@@ -23,7 +23,7 @@ android {
 
 def siteUrl = 'https://github.com/BijoySingh/BasicAndroidProject'      // Homepage URL of the library
 def gitUrl = 'https://github.com/BijoySingh/MarkdownView.git'   // Git repository URL
-group = "com.birdlabs.basicproject"                   // Maven Group ID for the artifact
+group = "com.birdlabs.starter"                   // Maven Group ID for the artifact
 
 
 install {

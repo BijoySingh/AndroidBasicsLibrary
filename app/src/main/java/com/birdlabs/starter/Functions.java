@@ -1,8 +1,7 @@
-package com.birdlabs.basicproject;
+package com.birdlabs.starter;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -10,9 +9,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 
 /**
  * Created by Bijoy on 3/6/2015.

@@ -1,4 +1,4 @@
-package com.birdlabs.basicproject.fragments;
+package com.birdlabs.starter.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.birdlabs.basicproject.R;
+import com.birdlabs.starter.R;
 
 import java.util.ArrayList;
 import java.util.List;

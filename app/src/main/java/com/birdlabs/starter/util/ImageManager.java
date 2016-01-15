@@ -1,4 +1,4 @@
-package com.birdlabs.basicproject.util;
+package com.birdlabs.starter.util;
 
 import android.app.Activity;
 import android.content.Intent;

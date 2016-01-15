@@ -1,4 +1,4 @@
-package com.birdlabs.basicproject.database;
+package com.birdlabs.starter.database;
 
 /**
  * Created by bijoy on 1/13/16.

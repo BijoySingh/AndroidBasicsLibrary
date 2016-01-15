@@ -1,4 +1,4 @@
-package com.birdlabs.basicproject.server;
+package com.birdlabs.starter.server;
 
 import android.app.Activity;
 import android.app.Fragment;

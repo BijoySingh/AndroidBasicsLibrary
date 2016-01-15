@@ -1,4 +1,4 @@
-package com.birdlabs.basicproject.database;
+package com.birdlabs.starter.database;
 
 import java.lang.reflect.Field;
 

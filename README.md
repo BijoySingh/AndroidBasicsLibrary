@@ -8,7 +8,7 @@ It provides simple classes and pre-written functions for:
 - Recycler View
 - Image Downloading
 - Some other basic functions like dp2pixel, etc.
-- Quick database support (coming soon)
+- Quick database support
 
 I am still figuring out how to add this to jcenter, till then please use it this way:
 - Download the aar from the aar/ directory.
@@ -24,6 +24,70 @@ dependencies {
   compile(name:'starterpack', ext:'aar')
 }
 ```
+
+# Basic Usage
+## Internet Access
+Extend the ```AccessManager``` class. Use the ```Access``` class to send and get requests by using objects of ```AccessItem```.
+```
+public class Access extends AccessManager {
+....
+}
+```
+
+Use the class and the built in functions such as ```get``` and ```send```.
+```
+Access access = new Access(context);
+access.get(new AccessItem(link, filename, access_type, is_authenticated));
+access.send(new AccessItem(link, filename, access_type, is_authenticated), data);
+```
+
+## SharedPreferences storage and retrieval
+Extend the ```PreferenceManager``` class.
+```
+public class Preferences extends PreferenceManager {
+    
+    ...
+    
+    @Override
+    public String getPreferencesFolder() {
+        return "YOUR_PREFERENCE_FOLDER_NAME";
+    }
+}
+```
+
+Use the class and built in functions using ```save``` and ```load```.
+```
+Preferences preferences = new Preferences(context);
+preferences.save(KEY, your_variable);
+preferences.load(KEY, your_default_variable);
+```
+
+## ImagePicker and Bitmap operations
+```
+ImageManager imageManager = new ImageManager();
+imageManager.showFileChooser(this);
+```
+
+Handle the response for this using ```handleResponse``` in ```onActivityResult```
+```
+@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    
+    Bitmap bmp = imageManager.handleResponse(requestCode, resultCode, data);
+    ...
+    
+}
+```
+
+You can perform a number of Bitmap operations
+```
+ImageManager.getScaledBitmap(bitmap, scale);
+ImageManager.resizeBitmap(bitmap, width, height)
+ImageManager.getScaledBitmapWithHeight(bitmap, height);
+ImageManager.getScaledBitmapWithWidth(bitmap, width);
+```
+
 
 # License
 The MIT License (MIT)

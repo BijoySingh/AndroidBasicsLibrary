@@ -88,6 +88,27 @@ ImageManager.getScaledBitmapWithHeight(bitmap, height);
 ImageManager.getScaledBitmapWithWidth(bitmap, width);
 ```
 
+## File read and write
+To store and retreive some text, some basic support code is available. This is needed if you want to save some file/ json you receive from the server to act as cache.
+```
+FileManager.write(context, filename, text_to_write);
+String text_read = FileManager.read(context, filename);
+```
+
+## Image Downloading
+This library uses the Universal Image Loader library. To use this some basic configuration is pre-built. You can do this as follows
+```
+ImageLoader imageLoader = Functions.getImageLoader(context);
+ImageAware imageAware = new ImageViewAware(image_view, false);
+imageLoader.displayImage(image_link, imageAware);
+```
+
+## Some other useful functions
+These are some common useful functions. These will expand with time.
+```
+Functions.makeToast(context, message);
+Functions.dpToPixels(context, dp)
+```
 
 # License
 The MIT License (MIT)

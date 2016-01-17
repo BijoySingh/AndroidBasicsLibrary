@@ -1,5 +1,6 @@
 package com.birdlabs.starter.recyclerview;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -8,9 +9,14 @@ import android.view.View;
  */
 public class RVHolder<T> extends RecyclerView.ViewHolder {
 
-    public RVHolder(View itemView) {
+    protected Context context;
+
+    public RVHolder(Context context, View itemView) {
         super(itemView);
+        this.context = context;
     }
 
-    public void populate(T data) {;}
+    public void populate(T data) {
+        ;
+    }
 }

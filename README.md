@@ -112,18 +112,40 @@ Functions.dpToPixels(context, dp)
 
 ## Recycler View
 Using Recycler View cannot be easier!
-Setup your recycler view
-```
-
-
-
-```
 
 Extend the Recycler View Holder
 ```
-
+public class YourViewHolder extends RVHolder<YourItem> {
+    
+    ...
+    
+    @Override
+    public void populate(final YourItem data) {
+        // Populate your view. You can set on click listeners etc.
+    }
+}
 ```
 
+Extend the Recycler View Adapter
+```
+public class YourAdapter extends RVAdapter<YourItem, YourViewHolder> {
+    ...    
+}
+```
+
+Setup your recycler view
+```
+    recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    recyclerView.setHasFixedSize(false);
+    
+    layoutManager = new LinearLayoutManager(context);
+    recyclerView.setLayoutManager(layoutManager);
+
+    YourAdapter adapter = new AppAdapter(context, R.layout.your_layout_item);
+    recyclerView.setAdapter(adapter);
+```
+
+A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
 
 # License
 The MIT License (MIT)

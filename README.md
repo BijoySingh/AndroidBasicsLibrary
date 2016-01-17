@@ -8,7 +8,7 @@ It provides simple classes and pre-written functions for:
 - Recycler View
 - Image Downloading
 - Some other basic functions like dp2pixel, etc.
-- Quick database support (coming soon)
+- Quick database support
 
 I am still figuring out how to add this to jcenter, till then please use it this way:
 - Download the aar from the aar/ directory.
@@ -24,6 +24,128 @@ dependencies {
   compile(name:'starterpack', ext:'aar')
 }
 ```
+
+# Basic Usage
+## Internet Access
+Extend the ```AccessManager``` class. Use the ```Access``` class to send and get requests by using objects of ```AccessItem```.
+```
+public class Access extends AccessManager {
+....
+}
+```
+
+Use the class and the built in functions such as ```get``` and ```send```.
+```
+Access access = new Access(context);
+access.get(new AccessItem(link, filename, access_type, is_authenticated));
+access.send(new AccessItem(link, filename, access_type, is_authenticated), data);
+```
+
+## SharedPreferences storage and retrieval
+Extend the ```PreferenceManager``` class.
+```
+public class Preferences extends PreferenceManager {
+    
+    ...
+    
+    @Override
+    public String getPreferencesFolder() {
+        return "YOUR_PREFERENCE_FOLDER_NAME";
+    }
+}
+```
+
+Use the class and built in functions using ```save``` and ```load```.
+```
+Preferences preferences = new Preferences(context);
+preferences.save(KEY, your_variable);
+preferences.load(KEY, your_default_variable);
+```
+
+## ImagePicker and Bitmap operations
+```
+ImageManager imageManager = new ImageManager();
+imageManager.showFileChooser(this);
+```
+
+Handle the response for this using ```handleResponse``` in ```onActivityResult```
+```
+@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    
+    Bitmap bmp = imageManager.handleResponse(requestCode, resultCode, data);
+    ...
+    
+}
+```
+
+You can perform a number of Bitmap operations
+```
+ImageManager.getScaledBitmap(bitmap, scale);
+ImageManager.resizeBitmap(bitmap, width, height)
+ImageManager.getScaledBitmapWithHeight(bitmap, height);
+ImageManager.getScaledBitmapWithWidth(bitmap, width);
+```
+
+## File read and write
+To store and retreive some text, some basic support code is available. This is needed if you want to save some file/ json you receive from the server to act as cache.
+```
+FileManager.write(context, filename, text_to_write);
+String text_read = FileManager.read(context, filename);
+```
+
+## Image Downloading
+This library uses the Universal Image Loader library. To use this some basic configuration is pre-built. You can do this as follows
+```
+ImageLoader imageLoader = Functions.getImageLoader(context);
+ImageAware imageAware = new ImageViewAware(image_view, false);
+imageLoader.displayImage(image_link, imageAware);
+```
+
+## Some other useful functions
+These are some common useful functions. These will expand with time.
+```
+Functions.makeToast(context, message);
+Functions.dpToPixels(context, dp)
+```
+
+## Recycler View
+Using Recycler View cannot be easier!
+
+Extend the Recycler View Holder
+```
+public class YourViewHolder extends RVHolder<YourItem> {
+    
+    ...
+    
+    @Override
+    public void populate(final YourItem data) {
+        // Populate your view. You can set on click listeners etc.
+    }
+}
+```
+
+Extend the Recycler View Adapter
+```
+public class YourAdapter extends RVAdapter<YourItem, YourViewHolder> {
+    ...    
+}
+```
+
+Setup your recycler view
+```
+    recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    recyclerView.setHasFixedSize(false);
+    
+    layoutManager = new LinearLayoutManager(context);
+    recyclerView.setLayoutManager(layoutManager);
+
+    YourAdapter adapter = new AppAdapter(context, R.layout.your_layout_item);
+    recyclerView.setAdapter(adapter);
+```
+
+A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
 
 # License
 The MIT License (MIT)

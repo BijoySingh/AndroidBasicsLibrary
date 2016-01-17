@@ -110,6 +110,21 @@ Functions.makeToast(context, message);
 Functions.dpToPixels(context, dp)
 ```
 
+## Recycler View
+Using Recycler View cannot be easier!
+Setup your recycler view
+```
+
+
+
+```
+
+Extend the Recycler View Holder
+```
+
+```
+
+
 # License
 The MIT License (MIT)
 

@@ -8,7 +8,7 @@ It provides simple classes and pre-written functions for:
 - Recycler View
 - Image Downloading
 - Some other basic functions like dp2pixel, etc.
-- Quick database support
+- Database support
 
 I am still figuring out how to add this to jcenter, till then please use it this way:
 - Download the aar from the aar/ directory.
@@ -146,6 +146,43 @@ Setup your recycler view
 ```
 
 A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
+
+## Database Support
+Adding database setup is super simple. You have to do very little work!
+
+Just add a simple model like
+```
+public class YourDatabaseItem extends DatabaseModel {
+    @DBColumn(primaryKey = true, autoIncrement = true)
+    public Integer id;
+
+    @DBColumn
+    public String title;
+
+    @DBColumn
+    public String description;
+}
+```
+
+Using ```@DBColumn``` you can add custom arguments like
+```
+fieldType = DBColumn.Type.INTEGER
+unique = True
+primaryKey = true, autoIncrement = true
+fieldName = "custom_field_name"
+```
+
+You can create a custom class for your databases, or you can simply use the default database:
+```
+DatabaseManager db = new DatabaseManager(this, new DatabaseModel[]{new YourDatabaseItem()});
+
+// To add an item
+YourDatabaseItem your_item = ...;
+db.add(your_item);
+
+// To get all items for a custom class
+List<YourDatabaseItem> items = db.get(YourDatabaseItem.class);
+```
 
 # License
 The MIT License (MIT)

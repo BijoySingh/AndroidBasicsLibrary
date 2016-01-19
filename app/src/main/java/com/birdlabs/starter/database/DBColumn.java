@@ -12,6 +12,7 @@ public @interface DBColumn {
     public enum Type {
         INTEGER("INTEGER"),
         TEXT("TEXT"),
+        DEFAULT("DEFAULT"),
         REAL("REAL");
 
         private final String name;
@@ -27,7 +28,7 @@ public @interface DBColumn {
 
     String fieldName() default "";
 
-    Type fieldType() default Type.TEXT;
+    Type fieldType() default Type.DEFAULT;
 
     boolean primaryKey() default false;
 

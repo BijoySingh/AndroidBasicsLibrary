@@ -32,7 +32,7 @@ public class DatabaseColumn {
     public String getCreateQuery() {
         String sql = fieldName + " " + fieldType.toString();
         if (primaryKey) {
-            sql += " PRIMARY";
+            sql += " PRIMARY KEY";
         }
         if (autoIncrement) {
             sql += " AUTOINCREMENT";
@@ -41,5 +41,22 @@ public class DatabaseColumn {
             sql += " UNIQUE";
         }
         return sql;
+    }
+
+    public static DBColumn.Type getType(Class classType) {
+        if (classType.equals(Integer.class)
+                || classType.equals(Short.class)
+                || classType.equals(Long.class)) {
+            return DBColumn.Type.INTEGER;
+        } else if (classType.equals(String.class)
+                || classType.equals(Character.class)
+                || classType.equals(CharSequence.class)) {
+            return DBColumn.Type.TEXT;
+        } else if (classType.equals(Double.class)
+                || classType.equals(Float.class)) {
+            return DBColumn.Type.REAL;
+        } else {
+            return DBColumn.Type.TEXT;
+        }
     }
 }

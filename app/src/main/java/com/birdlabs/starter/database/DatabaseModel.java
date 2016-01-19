@@ -18,6 +18,7 @@ public abstract class DatabaseModel {
     public enum ErrorResponse {
         OK("OK"),
         MULTIPLE_PRIMARY_KEYS("Multiple Primary Keys Defined"),
+        NON_INTEGER_AUTO_INCREMENT_PRIMARY_KEY("Autoincrement must a Integer Key"),
         AUTO_INCREMENT_NOT_PRIMARY("Auto Incremented Key must be Primary");
 
         private final String errorMessage;
@@ -40,15 +41,7 @@ public abstract class DatabaseModel {
     }
 
     public List<DatabaseColumn> getKeys() {
-        List<DatabaseColumn> keys = new ArrayList<>();
-        Field[] fields = getClass().getDeclaredFields();
-        for (Field field : fields) {
-            DBColumn annotation = field.getAnnotation(DBColumn.class);
-            DatabaseColumn column = new DatabaseColumn(annotation);
-            column.fieldName = annotation.fieldName().isEmpty() ? field.getName() : annotation.fieldName();
-            column.field = field;
-            keys.add(column);
-        }
+        setKeys();
         return keys;
     }
 
@@ -61,6 +54,8 @@ public abstract class DatabaseModel {
         for (DatabaseColumn key : keys) {
             if (key.primaryKey && hasPrimary) {
                 return ErrorResponse.MULTIPLE_PRIMARY_KEYS;
+            } else if (key.primaryKey && key.autoIncrement && !key.fieldType.equals(DBColumn.Type.INTEGER)) {
+                return ErrorResponse.NON_INTEGER_AUTO_INCREMENT_PRIMARY_KEY;
             } else if (key.primaryKey) {
                 hasPrimary = true;
             } else if (key.autoIncrement) {
@@ -105,8 +100,19 @@ public abstract class DatabaseModel {
     }
 
     public void setKeys() {
-        if (keys == null) {
-            keys = getKeys();
+        if (keys != null) {
+            return;
+        }
+
+        keys = new ArrayList<>();
+        Field[] fields = getClass().getDeclaredFields();
+        for (Field field : fields) {
+            DBColumn annotation = field.getAnnotation(DBColumn.class);
+            DatabaseColumn column = new DatabaseColumn(annotation);
+            column.fieldName = annotation.fieldName().isEmpty() ? field.getName() : annotation.fieldName();
+            column.fieldType = annotation.fieldType().equals(DBColumn.Type.DEFAULT) ? DatabaseColumn.getType(field.getType()) : annotation.fieldType();
+            column.field = field;
+            keys.add(column);
         }
     }
 

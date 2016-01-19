@@ -183,6 +183,7 @@ db.add(your_item);
 // To get all items for a custom class
 List<YourDatabaseItem> items = db.get(YourDatabaseItem.class);
 ```
+A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
 
 # License
 The MIT License (MIT)

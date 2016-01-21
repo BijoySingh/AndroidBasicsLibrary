@@ -108,11 +108,13 @@ public abstract class DatabaseModel {
         Field[] fields = getClass().getDeclaredFields();
         for (Field field : fields) {
             DBColumn annotation = field.getAnnotation(DBColumn.class);
-            DatabaseColumn column = new DatabaseColumn(annotation);
-            column.fieldName = annotation.fieldName().isEmpty() ? field.getName() : annotation.fieldName();
-            column.fieldType = annotation.fieldType().equals(DBColumn.Type.DEFAULT) ? DatabaseColumn.getType(field.getType()) : annotation.fieldType();
-            column.field = field;
-            keys.add(column);
+            if (annotation != null) {
+                DatabaseColumn column = new DatabaseColumn(annotation);
+                column.fieldName = annotation.fieldName().isEmpty() ? field.getName() : annotation.fieldName();
+                column.fieldType = annotation.fieldType().equals(DBColumn.Type.DEFAULT) ? DatabaseColumn.getType(field.getType()) : annotation.fieldType();
+                column.field = field;
+                keys.add(column);
+            }
         }
     }
 
@@ -120,7 +122,7 @@ public abstract class DatabaseModel {
         setKeys();
 
         ContentValues values = new ContentValues();
-        for (DatabaseColumn column: keys) {
+        for (DatabaseColumn column : keys) {
             column.field.setAccessible(true);
             try {
                 if (column.fieldType.equals(DBColumn.Type.INTEGER)) {

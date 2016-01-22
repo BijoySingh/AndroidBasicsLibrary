@@ -8,7 +8,7 @@ It provides simple classes and pre-written functions for:
 - Recycler View
 - Image Downloading
 - Some other basic functions like dp2pixel, etc.
-- Quick database support
+- Database support
 
 I am still figuring out how to add this to jcenter, till then please use it this way:
 - Download the aar from the aar/ directory.
@@ -147,25 +147,41 @@ Setup your recycler view
 
 A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
 
-# License
-The MIT License (MIT)
+## Database Support
+Adding database setup is super simple. You have to do very little work!
 
-Copyright (c) 2015 Bijoy Singh
+Just add a simple model like
+```
+public class YourDatabaseItem extends DatabaseModel {
+    @DBColumn(primaryKey = true, autoIncrement = true)
+    public Integer id;
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+    @DBColumn
+    public String title;
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+    @DBColumn
+    public String description;
+}
+```
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Using ```@DBColumn``` you can add custom arguments like
+```
+fieldType = DBColumn.Type.INTEGER
+unique = True
+primaryKey = true, autoIncrement = true
+fieldName = "custom_field_name"
+```
+
+You can create a custom class for your databases, or you can simply use the default database:
+```
+DatabaseManager db = new DatabaseManager(this, new DatabaseModel[]{new YourDatabaseItem()});
+
+// To add an item
+YourDatabaseItem your_item = ...;
+db.add(your_item);
+
+// To get all items for a custom class
+List<YourDatabaseItem> items = db.get(YourDatabaseItem.class);
+```
+A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
+

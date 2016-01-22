@@ -1,7 +1,9 @@
-package com.birdlabs.starter.database;
+package com.github.bijoysingh.starter.database;
 
 import android.content.ContentValues;
 import android.util.Log;
+
+import com.github.bijoysingh.starter.database.DatabaseException.ErrorResponse;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -14,24 +16,6 @@ import java.util.List;
 public abstract class DatabaseModel {
 
     List<DatabaseColumn> keys = null;
-
-    public enum ErrorResponse {
-        OK("OK"),
-        MULTIPLE_PRIMARY_KEYS("Multiple Primary Keys Defined"),
-        NON_INTEGER_AUTO_INCREMENT_PRIMARY_KEY("Autoincrement must a Integer Key"),
-        AUTO_INCREMENT_NOT_PRIMARY("Auto Incremented Key must be Primary");
-
-        private final String errorMessage;
-
-        ErrorResponse(String s) {
-            errorMessage = s;
-        }
-
-        public String toString() {
-            return this.errorMessage;
-        }
-    }
-
 
     public DatabaseModel() {
     }

@@ -1,4 +1,4 @@
-package com.birdlabs.starter.database;
+package com.github.bijoysingh.starter.database;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -8,6 +8,16 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DBColumn {
+
+    String fieldName() default "";
+
+    Type fieldType() default Type.DEFAULT;
+
+    boolean primaryKey() default false;
+
+    boolean autoIncrement() default false;
+
+    boolean unique() default false;
 
     public enum Type {
         INTEGER("INTEGER"),
@@ -25,14 +35,4 @@ public @interface DBColumn {
             return this.name;
         }
     }
-
-    String fieldName() default "";
-
-    Type fieldType() default Type.DEFAULT;
-
-    boolean primaryKey() default false;
-
-    boolean autoIncrement() default false;
-
-    boolean unique() default false;
 }

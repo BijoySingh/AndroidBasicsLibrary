@@ -1,4 +1,4 @@
-package com.birdlabs.starter.database;
+package com.github.bijoysingh.starter.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,14 +16,12 @@ import java.util.List;
  */
 public class DatabaseManager extends SQLiteOpenHelper {
 
-    Context context;
-    DatabaseModel[] models;
-
     // The database version
     private static final int DATABASE_VERSION = 1;
-
     // Database Name
     private static final String DATABASE_NAME = "database";
+    Context context;
+    DatabaseModel[] models;
 
     public DatabaseManager(Context context, DatabaseModel[] models) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

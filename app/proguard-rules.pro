@@ -16,4 +16,4 @@
 #   public *;
 #}
 
--keep public class com.birdlabs.basicproject.** { public *;}
+-keep public class com.github.bijoysingh.starter.** { public *;}

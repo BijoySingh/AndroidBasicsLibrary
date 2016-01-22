@@ -1,4 +1,4 @@
-package com.birdlabs.starter.database;
+package com.github.bijoysingh.starter.database;
 
 import java.lang.reflect.Field;
 
@@ -29,20 +29,6 @@ public class DatabaseColumn {
         this.unique = unique;
     }
 
-    public String getCreateQuery() {
-        String sql = fieldName + " " + fieldType.toString();
-        if (primaryKey) {
-            sql += " PRIMARY KEY";
-        }
-        if (autoIncrement) {
-            sql += " AUTOINCREMENT";
-        }
-        if (unique) {
-            sql += " UNIQUE";
-        }
-        return sql;
-    }
-
     public static DBColumn.Type getType(Class classType) {
         if (classType.equals(Integer.class)
                 || classType.equals(Short.class)
@@ -58,5 +44,19 @@ public class DatabaseColumn {
         } else {
             return DBColumn.Type.TEXT;
         }
+    }
+
+    public String getCreateQuery() {
+        String sql = fieldName + " " + fieldType.toString();
+        if (primaryKey) {
+            sql += " PRIMARY KEY";
+        }
+        if (autoIncrement) {
+            sql += " AUTOINCREMENT";
+        }
+        if (unique) {
+            sql += " UNIQUE";
+        }
+        return sql;
     }
 }

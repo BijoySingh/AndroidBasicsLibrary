@@ -1,9 +1,9 @@
-package com.birdlabs.starter.util;
+package com.github.bijoysingh.starter.util;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.birdlabs.starter.Functions;
+import com.github.bijoysingh.starter.Functions;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

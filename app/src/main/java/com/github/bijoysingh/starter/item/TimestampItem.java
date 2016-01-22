@@ -1,4 +1,4 @@
-package com.birdlabs.starter.item;
+package com.github.bijoysingh.starter.item;
 
 import java.util.Calendar;
 

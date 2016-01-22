@@ -1,4 +1,4 @@
-package com.birdlabs.starter.activity;
+package com.github.bijoysingh.starter.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -1,4 +1,4 @@
-package com.birdlabs.starter.util;
+package com.github.bijoysingh.starter.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,15 @@ import android.content.SharedPreferences;
 public abstract class PreferenceManager {
 
     public Context context;
+
+    /**
+     * Private Constructor
+     *
+     * @param context activity context
+     */
+    public PreferenceManager(Context context) {
+        this.context = context;
+    }
 
     abstract public String getPreferencesFolder();
 
@@ -93,7 +102,6 @@ public abstract class PreferenceManager {
         return sp.getBoolean(key, defaultBool);
     }
 
-
     /**
      * Gets the stored integer value
      *
@@ -105,15 +113,6 @@ public abstract class PreferenceManager {
         SharedPreferences sp = context.getSharedPreferences(
                 getPreferencesFolder(), Activity.MODE_PRIVATE);
         return sp.getInt(key, defaultInteger);
-    }
-
-    /**
-     * Private Constructor
-     *
-     * @param context activity context
-     */
-    public PreferenceManager(Context context) {
-        this.context = context;
     }
 
 }

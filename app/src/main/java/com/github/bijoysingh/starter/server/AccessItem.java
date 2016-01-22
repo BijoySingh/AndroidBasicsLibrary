@@ -1,4 +1,4 @@
-package com.birdlabs.starter.server;
+package com.github.bijoysingh.starter.server;
 
 import android.app.Activity;
 import android.app.Fragment;

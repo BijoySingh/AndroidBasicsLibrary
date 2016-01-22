@@ -1,4 +1,4 @@
-package com.birdlabs.starter.util;
+package com.github.bijoysingh.starter.util;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,24 +16,11 @@ import java.io.InputStream;
  */
 public class ImageManager {
 
-    Activity activity;
-
     public static final Integer PICK_IMAGE_REQUEST = 2139;
+    Activity activity;
 
     public ImageManager(Activity activity) {
         this.activity = activity;
-    }
-
-    public void showFileChooser(String chooserTitle) {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        activity.startActivityForResult(
-                Intent.createChooser(intent, chooserTitle),
-                PICK_IMAGE_REQUEST);
-    }
-
-    public void showFileChooser() {
-        showFileChooser("Select Picture");
     }
 
     public static String toBase64(Bitmap bmp) {
@@ -41,19 +28,6 @@ public class ImageManager {
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
-    }
-
-    public Bitmap handleResponse(Integer requestCode, Integer resultCode, Intent data)
-            throws Exception {
-        if (requestCode.equals(PICK_IMAGE_REQUEST)
-                && resultCode.equals(Activity.RESULT_OK)
-                && data != null) {
-            final Uri imageUri = data.getData();
-            final InputStream imageStream = activity.getContentResolver().openInputStream(imageUri);
-            return BitmapFactory.decodeStream(imageStream);
-        }
-
-        return null;
     }
 
     public static Bitmap resizeBitmap(Bitmap bitmap, Integer width, Integer height) {
@@ -80,5 +54,30 @@ public class ImageManager {
         Integer originalWidth = bitmap.getWidth();
         float scale = width * 1.0f / originalWidth * 1.0f;
         return getScaledBitmap(bitmap, scale);
+    }
+
+    public void showFileChooser(String chooserTitle) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        activity.startActivityForResult(
+                Intent.createChooser(intent, chooserTitle),
+                PICK_IMAGE_REQUEST);
+    }
+
+    public void showFileChooser() {
+        showFileChooser("Select Picture");
+    }
+
+    public Bitmap handleResponse(Integer requestCode, Integer resultCode, Intent data)
+            throws Exception {
+        if (requestCode.equals(PICK_IMAGE_REQUEST)
+                && resultCode.equals(Activity.RESULT_OK)
+                && data != null) {
+            final Uri imageUri = data.getData();
+            final InputStream imageStream = activity.getContentResolver().openInputStream(imageUri);
+            return BitmapFactory.decodeStream(imageStream);
+        }
+
+        return null;
     }
 }

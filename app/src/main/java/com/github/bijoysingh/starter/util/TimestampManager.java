@@ -1,6 +1,6 @@
-package com.birdlabs.starter.util;
+package com.github.bijoysingh.starter.util;
 
-import com.birdlabs.starter.item.TimestampItem;
+import com.github.bijoysingh.starter.item.TimestampItem;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;

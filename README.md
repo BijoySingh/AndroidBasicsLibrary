@@ -11,7 +11,7 @@ It provides simple classes and pre-written functions for:
 - Database support
 
 I am still figuring out how to add this to jcenter, till then please use it this way:
-- Download the aar from the aar/ directory.
+- Download the aar from [JCenter](https://dl.bintray.com/bijoysingh693/maven/com/github/bijoysingh/app/)
 - Add this into your libs folder and add the following code in your build.gradle
 ```
 repositories {
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-  compile(name:'starterpack', ext:'aar')
+  compile(name:'app-0.8.3', ext:'aar')
 }
 ```
 

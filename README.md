@@ -11,7 +11,7 @@ It provides simple classes and pre-written functions for:
 - Database support
 
 I am still figuring out how to add this to jcenter, till then please use it this way:
-- Download the aar from [JCenter](https://dl.bintray.com/bijoysingh693/maven/com/github/bijoysingh/app/)
+- Download the aar from [JCenter](https://dl.bintray.com/bijoysingh693/maven/com/github/bijoysingh/android-basics/)
 - Add this into your libs folder and add the following code in your build.gradle
 ```
 repositories {

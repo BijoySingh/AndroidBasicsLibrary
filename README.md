@@ -10,18 +10,37 @@ It provides simple classes and pre-written functions for:
 - Some other basic functions like dp2pixel, etc.
 - Database support
 
-I am still figuring out how to add this to jcenter, till then please use it this way:
-- Download the aar from [JCenter](https://dl.bintray.com/bijoysingh693/maven/com/github/bijoysingh/android-basics/)
-- Add this into your libs folder and add the following code in your build.gradle
+# Installation
+The library is on Jcenter, so usage is really simple. Add the following dependency in your app's ```build.gradle```:
 ```
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
-
 dependencies {
-  compile(name:'app-0.8.3', ext:'aar')
+    ...
+    compile 'com.github.bijoysingh:android-basics:0.8.3'
+    ...
+}
+```
+You might need to also include these in case you use the corresponding dependencies
+```
+dependencies {
+    ...
+    
+    // For Image Downloader
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+    
+    // For internet access
+    compile 'com.mcxiaoke.volley:library:1.0.17'
+    
+    // For Timestamp utility
+    compile 'net.danlew:android.joda:2.8.1'
+    
+    // For basic features from Google
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:support-v4:23.1.1'
+    
+    // For Recycler View
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    
+    ...
 }
 ```
 

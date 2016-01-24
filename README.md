@@ -204,3 +204,29 @@ List<YourDatabaseItem> items = db.get(YourDatabaseItem.class);
 ```
 A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
 
+## JSON Parsing
+
+Making a JSON Parser is simple to work
+```
+public class YourItem extends JsonModel { 
+    @JsonField(field = Type.INTEGER)
+    public Integer integer_field;
+    
+    @JsonField(field = "alternate_json_field_name") 
+    public String string_field;
+    
+    @JsonField(field = Type.REAL)
+    public Double real_field;
+    
+    @JsonField(field = Type.BOOLEAN)
+    public Boolean boolean_field;
+    
+    @JsonField(field = Type.JSON)
+    public JSONObject json_field;
+}
+```
+
+You can also, quickly serialize your item into a JSON Object
+```
+JSONObject json = item.serialize();
+```

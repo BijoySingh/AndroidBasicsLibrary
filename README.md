@@ -209,13 +209,13 @@ A full fledged example can be seen in my [TutorialApp](https://github.com/BijoyS
 Making a JSON Parser is simple to work
 ```
 public class YourItem extends JsonModel { 
-    @JsonField(field = Type.INTEGER)
+    @JsonField
     public Integer integer_field;
     
     @JsonField(field = "alternate_json_field_name") 
     public String string_field;
     
-    @JsonField(field = Type.REAL)
+    @JsonField
     public Double real_field;
     
     @JsonField(field = Type.BOOLEAN)
@@ -225,6 +225,9 @@ public class YourItem extends JsonModel {
     public JSONObject json_field;
 }
 ```
+
+The method automatically detects the type of the JSON field, you can still choose to override it.
+Further, it assumes that the name of the field is the JSON field, you can yet again choose to override it
 
 You can also, quickly serialize your item into a JSON Object
 ```

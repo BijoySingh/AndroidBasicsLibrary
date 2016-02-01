@@ -129,6 +129,18 @@ Functions.makeToast(context, message);
 Functions.dpToPixels(context, dp)
 ```
 
+## Basic Android Lint Error Fixes
+```
+LocaleManager.toString(Character/Float/Double/Integer/Boolean variable)
+```
+This function will convert your variable to the String to these using the Locale. This functions is a wrapper around the code ```String.format```. The function will prevent Lint Warning for the same.
+
+```
+ResourceManager.getColor(Context context, Integer colorId)
+```
+This function will return the Color integer for the coder given by the resource Id. The function is a wrapper around
+```context.getResources().getColor```. It saves some ines of code, as well handles the Deprecation warning by appropriatelt handling the function call for various android versions.
+
 ## Recycler View
 Using Recycler View cannot be easier!
 

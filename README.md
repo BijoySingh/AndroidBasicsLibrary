@@ -15,7 +15,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.8.3'
+    compile 'com.github.bijoysingh:android-basics:0.8.11'
     ...
 }
 ```

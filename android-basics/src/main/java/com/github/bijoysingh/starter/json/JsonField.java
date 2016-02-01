@@ -10,7 +10,7 @@ public @interface JsonField {
      *
      * @return the type
      */
-    Type type() default Type.STRING;
+    Type type() default Type.AUTO;
 
     /**
      * The Json Field Name
@@ -27,6 +27,13 @@ public @interface JsonField {
     boolean isArray() default false;
 
     /**
+     * Is the object optional
+     *
+     * @return is the object optional
+     */
+    boolean isOptional() default false;
+
+    /**
      * In case the object is a JSON and you want to map it to an object,
      * this is the class which extends JsonModel into which the object should go.
      *
@@ -35,6 +42,7 @@ public @interface JsonField {
     Class jsonModel() default Object.class;
 
     enum Type {
+        AUTO("AUTO"),
         BOOLEAN("BOOLEAN"),
         INTEGER("INTEGER"),
         JSON("JSON"),

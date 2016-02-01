@@ -22,7 +22,8 @@ public class JsonModelException extends RuntimeException {
 
     public enum ErrorResponse {
         OK("OK"),
-        JSON_FIELD_WRONG_CLASS("JSON_MODEL Field must extend JSONModel"),;
+        JSON_FIELD_WRONG_CLASS("JSON_MODEL Field must extend JSONModel"),
+        UNKNOWN_AUTO("Could not understand the json field type automatically"),;
 
         private final String errorMessage;
 

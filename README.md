@@ -1,4 +1,4 @@
-# BasicAndroidProject
+# Android Basics Library
 This library offers some barebone code for android common to most applications.
 It provides simple classes and pre-written functions for:
 - Internet Access

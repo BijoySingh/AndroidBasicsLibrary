@@ -9,6 +9,8 @@ It provides simple classes and pre-written functions for:
 - Image Downloading
 - Some other basic functions like dp2pixel, etc.
 - Database support
+- Json Parsing
+- Marshmallow Permissions Support (coming soon...)
 
 # Installation
 The library is on Jcenter, so usage is really simple. Add the following dependency in your app's ```build.gradle```:

@@ -15,7 +15,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.8.11'
+    compile 'com.github.bijoysingh:android-basics:0.8.14'
     ...
 }
 ```
@@ -117,7 +117,15 @@ String text_read = FileManager.read(context, filename);
 ## Image Downloading
 This library uses the Universal Image Loader library. To use this some basic configuration is pre-built. You can do this as follows
 ```
-ImageLoader imageLoader = Functions.getImageLoader(context);
+ImageLoaderManager.displayImage(context, image_url, image_view);
+```
+You can also customize the image loader using
+```
+ImageLoader imageLoader = ImageLoaderManager.getImageLoader(context);
+ImageLoader imageLoader = ImageLoaderManager.getImageLoader(context, diskCacheInMB, memoryCacheInMB);
+```
+and use it as follows:
+```
 ImageAware imageAware = new ImageViewAware(image_view, false);
 imageLoader.displayImage(image_link, imageAware);
 ```
@@ -138,8 +146,7 @@ This function will convert your variable to the String to these using the Locale
 ```
 ResourceManager.getColor(Context context, Integer colorId)
 ```
-This function will return the Color integer for the coder given by the resource Id. The function is a wrapper around
-```context.getResources().getColor```. It saves some ines of code, as well handles the Deprecation warning by appropriatelt handling the function call for various android versions.
+This was previously meant to handle version support. Now it is simply a wrapper around ContextCompat.getColor();
 
 ## Recycler View
 Using Recycler View cannot be easier!

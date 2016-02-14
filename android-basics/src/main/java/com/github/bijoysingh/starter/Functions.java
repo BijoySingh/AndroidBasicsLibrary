@@ -39,31 +39,4 @@ public class Functions {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-
-    /**
-     * Loads the imageLoader question required for downloading the images
-     *
-     * @param context the application context
-     * @return the image loader
-     */
-    public static ImageLoader getImageLoader(Context context) {
-        DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-                .cacheOnDisk(true)
-                .cacheInMemory(true)
-                .build();
-
-        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
-        config.threadPriority(Thread.NORM_PRIORITY - 2);
-        config.defaultDisplayImageOptions(displayImageOptions);
-        config.denyCacheImageMultipleSizesInMemory();
-        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
-        config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
-        config.memoryCacheSize(50 * 1024 * 1024);
-        config.tasksProcessingOrder(QueueProcessingType.LIFO);
-        config.writeDebugLogs(); // Remove for release app
-        ImageLoader.getInstance().init(config.build());
-
-        return ImageLoader.getInstance();
-    }
-
 }

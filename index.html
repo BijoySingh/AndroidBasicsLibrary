@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Android Basics Library by BijoySingh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Android Basics Library</h1>
+      <h2 class="project-tagline">This library offers some barebone code for android common to most applications. It provides simple classes and pre-written functions for - internet access, shared preferences storage and retrieval, image picker and bitmap operations, file read and write, recycler view, image downloading and quick database support</h2>
+      <a href="https://github.com/BijoySingh/AndroidBasicsLibrary" class="btn">View on GitHub</a>
+      <a href="https://github.com/BijoySingh/AndroidBasicsLibrary/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/BijoySingh/AndroidBasicsLibrary/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="android-basics-library" class="anchor" href="#android-basics-library" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android Basics Library</h1>
+
+<p>This library offers some barebone code for android common to most applications.
+It provides simple classes and pre-written functions for:</p>
+
+<ul>
+<li>Internet Access</li>
+<li>SharedPreferences storage and retrieval</li>
+<li>ImagePicker and Bitmap operations</li>
+<li>File read and write</li>
+<li>Recycler View</li>
+<li>Image Downloading</li>
+<li>Some other basic functions like dp2pixel, etc.</li>
+<li>Database support</li>
+<li>Json Parsing</li>
+<li>Marshmallow Permissions Support (coming soon...)</li>
+</ul>
+
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>The library is on Jcenter, so usage is really simple. Add the following dependency in your app's <code>build.gradle</code>:</p>
+
+<pre><code>dependencies {
+    ...
+    compile 'com.github.bijoysingh:android-basics:0.8.14'
+    ...
+}
+</code></pre>
+
+<p>You might need to also include these in case you use the corresponding dependencies</p>
+
+<pre><code>dependencies {
+    ...
+
+    // For Image Downloader
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+
+    // For internet access
+    compile 'com.mcxiaoke.volley:library:1.0.17'
+
+    // For Timestamp utility
+    compile 'net.danlew:android.joda:2.8.1'
+
+    // For basic features from Google
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:support-v4:23.1.1'
+
+    // For Recycler View
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+
+    ...
+}
+</code></pre>
+
+<h1>
+<a id="basic-usage" class="anchor" href="#basic-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Usage</h1>
+
+<h2>
+<a id="internet-access" class="anchor" href="#internet-access" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Internet Access</h2>
+
+<p>Extend the <code>AccessManager</code> class. Use the <code>Access</code> class to send and get requests by using objects of <code>AccessItem</code>.</p>
+
+<pre><code>public class Access extends AccessManager {
+....
+}
+</code></pre>
+
+<p>Use the class and the built in functions such as <code>get</code> and <code>send</code>.</p>
+
+<pre><code>Access access = new Access(context);
+access.get(new AccessItem(link, filename, access_type, is_authenticated));
+access.send(new AccessItem(link, filename, access_type, is_authenticated), data);
+</code></pre>
+
+<h2>
+<a id="sharedpreferences-storage-and-retrieval" class="anchor" href="#sharedpreferences-storage-and-retrieval" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SharedPreferences storage and retrieval</h2>
+
+<p>Extend the <code>PreferenceManager</code> class.</p>
+
+<pre><code>public class Preferences extends PreferenceManager {
+
+    ...
+
+    @Override
+    public String getPreferencesFolder() {
+        return "YOUR_PREFERENCE_FOLDER_NAME";
+    }
+}
+</code></pre>
+
+<p>Use the class and built in functions using <code>save</code> and <code>load</code>.</p>
+
+<pre><code>Preferences preferences = new Preferences(context);
+preferences.save(KEY, your_variable);
+preferences.load(KEY, your_default_variable);
+</code></pre>
+
+<h2>
+<a id="imagepicker-and-bitmap-operations" class="anchor" href="#imagepicker-and-bitmap-operations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ImagePicker and Bitmap operations</h2>
+
+<pre><code>ImageManager imageManager = new ImageManager();
+imageManager.showFileChooser(this);
+</code></pre>
+
+<p>Handle the response for this using <code>handleResponse</code> in <code>onActivityResult</code></p>
+
+<pre><code>@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    Bitmap bmp = imageManager.handleResponse(requestCode, resultCode, data);
+    ...
+
+}
+</code></pre>
+
+<p>You can perform a number of Bitmap operations</p>
+
+<pre><code>ImageManager.getScaledBitmap(bitmap, scale);
+ImageManager.resizeBitmap(bitmap, width, height)
+ImageManager.getScaledBitmapWithHeight(bitmap, height);
+ImageManager.getScaledBitmapWithWidth(bitmap, width);
+</code></pre>
+
+<h2>
+<a id="file-read-and-write" class="anchor" href="#file-read-and-write" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>File read and write</h2>
+
+<p>To store and retreive some text, some basic support code is available. This is needed if you want to save some file/ json you receive from the server to act as cache.</p>
+
+<pre><code>FileManager.write(context, filename, text_to_write);
+String text_read = FileManager.read(context, filename);
+</code></pre>
+
+<h2>
+<a id="image-downloading" class="anchor" href="#image-downloading" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Image Downloading</h2>
+
+<p>This library uses the Universal Image Loader library. To use this some basic configuration is pre-built. You can do this as follows</p>
+
+<pre><code>ImageLoaderManager.displayImage(context, image_url, image_view);
+</code></pre>
+
+<p>You can also customize the image loader using</p>
+
+<pre><code>ImageLoader imageLoader = ImageLoaderManager.getImageLoader(context);
+ImageLoader imageLoader = ImageLoaderManager.getImageLoader(context, diskCacheInMB, memoryCacheInMB);
+</code></pre>
+
+<p>and use it as follows:</p>
+
+<pre><code>ImageAware imageAware = new ImageViewAware(image_view, false);
+imageLoader.displayImage(image_link, imageAware);
+</code></pre>
+
+<h2>
+<a id="some-other-useful-functions" class="anchor" href="#some-other-useful-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Some other useful functions</h2>
+
+<p>These are some common useful functions. These will expand with time.</p>
+
+<pre><code>Functions.makeToast(context, message);
+Functions.dpToPixels(context, dp)
+</code></pre>
+
+<h2>
+<a id="basic-android-lint-error-fixes" class="anchor" href="#basic-android-lint-error-fixes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Android Lint Error Fixes</h2>
+
+<pre><code>LocaleManager.toString(Character/Float/Double/Integer/Boolean variable)
+</code></pre>
+
+<p>This function will convert your variable to the String to these using the Locale. This functions is a wrapper around the code <code>String.format</code>. The function will prevent Lint Warning for the same.</p>
+
+<pre><code>ResourceManager.getColor(Context context, Integer colorId)
+</code></pre>
+
+<p>This was previously meant to handle version support. Now it is simply a wrapper around ContextCompat.getColor();</p>
+
+<h2>
+<a id="recycler-view" class="anchor" href="#recycler-view" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Recycler View</h2>
+
+<p>Using Recycler View cannot be easier!</p>
+
+<p>Extend the Recycler View Holder</p>
+
+<pre><code>public class YourViewHolder extends RVHolder&lt;YourItem&gt; {
+
+    ...
+
+    @Override
+    public void populate(final YourItem data) {
+        // Populate your view. You can set on click listeners etc.
+    }
+}
+</code></pre>
+
+<p>Extend the Recycler View Adapter</p>
+
+<pre><code>public class YourAdapter extends RVAdapter&lt;YourItem, YourViewHolder&gt; {
+    ...    
+}
+</code></pre>
+
+<p>Setup your recycler view</p>
+
+<pre><code>    recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    recyclerView.setHasFixedSize(false);
+
+    layoutManager = new LinearLayoutManager(context);
+    recyclerView.setLayoutManager(layoutManager);
+
+    YourAdapter adapter = new AppAdapter(context, R.layout.your_layout_item);
+    recyclerView.setAdapter(adapter);
+</code></pre>
+
+<p>A full fledged example can be seen in my <a href="https://github.com/BijoySingh/TutorialApp">TutorialApp</a>.</p>
+
+<h2>
+<a id="database-support" class="anchor" href="#database-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Database Support</h2>
+
+<p>Adding database setup is super simple. You have to do very little work!</p>
+
+<p>Just add a simple model like</p>
+
+<pre><code>public class YourDatabaseItem extends DatabaseModel {
+    @DBColumn(primaryKey = true, autoIncrement = true)
+    public Integer id;
+
+    @DBColumn
+    public String title;
+
+    @DBColumn
+    public String description;
+}
+</code></pre>
+
+<p>Using <code>@DBColumn</code> you can add custom arguments like</p>
+
+<pre><code>fieldType = DBColumn.Type.INTEGER
+unique = True
+primaryKey = true, autoIncrement = true
+fieldName = "custom_field_name"
+</code></pre>
+
+<p>You can create a custom class for your databases, or you can simply use the default database:</p>
+
+<pre><code>DatabaseManager db = new DatabaseManager(this, new DatabaseModel[]{new YourDatabaseItem()});
+
+// To add an item
+YourDatabaseItem your_item = ...;
+db.add(your_item);
+
+// To get all items for a custom class
+List&lt;YourDatabaseItem&gt; items = db.get(YourDatabaseItem.class);
+</code></pre>
+
+<p>A full fledged example can be seen in my <a href="https://github.com/BijoySingh/TutorialApp">TutorialApp</a>.</p>
+
+<h2>
+<a id="json-parsing" class="anchor" href="#json-parsing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JSON Parsing</h2>
+
+<p>Making a JSON Parser is simple to work</p>
+
+<pre><code>public class YourItem extends JsonModel { 
+    @JsonField
+    public Integer integer_field;
+
+    @JsonField(field = "alternate_json_field_name") 
+    public String string_field;
+
+    @JsonField
+    public Double real_field;
+
+    @JsonField(field = Type.BOOLEAN)
+    public Boolean boolean_field;
+
+    @JsonField(field = Type.JSON)
+    public JSONObject json_field;
+}
+</code></pre>
+
+<p>The method automatically detects the type of the JSON field, you can still choose to override it.
+Further, it assumes that the name of the field is the JSON field, you can yet again choose to override it</p>
+
+<p>You can also, quickly serialize your item into a JSON Object</p>
+
+<pre><code>JSONObject json = item.serialize();
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/BijoySingh/AndroidBasicsLibrary">Android Basics Library</a> is maintained by <a href="https://github.com/BijoySingh">BijoySingh</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>

@@ -13,6 +13,8 @@ It provides simple classes and pre-written functions for:
 - Marshmallow Permissions Support (coming soon...)
 
 # Installation
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidBasicsLibrary-green.svg?style=true)](https://android-arsenal.com/details/1/3226)
+
 The library is on Jcenter, so usage is really simple. Add the following dependency in your app's ```build.gradle```:
 ```
 dependencies {
@@ -45,6 +47,9 @@ dependencies {
     ...
 }
 ```
+
+## Checkout on Android Arsenal
+
 
 # Basic Usage
 ## Internet Access

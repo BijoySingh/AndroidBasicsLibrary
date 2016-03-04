@@ -19,7 +19,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.8.14'
+    compile 'com.github.bijoysingh:android-basics:0.8.16'
     ...
 }
 ```
@@ -259,6 +259,40 @@ You can also, quickly serialize your item into a JSON Object
 ```java
 JSONObject json = item.serialize();
 ```
+
+## PermissionManager
+Handling your permissions for Marshmallow made simpler, and cleaner
+```java
+// Could be more than one permissions here
+String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+
+// Initialise the manager object, with required permissions
+PermissionManager manager = new PermissionManager(context, permissions);
+
+/*
+ * Or set them as you need them
+ * PermissionManager manager = new PermissionManager(context);
+ * manager.setPermissions(permissions);
+ */
+```
+
+Now checking for permission is really simple
+```java
+manager.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+```
+
+And requesting for permissions too
+```java
+
+// Using an access code fixed in the library
+manager.requestPermissions();
+
+// Using a custom access code, for more control
+manager.requestPermissions(SOME_REQUEST_CODE);
+```
+
+It will automatically detect which permissions are already allowed, and will request the missing permissions.
+To handle a response, the procedure is same as that in the usual case. You override the ```onRequestPermissionsResult``` listener.
 
 ## License
 ```

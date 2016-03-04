@@ -16,6 +16,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
  * Created by bijoy on 2/1/16.
  */
 public class ImageLoaderManager {
+
     /**
      * Loads the imageLoader question required for downloading
      * the images with 50MB memory and disk cache
@@ -52,9 +53,9 @@ public class ImageLoaderManager {
                                              Integer diskCacheInMB,
                                              Integer memoryCacheInMB) {
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-                .cacheOnDisk(true)
-                .cacheInMemory(true)
-                .build();
+            .cacheOnDisk(true)
+            .cacheInMemory(true)
+            .build();
 
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
         config.threadPriority(Thread.NORM_PRIORITY - 2);

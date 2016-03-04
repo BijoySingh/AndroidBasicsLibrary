@@ -35,45 +35,48 @@ It provides simple classes and pre-written functions for:</p>
 <li>Some other basic functions like dp2pixel, etc.</li>
 <li>Database support</li>
 <li>Json Parsing</li>
-<li>Marshmallow Permissions Support (coming soon...)</li>
+<li>Marshmallow Permissions Support</li>
 </ul>
 
 <h1>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h1>
 
+<p><a href="https://android-arsenal.com/details/1/3226"><img src="https://img.shields.io/badge/Android%20Arsenal-AndroidBasicsLibrary-green.svg?style=true" alt="Android Arsenal"></a></p>
+
 <p>The library is on Jcenter, so usage is really simple. Add the following dependency in your app's <code>build.gradle</code>:</p>
 
-<pre><code>dependencies {
-    ...
-    compile 'com.github.bijoysingh:android-basics:0.8.14'
-    ...
-}
-</code></pre>
+<div class="highlight highlight-source-groovy"><pre>dependencies {
+    <span class="pl-k">..</span>.
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.github.bijoysingh:android-basics:0.8.16<span class="pl-pds">'</span></span>
+    <span class="pl-k">..</span>.
+}</pre></div>
 
 <p>You might need to also include these in case you use the corresponding dependencies</p>
 
-<pre><code>dependencies {
-    ...
+<div class="highlight highlight-source-groovy"><pre>dependencies {
+    <span class="pl-k">..</span>.
 
-    // For Image Downloader
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+    <span class="pl-c">// For Image Downloader</span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.nostra13.universalimageloader:universal-image-loader:1.9.4<span class="pl-pds">'</span></span>
 
-    // For internet access
-    compile 'com.mcxiaoke.volley:library:1.0.17'
+    <span class="pl-c">// For internet access</span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.mcxiaoke.volley:library:1.0.17<span class="pl-pds">'</span></span>
 
-    // For Timestamp utility
-    compile 'net.danlew:android.joda:2.8.1'
+    <span class="pl-c">// For Timestamp utility</span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>net.danlew:android.joda:2.8.1<span class="pl-pds">'</span></span>
 
-    // For basic features from Google
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
+    <span class="pl-c">// For basic features from Google</span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:appcompat-v7:23.1.1<span class="pl-pds">'</span></span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:support-v4:23.1.1<span class="pl-pds">'</span></span>
 
-    // For Recycler View
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    <span class="pl-c">// For Recycler View</span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:recyclerview-v7:23.1.1<span class="pl-pds">'</span></span>
 
-    ...
-}
-</code></pre>
+    <span class="pl-k">..</span>.
+}</pre></div>
+
+<h2>
+<a id="checkout-on-android-arsenal" class="anchor" href="#checkout-on-android-arsenal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Checkout on Android Arsenal</h2>
 
 <h1>
 <a id="basic-usage" class="anchor" href="#basic-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Usage</h1>
@@ -83,116 +86,102 @@ It provides simple classes and pre-written functions for:</p>
 
 <p>Extend the <code>AccessManager</code> class. Use the <code>Access</code> class to send and get requests by using objects of <code>AccessItem</code>.</p>
 
-<pre><code>public class Access extends AccessManager {
-....
-}
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Access</span> <span class="pl-k">extends</span> <span class="pl-e">AccessManager</span> {
+<span class="pl-c1">....</span>
+}</pre></div>
 
 <p>Use the class and the built in functions such as <code>get</code> and <code>send</code>.</p>
 
-<pre><code>Access access = new Access(context);
-access.get(new AccessItem(link, filename, access_type, is_authenticated));
-access.send(new AccessItem(link, filename, access_type, is_authenticated), data);
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Access</span> access <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Access</span>(context);
+access<span class="pl-k">.</span>get(<span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, filename, access_type, is_authenticated));
+access<span class="pl-k">.</span>send(<span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, filename, access_type, is_authenticated), data);</pre></div>
 
 <h2>
 <a id="sharedpreferences-storage-and-retrieval" class="anchor" href="#sharedpreferences-storage-and-retrieval" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SharedPreferences storage and retrieval</h2>
 
 <p>Extend the <code>PreferenceManager</code> class.</p>
 
-<pre><code>public class Preferences extends PreferenceManager {
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Preferences</span> <span class="pl-k">extends</span> <span class="pl-e">PreferenceManager</span> {
 
-    ...
+    <span class="pl-c1">...</span>
 
-    @Override
-    public String getPreferencesFolder() {
-        return "YOUR_PREFERENCE_FOLDER_NAME";
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-smi">String</span> <span class="pl-en">getPreferencesFolder</span>() {
+        <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>YOUR_PREFERENCE_FOLDER_NAME<span class="pl-pds">"</span></span>;
     }
-}
-</code></pre>
+}</pre></div>
 
 <p>Use the class and built in functions using <code>save</code> and <code>load</code>.</p>
 
-<pre><code>Preferences preferences = new Preferences(context);
-preferences.save(KEY, your_variable);
-preferences.load(KEY, your_default_variable);
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Preferences</span> preferences <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Preferences</span>(context);
+preferences<span class="pl-k">.</span>save(<span class="pl-c1">KEY</span>, your_variable);
+preferences<span class="pl-k">.</span>load(<span class="pl-c1">KEY</span>, your_default_variable);</pre></div>
 
 <h2>
 <a id="imagepicker-and-bitmap-operations" class="anchor" href="#imagepicker-and-bitmap-operations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ImagePicker and Bitmap operations</h2>
 
-<pre><code>ImageManager imageManager = new ImageManager();
-imageManager.showFileChooser(this);
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">ImageManager</span> imageManager <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">ImageManager</span>();
+imageManager<span class="pl-k">.</span>showFileChooser(<span class="pl-v">this</span>);</pre></div>
 
 <p>Handle the response for this using <code>handleResponse</code> in <code>onActivityResult</code></p>
 
-<pre><code>@Override
-public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
+<div class="highlight highlight-source-java"><pre>@<span class="pl-smi">Override</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> onActivityResult(<span class="pl-k">int</span> requestCode, <span class="pl-k">int</span> resultCode, <span class="pl-smi">Intent</span> data) {
+    <span class="pl-v">super</span><span class="pl-k">.</span>onActivityResult(requestCode, resultCode, data);
 
-    Bitmap bmp = imageManager.handleResponse(requestCode, resultCode, data);
-    ...
+    <span class="pl-smi">Bitmap</span> bmp <span class="pl-k">=</span> imageManager<span class="pl-k">.</span>handleResponse(requestCode, resultCode, data);
+    <span class="pl-c1">...</span>
 
-}
-</code></pre>
+}</pre></div>
 
 <p>You can perform a number of Bitmap operations</p>
 
-<pre><code>ImageManager.getScaledBitmap(bitmap, scale);
-ImageManager.resizeBitmap(bitmap, width, height)
-ImageManager.getScaledBitmapWithHeight(bitmap, height);
-ImageManager.getScaledBitmapWithWidth(bitmap, width);
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">ImageManager</span><span class="pl-k">.</span>getScaledBitmap(bitmap, scale);
+<span class="pl-smi">ImageManager</span><span class="pl-k">.</span>resizeBitmap(bitmap, width, height)
+<span class="pl-smi">ImageManager</span><span class="pl-k">.</span>getScaledBitmapWithHeight(bitmap, height);
+<span class="pl-smi">ImageManager</span><span class="pl-k">.</span>getScaledBitmapWithWidth(bitmap, width);</pre></div>
 
 <h2>
 <a id="file-read-and-write" class="anchor" href="#file-read-and-write" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>File read and write</h2>
 
 <p>To store and retreive some text, some basic support code is available. This is needed if you want to save some file/ json you receive from the server to act as cache.</p>
 
-<pre><code>FileManager.write(context, filename, text_to_write);
-String text_read = FileManager.read(context, filename);
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">FileManager</span><span class="pl-k">.</span>write(context, filename, text_to_write);
+<span class="pl-smi">String</span> text_read <span class="pl-k">=</span> <span class="pl-smi">FileManager</span><span class="pl-k">.</span>read(context, filename);</pre></div>
 
 <h2>
 <a id="image-downloading" class="anchor" href="#image-downloading" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Image Downloading</h2>
 
 <p>This library uses the Universal Image Loader library. To use this some basic configuration is pre-built. You can do this as follows</p>
 
-<pre><code>ImageLoaderManager.displayImage(context, image_url, image_view);
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">ImageLoaderManager</span><span class="pl-k">.</span>displayImage(context, image_url, image_view);</pre></div>
 
 <p>You can also customize the image loader using</p>
 
-<pre><code>ImageLoader imageLoader = ImageLoaderManager.getImageLoader(context);
-ImageLoader imageLoader = ImageLoaderManager.getImageLoader(context, diskCacheInMB, memoryCacheInMB);
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">ImageLoader</span> imageLoader <span class="pl-k">=</span> <span class="pl-smi">ImageLoaderManager</span><span class="pl-k">.</span>getImageLoader(context);
+<span class="pl-smi">ImageLoader</span> imageLoader <span class="pl-k">=</span> <span class="pl-smi">ImageLoaderManager</span><span class="pl-k">.</span>getImageLoader(context, diskCacheInMB, memoryCacheInMB);</pre></div>
 
 <p>and use it as follows:</p>
 
-<pre><code>ImageAware imageAware = new ImageViewAware(image_view, false);
-imageLoader.displayImage(image_link, imageAware);
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">ImageAware</span> imageAware <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">ImageViewAware</span>(image_view, <span class="pl-c1">false</span>);
+imageLoader<span class="pl-k">.</span>displayImage(image_link, imageAware);</pre></div>
 
 <h2>
 <a id="some-other-useful-functions" class="anchor" href="#some-other-useful-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Some other useful functions</h2>
 
 <p>These are some common useful functions. These will expand with time.</p>
 
-<pre><code>Functions.makeToast(context, message);
-Functions.dpToPixels(context, dp)
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Functions</span><span class="pl-k">.</span>makeToast(context, message);
+<span class="pl-smi">Functions</span><span class="pl-k">.</span>dpToPixels(context, dp)</pre></div>
 
 <h2>
 <a id="basic-android-lint-error-fixes" class="anchor" href="#basic-android-lint-error-fixes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Android Lint Error Fixes</h2>
 
-<pre><code>LocaleManager.toString(Character/Float/Double/Integer/Boolean variable)
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">LocaleManager</span><span class="pl-k">.</span>toString(<span class="pl-smi">Character</span><span class="pl-k">/</span><span class="pl-smi">Float</span><span class="pl-k">/</span><span class="pl-smi">Double</span><span class="pl-k">/</span><span class="pl-smi">Integer</span><span class="pl-k">/</span><span class="pl-smi">Boolean</span> variable)</pre></div>
 
 <p>This function will convert your variable to the String to these using the Locale. This functions is a wrapper around the code <code>String.format</code>. The function will prevent Lint Warning for the same.</p>
 
-<pre><code>ResourceManager.getColor(Context context, Integer colorId)
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">ResourceManager</span><span class="pl-k">.</span>getColor(<span class="pl-smi">Context</span> context, <span class="pl-smi">Integer</span> colorId)</pre></div>
 
 <p>This was previously meant to handle version support. Now it is simply a wrapper around ContextCompat.getColor();</p>
 
@@ -203,35 +192,32 @@ Functions.dpToPixels(context, dp)
 
 <p>Extend the Recycler View Holder</p>
 
-<pre><code>public class YourViewHolder extends RVHolder&lt;YourItem&gt; {
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">YourViewHolder</span> <span class="pl-k">extends</span> <span class="pl-e">RVHolder&lt;<span class="pl-smi">YourItem</span>&gt;</span> {
 
-    ...
+    <span class="pl-c1">...</span>
 
-    @Override
-    public void populate(final YourItem data) {
-        // Populate your view. You can set on click listeners etc.
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">populate</span>(<span class="pl-k">final</span> <span class="pl-smi">YourItem</span> <span class="pl-v">data</span>) {
+        <span class="pl-c">// Populate your view. You can set on click listeners etc.</span>
     }
-}
-</code></pre>
+}</pre></div>
 
 <p>Extend the Recycler View Adapter</p>
 
-<pre><code>public class YourAdapter extends RVAdapter&lt;YourItem, YourViewHolder&gt; {
-    ...    
-}
-</code></pre>
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">YourAdapter</span> <span class="pl-k">extends</span> <span class="pl-e">RVAdapter&lt;<span class="pl-smi">YourItem</span>, <span class="pl-smi">YourViewHolder</span>&gt;</span> {
+    <span class="pl-c1">...</span>    
+}</pre></div>
 
 <p>Setup your recycler view</p>
 
-<pre><code>    recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-    recyclerView.setHasFixedSize(false);
+<div class="highlight highlight-source-java"><pre>    recyclerView <span class="pl-k">=</span> (<span class="pl-smi">RecyclerView</span>) findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>recycler_view);
+    recyclerView<span class="pl-k">.</span>setHasFixedSize(<span class="pl-c1">false</span>);
 
-    layoutManager = new LinearLayoutManager(context);
-    recyclerView.setLayoutManager(layoutManager);
+    layoutManager <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">LinearLayoutManager</span>(context);
+    recyclerView<span class="pl-k">.</span>setLayoutManager(layoutManager);
 
-    YourAdapter adapter = new AppAdapter(context, R.layout.your_layout_item);
-    recyclerView.setAdapter(adapter);
-</code></pre>
+    <span class="pl-smi">YourAdapter</span> adapter <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AppAdapter</span>(context, <span class="pl-smi">R</span><span class="pl-k">.</span>layout<span class="pl-k">.</span>your_layout_item);
+    recyclerView<span class="pl-k">.</span>setAdapter(adapter);</pre></div>
 
 <p>A full fledged example can be seen in my <a href="https://github.com/BijoySingh/TutorialApp">TutorialApp</a>.</p>
 
@@ -242,37 +228,34 @@ Functions.dpToPixels(context, dp)
 
 <p>Just add a simple model like</p>
 
-<pre><code>public class YourDatabaseItem extends DatabaseModel {
-    @DBColumn(primaryKey = true, autoIncrement = true)
-    public Integer id;
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">YourDatabaseItem</span> <span class="pl-k">extends</span> <span class="pl-e">DatabaseModel</span> {
+    <span class="pl-k">@DBColumn</span>(<span class="pl-c1">primaryKey</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>, <span class="pl-c1">autoIncrement</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>)
+    <span class="pl-k">public</span> <span class="pl-smi">Integer</span> id;
 
-    @DBColumn
-    public String title;
+    <span class="pl-k">@DBColumn</span>
+    <span class="pl-k">public</span> <span class="pl-smi">String</span> title;
 
-    @DBColumn
-    public String description;
-}
-</code></pre>
+    <span class="pl-k">@DBColumn</span>
+    <span class="pl-k">public</span> <span class="pl-smi">String</span> description;
+}</pre></div>
 
 <p>Using <code>@DBColumn</code> you can add custom arguments like</p>
 
-<pre><code>fieldType = DBColumn.Type.INTEGER
-unique = True
-primaryKey = true, autoIncrement = true
-fieldName = "custom_field_name"
-</code></pre>
+<div class="highlight highlight-source-java"><pre>fieldType <span class="pl-k">=</span> <span class="pl-smi">DBColumn</span><span class="pl-k">.</span><span class="pl-smi">Type</span><span class="pl-c1"><span class="pl-k">.</span>INTEGER</span>
+unique <span class="pl-k">=</span> <span class="pl-smi">True</span>
+primaryKey <span class="pl-k">=</span> <span class="pl-c1">true</span>, autoIncrement <span class="pl-k">=</span> <span class="pl-c1">true</span>
+fieldName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>custom_field_name<span class="pl-pds">"</span></span></pre></div>
 
 <p>You can create a custom class for your databases, or you can simply use the default database:</p>
 
-<pre><code>DatabaseManager db = new DatabaseManager(this, new DatabaseModel[]{new YourDatabaseItem()});
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">DatabaseManager</span> db <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">DatabaseManager</span>(<span class="pl-v">this</span>, <span class="pl-k">new</span> <span class="pl-smi">DatabaseModel</span>[]{<span class="pl-k">new</span> <span class="pl-smi">YourDatabaseItem</span>()});
 
-// To add an item
-YourDatabaseItem your_item = ...;
-db.add(your_item);
+<span class="pl-c">// To add an item</span>
+<span class="pl-smi">YourDatabaseItem</span> your_item <span class="pl-k">=</span> <span class="pl-c1">...</span>;
+db<span class="pl-k">.</span>add(your_item);
 
-// To get all items for a custom class
-List&lt;YourDatabaseItem&gt; items = db.get(YourDatabaseItem.class);
-</code></pre>
+<span class="pl-c">// To get all items for a custom class</span>
+<span class="pl-k">List&lt;<span class="pl-smi">YourDatabaseItem</span>&gt;</span> items <span class="pl-k">=</span> db<span class="pl-k">.</span>get(<span class="pl-smi">YourDatabaseItem</span><span class="pl-k">.</span>class);</pre></div>
 
 <p>A full fledged example can be seen in my <a href="https://github.com/BijoySingh/TutorialApp">TutorialApp</a>.</p>
 
@@ -281,31 +264,108 @@ List&lt;YourDatabaseItem&gt; items = db.get(YourDatabaseItem.class);
 
 <p>Making a JSON Parser is simple to work</p>
 
-<pre><code>public class YourItem extends JsonModel { 
-    @JsonField
-    public Integer integer_field;
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">YourItem</span> <span class="pl-k">extends</span> <span class="pl-e">JsonModel</span> { 
+    <span class="pl-k">@JsonField</span>
+    <span class="pl-k">public</span> <span class="pl-smi">Integer</span> integer_field;
 
-    @JsonField(field = "alternate_json_field_name") 
-    public String string_field;
+    <span class="pl-k">@JsonField</span>(<span class="pl-c1">field</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>alternate_json_field_name<span class="pl-pds">"</span></span>) 
+    <span class="pl-k">public</span> <span class="pl-smi">String</span> string_field;
 
-    @JsonField
-    public Double real_field;
+    <span class="pl-k">@JsonField</span>
+    <span class="pl-k">public</span> <span class="pl-smi">Double</span> real_field;
 
-    @JsonField(field = Type.BOOLEAN)
-    public Boolean boolean_field;
+    <span class="pl-k">@JsonField</span>(<span class="pl-c1">field</span> <span class="pl-k">=</span> <span class="pl-smi">Type</span><span class="pl-c1"><span class="pl-k">.</span>BOOLEAN</span>)
+    <span class="pl-k">public</span> <span class="pl-smi">Boolean</span> boolean_field;
 
-    @JsonField(field = Type.JSON)
-    public JSONObject json_field;
-}
-</code></pre>
+    <span class="pl-k">@JsonField</span>(<span class="pl-c1">field</span> <span class="pl-k">=</span> <span class="pl-smi">Type</span><span class="pl-c1"><span class="pl-k">.</span>JSON</span>)
+    <span class="pl-k">public</span> <span class="pl-smi">JSONObject</span> json_field;
+}</pre></div>
 
 <p>The method automatically detects the type of the JSON field, you can still choose to override it.
 Further, it assumes that the name of the field is the JSON field, you can yet again choose to override it</p>
 
 <p>You can also, quickly serialize your item into a JSON Object</p>
 
-<pre><code>JSONObject json = item.serialize();
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">JSONObject</span> json <span class="pl-k">=</span> item<span class="pl-k">.</span>serialize();</pre></div>
+
+<h2>
+<a id="permissionmanager" class="anchor" href="#permissionmanager" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PermissionManager</h2>
+
+<p>Handling your permissions for Marshmallow made simpler, and cleaner</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// Could be more than one permissions here</span>
+<span class="pl-k">String</span>[] permissions <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">String</span>[]{<span class="pl-smi">Manifest</span><span class="pl-k">.</span><span class="pl-smi">permission<span class="pl-k">.</span>ACCESS_FINE_LOCATION</span>};
+
+<span class="pl-c">// Initialise the manager object, with required permissions</span>
+<span class="pl-smi">PermissionManager</span> manager <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">PermissionManager</span>(context, permissions);
+
+<span class="pl-c">/*</span>
+<span class="pl-c"> * Or set them as you need them</span>
+<span class="pl-c"> * PermissionManager manager = new PermissionManager(context);</span>
+<span class="pl-c"> * manager.setPermissions(permissions);</span>
+<span class="pl-c"> */</span></pre></div>
+
+<p>Now checking for permission is really simple</p>
+
+<div class="highlight highlight-source-java"><pre>manager<span class="pl-k">.</span>hasPermission(<span class="pl-smi">Manifest</span><span class="pl-k">.</span><span class="pl-smi">permission<span class="pl-k">.</span>ACCESS_FINE_LOCATION</span>)</pre></div>
+
+<p>And requesting for permissions too</p>
+
+<div class="highlight highlight-source-java"><pre>
+<span class="pl-c">// Using an access code fixed in the library</span>
+manager<span class="pl-k">.</span>requestPermissions();
+
+<span class="pl-c">// Using a custom access code, for more control</span>
+manager<span class="pl-k">.</span>requestPermissions(<span class="pl-c1">SOME_REQUEST_CODE</span>);</pre></div>
+
+<p>It will automatically detect which permissions are already allowed, and will request the missing permissions.
+To handle a response, the procedure is same as that in the usual case. You override the <code>onRequestPermissionsResult</code> listener.</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<pre><code>Copyright 2016 Bijoy Singh Kochar
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
 </code></pre>
+
+<h2>
+<a id="reference-licensing" class="anchor" href="#reference-licensing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reference Licensing</h2>
+
+<h3>
+<a id="volley" class="anchor" href="#volley" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Volley</h3>
+
+<pre><code>Apache 2.0 License
+Copyright (C) 2014,2015,2016 Xiaoke Zhang
+Copyright (C) 2011 The Android Open Source Project
+</code></pre>
+
+<h3>
+<a id="joda" class="anchor" href="#joda" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Joda</h3>
+
+<pre><code>Apache 2.0 License
+https://github.com/dlew/joda-time-android/blob/master/LICENSE
+</code></pre>
+
+<h3>
+<a id="universal-image-loader" class="anchor" href="#universal-image-loader" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Universal Image Loader</h3>
+
+<pre><code>Apache 2.0 License
+Copyright 2011-2015 Sergey Tarasevich
+</code></pre>
+
+<pre><code></code></pre>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/BijoySingh/AndroidBasicsLibrary">Android Basics Library</a> is maintained by <a href="https://github.com/BijoySingh">BijoySingh</a>.</span>

@@ -17,6 +17,17 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
  */
 public class ImageLoaderManager {
 
+    private ImageLoader loader;
+
+    /**
+     * Constructor for the image loader
+     *
+     * @param context the application context
+     */
+    public ImageLoaderManager(Context context) {
+        this.loader = getImageLoader(context);
+    }
+
     /**
      * Loads the imageLoader question required for downloading
      * the images with 50MB memory and disk cache
@@ -28,6 +39,7 @@ public class ImageLoaderManager {
         return getImageLoader(context, 50, 50);
     }
 
+
     /**
      * Downloads the image for the url
      *
@@ -37,6 +49,17 @@ public class ImageLoaderManager {
      */
     public static void displayImage(Context context, String url, ImageView image) {
         ImageLoader loader = getImageLoader(context);
+        ImageAware imageAware = new ImageViewAware(image, false);
+        loader.displayImage(url, imageAware);
+    }
+
+    /**
+     * Downloads the image for the url
+     *
+     * @param url   the image url
+     * @param image the image view
+     */
+    public void displayImage(String url, ImageView image) {
         ImageAware imageAware = new ImageViewAware(image, false);
         loader.displayImage(url, imageAware);
     }

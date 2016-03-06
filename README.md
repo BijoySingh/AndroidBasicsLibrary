@@ -126,6 +126,12 @@ This library uses the Universal Image Loader library. To use this some basic con
 ```java
 ImageLoaderManager.displayImage(context, image_url, image_view);
 ```
+or
+```java
+ImageLoaderManager loader = new ImageLoaderManager(context);
+loader.displayImage(image_url, image_view);
+```
+
 You can also customize the image loader using
 ```java
 ImageLoader imageLoader = ImageLoaderManager.getImageLoader(context);

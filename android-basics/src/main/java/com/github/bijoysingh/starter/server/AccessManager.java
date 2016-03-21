@@ -30,10 +30,46 @@ public abstract class AccessManager {
         this.context = context;
     }
 
-    public void get(final AccessItem access) {
+    public JsonObjectRequest getJsonRequest(final AccessItem access,
+                                            final Map<String, Object> map) {
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(
+            access.method,
+            access.url,
+            new JSONObject(map),
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject json) {
+                    handleSendResponse(access, json);
+                }
+            }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                handleSendError(access, error);
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                if (access.authenticated) {
+                    params.putAll(getAuthenticationData());
+                }
+                return params;
+            }
+        };
+
+        jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
+            TIMEOUT,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        return jsonRequest;
+    }
+
+    public StringRequest getStringRequest(final AccessItem access) {
         StringRequest request = new StringRequest(
-                Request.Method.GET, access.url, new Response
-                .Listener<String>() {
+            Request.Method.GET, access.url, new Response
+            .Listener<String>() {
             @Override
             public void onResponse(String response) {
                 handleGetResponse(access, response);
@@ -56,45 +92,21 @@ public abstract class AccessManager {
         };
 
         request.setRetryPolicy(new DefaultRetryPolicy(
-                TIMEOUT,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            TIMEOUT,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        return request;
+    }
+
+    public void get(final AccessItem access) {
+        StringRequest request = getStringRequest(access);
         Volley.newRequestQueue(context).add(request);
     }
 
     public void send(final AccessItem access,
                      final Map<String, Object> map) {
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(
-                access.method,
-                access.url,
-                new JSONObject(map),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject json) {
-                        handleSendResponse(access, json);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleSendError(access, error);
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                if (access.authenticated) {
-                    params.putAll(getAuthenticationData());
-                }
-                return params;
-            }
-        };
-
-        jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
-                TIMEOUT,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Volley.newRequestQueue(context).add(jsonRequest);
+        JsonObjectRequest request = getJsonRequest(access, map);
+        Volley.newRequestQueue(context).add(request);
     }
 
     public abstract Map<String, String> getAuthenticationData();

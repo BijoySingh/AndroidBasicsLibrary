@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.android.volley.Request;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -45,7 +46,18 @@ public class AccessItem {
     }
 
     public AccessItem addExtra(String key, Object object) {
+        if (extra == null) {
+            extra = new HashMap<>();
+        }
+        
         extra.put(key, object);
         return this;
+    }
+
+    public Object getExtra(String key) {
+        if (extra == null || !extra.containsKey(key)) {
+            return null;
+        }
+        return extra.get(key);
     }
 }

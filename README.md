@@ -10,7 +10,7 @@ It provides simple classes and pre-written functions for:
 - Some other basic functions like dp2pixel, etc.
 - Database support
 - Json Parsing
-- Marshmallow Permissions Support (coming soon...)
+- Marshmallow Permissions Support
 
 # Installation
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidBasicsLibrary-green.svg?style=true)](https://android-arsenal.com/details/1/3226)
@@ -19,7 +19,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.8.19'
+    compile 'com.github.bijoysingh:android-basics:0.8.28'
     ...
 }
 ```
@@ -38,11 +38,11 @@ dependencies {
     compile 'net.danlew:android.joda:2.8.1'
     
     // For basic features from Google
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
     
     // For Recycler View
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
     
     ...
 }
@@ -63,8 +63,20 @@ public class Access extends AccessManager {
 Use the class and the built in functions such as ```get``` and ```send```.
 ```java
 Access access = new Access(context);
-access.get(new AccessItem(link, filename, access_type, is_authenticated));
-access.send(new AccessItem(link, filename, access_type, is_authenticated), data);
+access.get(new AccessItem(link));
+access.send(new AccessItem(link), data);
+```
+
+The ```AccessItem``` class provides more flexibility in adding queries.
+You can mention whether a query is authenticated, the affects of which can be overloaded in the ```getAuthenticationData``` function of your ```AccessManager``` class.
+You can even mention a cache filename to store and later retreave the response from it.
+Access Identifier lets you differentiate the various kinds of queries that you can make and handle in one place in your ```AccessManager``` class.
+```java
+AccessItem item = new AccessItem(link);
+AccessItem item = new AccessItem(link, access_identifier);
+AccessItem item = new AccessItem(link, access_identifier, is_authenticated);
+AccessItem item = new AccessItem(link, is_authenticated);
+AccessItem item = new AccessItem(link, cache_filename, access_identifier, is_authenticated);
 ```
 
 ## SharedPreferences storage and retrieval
@@ -121,6 +133,8 @@ FileManager.write(context, filename, text_to_write);
 String text_read = FileManager.read(context, filename);
 ```
 
+NOTE: Asynchronous read/write coming soon. 
+
 ## Image Downloading
 This library uses the Universal Image Loader library. To use this some basic configuration is pre-built. You can do this as follows
 ```java
@@ -147,19 +161,16 @@ imageLoader.displayImage(image_link, imageAware);
 These are some common useful functions. These will expand with time.
 ```java
 Functions.makeToast(context, message);
-Functions.dpToPixels(context, dp)
+Functions.dpToPixels(context, dp);
 ```
 
-## Basic Android Lint Error Fixes
+## Locale String Format Wrappers
 ```java
-LocaleManager.toString(Character/Float/Double/Integer/Boolean variable)
+LocaleManager.toString(Character/Float/Double/Integer/Boolean variable);
+LocaleManager.toString(Float/Double variable, precision);
 ```
 This function will convert your variable to the String to these using the Locale. This functions is a wrapper around the code ```String.format```. The function will prevent Lint Warning for the same.
 
-```java
-ResourceManager.getColor(Context context, Integer colorId)
-```
-This was previously meant to handle version support. Now it is simply a wrapper around ContextCompat.getColor();
 
 ## Recycler View
 Using Recycler View cannot be easier!
@@ -196,7 +207,7 @@ Setup your recycler view
     recyclerView.setAdapter(adapter);
 ```
 
-A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
+A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp). The class ```RVAdapter``` is well documented to understand the other helper functions.
 
 ## Database Support
 Adding database setup is super simple. You have to do very little work!

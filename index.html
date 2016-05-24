@@ -47,7 +47,7 @@ It provides simple classes and pre-written functions for:</p>
 
 <div class="highlight highlight-source-groovy"><pre>dependencies {
     <span class="pl-k">..</span>.
-    compile <span class="pl-s"><span class="pl-pds">'</span>com.github.bijoysingh:android-basics:0.8.16<span class="pl-pds">'</span></span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.github.bijoysingh:android-basics:0.8.28<span class="pl-pds">'</span></span>
     <span class="pl-k">..</span>.
 }</pre></div>
 
@@ -66,11 +66,11 @@ It provides simple classes and pre-written functions for:</p>
     compile <span class="pl-s"><span class="pl-pds">'</span>net.danlew:android.joda:2.8.1<span class="pl-pds">'</span></span>
 
     <span class="pl-c">// For basic features from Google</span>
-    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:appcompat-v7:23.1.1<span class="pl-pds">'</span></span>
-    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:support-v4:23.1.1<span class="pl-pds">'</span></span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:appcompat-v7:23.4.0<span class="pl-pds">'</span></span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:support-v4:23.4.0<span class="pl-pds">'</span></span>
 
     <span class="pl-c">// For Recycler View</span>
-    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:recyclerview-v7:23.1.1<span class="pl-pds">'</span></span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:recyclerview-v7:23.4.0<span class="pl-pds">'</span></span>
 
     <span class="pl-k">..</span>.
 }</pre></div>
@@ -93,8 +93,19 @@ It provides simple classes and pre-written functions for:</p>
 <p>Use the class and the built in functions such as <code>get</code> and <code>send</code>.</p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">Access</span> access <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Access</span>(context);
-access<span class="pl-k">.</span>get(<span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, filename, access_type, is_authenticated));
-access<span class="pl-k">.</span>send(<span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, filename, access_type, is_authenticated), data);</pre></div>
+access<span class="pl-k">.</span>get(<span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link));
+access<span class="pl-k">.</span>send(<span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link), data);</pre></div>
+
+<p>The <code>AccessItem</code> class provides more flexibility in adding queries.
+You can mention whether a query is authenticated, the affects of which can be overloaded in the <code>getAuthenticationData</code> function of your <code>AccessManager</code> class.
+You can even mention a cache filename to store and later retreave the response from it.
+Access Identifier lets you differentiate the various kinds of queries that you can make and handle in one place in your <code>AccessManager</code> class.</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">AccessItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link);
+<span class="pl-smi">AccessItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, access_identifier);
+<span class="pl-smi">AccessItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, access_identifier, is_authenticated);
+<span class="pl-smi">AccessItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, is_authenticated);
+<span class="pl-smi">AccessItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, cache_filename, access_identifier, is_authenticated);</pre></div>
 
 <h2>
 <a id="sharedpreferences-storage-and-retrieval" class="anchor" href="#sharedpreferences-storage-and-retrieval" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SharedPreferences storage and retrieval</h2>
@@ -149,12 +160,19 @@ imageManager<span class="pl-k">.</span>showFileChooser(<span class="pl-v">this</
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">FileManager</span><span class="pl-k">.</span>write(context, filename, text_to_write);
 <span class="pl-smi">String</span> text_read <span class="pl-k">=</span> <span class="pl-smi">FileManager</span><span class="pl-k">.</span>read(context, filename);</pre></div>
 
+<p>NOTE: Asynchronous read/write coming soon. </p>
+
 <h2>
 <a id="image-downloading" class="anchor" href="#image-downloading" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Image Downloading</h2>
 
 <p>This library uses the Universal Image Loader library. To use this some basic configuration is pre-built. You can do this as follows</p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">ImageLoaderManager</span><span class="pl-k">.</span>displayImage(context, image_url, image_view);</pre></div>
+
+<p>or</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">ImageLoaderManager</span> loader <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">ImageLoaderManager</span>(context);
+loader<span class="pl-k">.</span>displayImage(image_url, image_view);</pre></div>
 
 <p>You can also customize the image loader using</p>
 
@@ -172,18 +190,15 @@ imageLoader<span class="pl-k">.</span>displayImage(image_link, imageAware);</pre
 <p>These are some common useful functions. These will expand with time.</p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">Functions</span><span class="pl-k">.</span>makeToast(context, message);
-<span class="pl-smi">Functions</span><span class="pl-k">.</span>dpToPixels(context, dp)</pre></div>
+<span class="pl-smi">Functions</span><span class="pl-k">.</span>dpToPixels(context, dp);</pre></div>
 
 <h2>
-<a id="basic-android-lint-error-fixes" class="anchor" href="#basic-android-lint-error-fixes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Android Lint Error Fixes</h2>
+<a id="locale-string-format-wrappers" class="anchor" href="#locale-string-format-wrappers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Locale String Format Wrappers</h2>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-smi">LocaleManager</span><span class="pl-k">.</span>toString(<span class="pl-smi">Character</span><span class="pl-k">/</span><span class="pl-smi">Float</span><span class="pl-k">/</span><span class="pl-smi">Double</span><span class="pl-k">/</span><span class="pl-smi">Integer</span><span class="pl-k">/</span><span class="pl-smi">Boolean</span> variable)</pre></div>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">LocaleManager</span><span class="pl-k">.</span>toString(<span class="pl-smi">Character</span><span class="pl-k">/</span><span class="pl-smi">Float</span><span class="pl-k">/</span><span class="pl-smi">Double</span><span class="pl-k">/</span><span class="pl-smi">Integer</span><span class="pl-k">/</span><span class="pl-smi">Boolean</span> variable);
+<span class="pl-smi">LocaleManager</span><span class="pl-k">.</span>toString(<span class="pl-smi">Float</span><span class="pl-k">/</span><span class="pl-smi">Double</span> variable, precision);</pre></div>
 
 <p>This function will convert your variable to the String to these using the Locale. This functions is a wrapper around the code <code>String.format</code>. The function will prevent Lint Warning for the same.</p>
-
-<div class="highlight highlight-source-java"><pre><span class="pl-smi">ResourceManager</span><span class="pl-k">.</span>getColor(<span class="pl-smi">Context</span> context, <span class="pl-smi">Integer</span> colorId)</pre></div>
-
-<p>This was previously meant to handle version support. Now it is simply a wrapper around ContextCompat.getColor();</p>
 
 <h2>
 <a id="recycler-view" class="anchor" href="#recycler-view" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Recycler View</h2>
@@ -219,7 +234,7 @@ imageLoader<span class="pl-k">.</span>displayImage(image_link, imageAware);</pre
     <span class="pl-smi">YourAdapter</span> adapter <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AppAdapter</span>(context, <span class="pl-smi">R</span><span class="pl-k">.</span>layout<span class="pl-k">.</span>your_layout_item);
     recyclerView<span class="pl-k">.</span>setAdapter(adapter);</pre></div>
 
-<p>A full fledged example can be seen in my <a href="https://github.com/BijoySingh/TutorialApp">TutorialApp</a>.</p>
+<p>A full fledged example can be seen in my <a href="https://github.com/BijoySingh/TutorialApp">TutorialApp</a>. The class <code>RVAdapter</code> is well documented to understand the other helper functions.</p>
 
 <h2>
 <a id="database-support" class="anchor" href="#database-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Database Support</h2>

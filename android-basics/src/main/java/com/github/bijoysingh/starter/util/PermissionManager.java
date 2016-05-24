@@ -88,7 +88,7 @@ public class PermissionManager {
     }
 
     /**
-     * Request for permissions if the phone sdk > 23 and any permission is missing
+     * Request for permissions if the phone sdk more than 23 and any permission is missing
      *
      * @param requestCode the request code
      */
@@ -99,7 +99,7 @@ public class PermissionManager {
     }
 
     /**
-     * Request for permissions if the phone sdk > 23 and any permission is
+     * Request for permissions if the phone sdk more than 23 and any permission is
      * missing with default request code
      */
     public void requestPermissions() {

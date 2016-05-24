@@ -60,8 +60,8 @@ public class ImageManager {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         activity.startActivityForResult(
-                Intent.createChooser(intent, chooserTitle),
-                PICK_IMAGE_REQUEST);
+            Intent.createChooser(intent, chooserTitle),
+            PICK_IMAGE_REQUEST);
     }
 
     public void showFileChooser() {
@@ -69,10 +69,10 @@ public class ImageManager {
     }
 
     public Bitmap handleResponse(Integer requestCode, Integer resultCode, Intent data)
-            throws Exception {
+        throws Exception {
         if (requestCode.equals(PICK_IMAGE_REQUEST)
-                && resultCode.equals(Activity.RESULT_OK)
-                && data != null) {
+            && resultCode.equals(Activity.RESULT_OK)
+            && data != null) {
             final Uri imageUri = data.getData();
             final InputStream imageStream = activity.getContentResolver().openInputStream(imageUri);
             return BitmapFactory.decodeStream(imageStream);

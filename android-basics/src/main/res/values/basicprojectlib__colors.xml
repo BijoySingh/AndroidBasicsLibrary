@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+    Common Natural Colors
+    https://designschool.canva.com/blog/100-color-combinations/
+    -->
+    <color name="basicprojectlib__1_petal">#F98866</color>
+    <color name="basicprojectlib__1_poppy">#FF420E</color>
+    <color name="basicprojectlib__1_stem">#808BD91</color>
+    <color name="basicprojectlib__1_spring_green">#89DA59</color>
+
+    <color name="basicprojectlib__2_mist">#90afc5</color>
+    <color name="basicprojectlib__2_stone">#336b87</color>
+    <color name="basicprojectlib__2_shadow">#2a3132</color>
+    <color name="basicprojectlib__2_autumn_foliage">#763626</color>
+
+    <color name="basicprojectlib__3_crevice">#46211a</color>
+    <color name="basicprojectlib__3_cloud_shadow">#693d3d</color>
+    <color name="basicprojectlib__3_desert">#ba5536</color>
+    <color name="basicprojectlib__3_red_clay">#a43820</color>
+
+    <color name="basicprojectlib__4_thunder_cloud">#505160</color>
+    <color name="basicprojectlib__4_waterfall">#68829e</color>
+    <color name="basicprojectlib__4_moss">#aebd38</color>
+    <color name="basicprojectlib__4_meadow">#598234</color>
+
+    <color name="basicprojectlib__5_deep_aqua">#003b46</color>
+    <color name="basicprojectlib__5_ocean">#07575b</color>
+    <color name="basicprojectlib__5_wave">#66a5ad</color>
+    <color name="basicprojectlib__5_seafoam">#c4dfe6</color>
+
+    <color name="basicprojectlib__6_forest_green">#2e4600</color>
+    <color name="basicprojectlib__6_grass">#486b00</color>
+    <color name="basicprojectlib__6_lime">#a2c523</color>
+    <color name="basicprojectlib__6_earth">#7d4427</color>
+
+    <color name="basicprojectlib__7_blue_black">#021C1e</color>
+    <color name="basicprojectlib__7_cadet_blue">#004445</color>
+    <color name="basicprojectlib__7_rain">#2c7873</color>
+    <color name="basicprojectlib__7_greenery">#6fb98f</color>
+
+    <color name="basicprojectlib__8_sky">#375e97</color>
+    <color name="basicprojectlib__8_sunset">#fb6542</color>
+    <color name="basicprojectlib__8_sunflower">#ffbb00</color>
+    <color name="basicprojectlib__8_grass">#3f681c</color>
+
+    <color name="basicprojectlib__9_aquamarine">#98dbc6</color>
+    <color name="basicprojectlib__9_turqoise">#5bc8ac</color>
+    <color name="basicprojectlib__9_canary_yellow">#e6d72a</color>
+    <color name="basicprojectlib__9_pink_tulip">#f18d9e</color>
+
+    <color name="basicprojectlib__10_blue_pine">#324851</color>
+    <color name="basicprojectlib__10_new_grass">#86Ac41</color>
+    <color name="basicprojectlib__10_reflection">#34675c</color>
+    <color name="basicprojectlib__10_mist">#7da3a1</color>
+
+</resources>

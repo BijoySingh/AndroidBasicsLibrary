@@ -19,10 +19,21 @@ public class ImageManager {
     public static final Integer PICK_IMAGE_REQUEST = 2139;
     Activity activity;
 
+    /**
+     * ImageManager constructor
+     *
+     * @param activity the activty making the image request
+     */
     public ImageManager(Activity activity) {
         this.activity = activity;
     }
 
+    /**
+     * Converts the bitmap to Base64
+     *
+     * @param bmp the bitmap
+     * @return the base 64 format
+     */
     public static String toBase64(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -30,10 +41,25 @@ public class ImageManager {
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
+    /**
+     * Resize the bitmap to a fixed width and height
+     *
+     * @param bitmap the bitmap image
+     * @param width  the final width of the image
+     * @param height the final height of the image
+     * @return the resized bitmap image
+     */
     public static Bitmap resizeBitmap(Bitmap bitmap, Integer width, Integer height) {
         return Bitmap.createScaledBitmap(bitmap, width, height, true);
     }
 
+    /**
+     * Scales the bitmap by a scale factor
+     *
+     * @param bitmap the bitmap image
+     * @param scale  the scale factor
+     * @return the scaled bitmap image
+     */
     public static Bitmap getScaledBitmap(Bitmap bitmap, float scale) {
         Integer originalHeight = bitmap.getHeight();
         Integer originalWidth = bitmap.getWidth();
@@ -44,6 +70,13 @@ public class ImageManager {
         return resizeBitmap(bitmap, requiredWidth, requiredHeight);
     }
 
+    /**
+     * Scales the bitmap to a fixed height
+     *
+     * @param bitmap the bitmap image
+     * @param height the final height of the image
+     * @return the scaled bitmap
+     */
     public static Bitmap getScaledBitmapWithHeight(Bitmap bitmap, Integer height) {
         Integer originalHeight = bitmap.getHeight();
         float scale = height * 1.0f / originalHeight * 1.0f;

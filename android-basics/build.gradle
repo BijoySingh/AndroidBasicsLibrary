@@ -3,7 +3,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
     resourcePrefix "basicprojectlib__"
 
     defaultConfig {
@@ -46,7 +46,7 @@ ext {
     siteUrl = 'https://github.com/BijoySingh/BasicAndroidProject'
     gitUrl = 'https://github.com/BijoySingh/BasicAndroidProject.git'
 
-    libraryVersion = '0.8.32'
+    libraryVersion = '0.9.1'
 
     developerId = 'bijoysingh693'
     developerName = 'Bijoy Singh Kochar'

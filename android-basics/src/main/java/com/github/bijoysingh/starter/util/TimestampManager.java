@@ -122,6 +122,8 @@ public class TimestampManager {
             return hh + COLON + mm + SPACE + AM;
         } else if (hr == 12 && min == 0) {
             return NOON;
+        } else if (hr == 12) {
+            return hr + COLON + mm + SPACE + PM;
         } else {
             return (hr - 12) + COLON + mm + SPACE + PM;
         }

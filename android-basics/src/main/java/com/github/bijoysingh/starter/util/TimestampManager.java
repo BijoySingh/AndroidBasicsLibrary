@@ -95,7 +95,7 @@ public class TimestampManager {
         }
 
         dateTime = dateTime.toDateTime(dateTimeZone);
-        dateTime = dateTime.plusHours(5).plusMinutes(30);
+        dateTime = dateTime.plusHours(hour).plusMinutes(minutes);
 
         return createTimestampItem(timestamp, dateTime);
     }

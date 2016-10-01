@@ -1,4 +1,4 @@
-package com.github.bijoysingh.starter.util;
+package com.github.bijoysingh.starter.images;
 
 import android.app.Activity;
 import android.content.Intent;

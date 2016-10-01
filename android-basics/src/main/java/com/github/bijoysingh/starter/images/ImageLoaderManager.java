@@ -1,42 +1,31 @@
-package com.github.bijoysingh.starter.util;
+package com.github.bijoysingh.starter.images;
 
 import android.content.Context;
+import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.Map;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 /**
- * Authenticated Image Downloader for
- * Created by bijoy on 7/26/16.
+ * Acts as a wrapper around the ImageLoader
+ * Created by bijoy on 2/1/16.
  */
-public class AuthenticatedImageLoader extends BaseImageDownloader {
+public class ImageLoaderManager {
 
-    public AuthenticatedImageLoader(Context context) {
-        super(context);
-    }
+    private ImageLoader loader;
 
-    public AuthenticatedImageLoader(Context context, int connectTimeout, int readTimeout) {
-        super(context, connectTimeout, readTimeout);
-    }
-
-    @Override
-    protected HttpURLConnection createConnection(String url, Object extra) throws IOException {
-        HttpURLConnection connection = super.createConnection(url, extra);
-        Map<String, String> headers = (Map<String, String>) extra;
-        if (headers != null) {
-            for (Map.Entry<String, String> header : headers.entrySet()) {
-                connection.setRequestProperty(header.getKey(), header.getValue());
-            }
-        }
-        return connection;
+    /**
+     * Constructor for the image loader
+     *
+     * @param context the application context
+     */
+    public ImageLoaderManager(Context context) {
+        this.loader = getImageLoader(context);
     }
 
     /**
@@ -44,12 +33,35 @@ public class AuthenticatedImageLoader extends BaseImageDownloader {
      * the images with 50MB memory and disk cache
      *
      * @param context the application context
-     * @param headers the authentication headers
      * @return the image loader
      */
-    public static ImageLoader getImageLoader(Context context,
-                                             Map<String, String> headers) {
-        return getImageLoader(context, 50, 50, headers);
+    public static ImageLoader getImageLoader(Context context) {
+        return getImageLoader(context, 50, 50);
+    }
+
+
+    /**
+     * Downloads the image for the url
+     *
+     * @param context the application context
+     * @param url     the image url
+     * @param image   the image view
+     */
+    public static void displayImage(Context context, String url, ImageView image) {
+        ImageLoader loader = getImageLoader(context);
+        ImageAware imageAware = new ImageViewAware(image, false);
+        loader.displayImage(url, imageAware);
+    }
+
+    /**
+     * Downloads the image for the url
+     *
+     * @param url   the image url
+     * @param image the image view
+     */
+    public void displayImage(String url, ImageView image) {
+        ImageAware imageAware = new ImageViewAware(image, false);
+        loader.displayImage(url, imageAware);
     }
 
     /**
@@ -58,17 +70,14 @@ public class AuthenticatedImageLoader extends BaseImageDownloader {
      * @param context         the application context
      * @param diskCacheInMB   the disk cache you want in MB
      * @param memoryCacheInMB the memory cache you want in MB
-     * @param headers         the authentication headers
      * @return the image loader
      */
     public static ImageLoader getImageLoader(Context context,
                                              Integer diskCacheInMB,
-                                             Integer memoryCacheInMB,
-                                             Map<String, String> headers) {
+                                             Integer memoryCacheInMB) {
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
             .cacheOnDisk(true)
             .cacheInMemory(true)
-            .extraForDownloader(headers)
             .build();
 
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
@@ -79,9 +88,9 @@ public class AuthenticatedImageLoader extends BaseImageDownloader {
         config.diskCacheSize(diskCacheInMB * 1024 * 1024); // 50 MiB
         config.memoryCacheSize(memoryCacheInMB * 1024 * 1024);
         config.tasksProcessingOrder(QueueProcessingType.LIFO);
-        config.imageDownloader(new AuthenticatedImageLoader(context));
         ImageLoader.getInstance().init(config.build());
 
         return ImageLoader.getInstance();
     }
+
 }

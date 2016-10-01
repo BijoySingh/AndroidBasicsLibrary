@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.bijoysingh.starter.util.FileManager;
 
 import org.json.JSONObject;
 
@@ -45,6 +46,10 @@ public class DefaultQueryExecutor extends QueryExecutor {
 
     @Override
     protected void handleGetResponse(QueryParams access, String response) {
+        if (access.getCache() != null && !access.getCache().isEmpty()) {
+            FileManager.write(context, access.getCache(), response);
+        }
+
         if (onQueryListener != null) {
             onQueryListener.onSuccess(access, response);
         }
@@ -52,6 +57,10 @@ public class DefaultQueryExecutor extends QueryExecutor {
 
     @Override
     protected void handleSendResponse(QueryParams access, JSONObject response) {
+        if (access.getCache() != null && !access.getCache().isEmpty()) {
+            FileManager.write(context, access.getCache(), response.toString());
+        }
+
         if (onQueryListener != null) {
             onQueryListener.onSuccess(access, response.toString());
         }

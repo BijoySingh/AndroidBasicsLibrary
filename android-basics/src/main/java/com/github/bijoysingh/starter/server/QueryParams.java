@@ -79,7 +79,7 @@ public class QueryParams {
          * @return Builder
          */
         public Builder setCache(String cacheFilename) {
-            this.cache = cache;
+            this.cache = cacheFilename;
             return this;
         }
 

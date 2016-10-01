@@ -1,6 +1,7 @@
 package com.github.bijoysingh.starter.recyclerview;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -9,7 +10,7 @@ import android.view.View;
  * <p>
  * Created by bijoy on 1/7/16.
  */
-public class RVHolder<T> extends RecyclerView.ViewHolder {
+public abstract class RVHolder<T> extends RecyclerView.ViewHolder {
 
     // The Context object
     protected Context context;
@@ -30,16 +31,14 @@ public class RVHolder<T> extends RecyclerView.ViewHolder {
      *
      * @param data the Item value
      */
-    public void populate(T data) {
-        ;
-    }
+    public abstract void populate(T data, Bundle extra);
 
     /**
      * Returns the context object
      *
      * @return the application/activity context
      */
-    public Context getContext() {
+    private Context getContext() {
         return context;
     }
 }

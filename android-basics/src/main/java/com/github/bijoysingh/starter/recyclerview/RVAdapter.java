@@ -1,6 +1,7 @@
 package com.github.bijoysingh.starter.recyclerview;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,12 @@ public abstract class RVAdapter<T, U extends RVHolder<T>> extends RecyclerView.A
     // The class type
     protected Class<U> type;
 
+    // Is the click enabled
+    protected boolean isClickEnabled;
+
+    // Extra bundle to pass
+    protected Bundle extra;
+
     /**
      * The recycler view adapter constructor
      *
@@ -39,6 +46,25 @@ public abstract class RVAdapter<T, U extends RVHolder<T>> extends RecyclerView.A
         this.layout = layout;
         this.type = type;
         this.contents = new ArrayList<>();
+        this.isClickEnabled = false;
+    }
+
+    public void setClickEnabled(boolean clickEnabled) {
+        isClickEnabled = clickEnabled;
+    }
+
+    public void setExtra(Bundle extra) {
+        this.extra = extra;
+    }
+
+    /**
+     * On item click listener
+     *
+     * @param holder The view holder
+     * @param item   The object item
+     */
+    public void onItemClick(U holder, T item) {
+        return;
     }
 
     /**
@@ -57,6 +83,7 @@ public abstract class RVAdapter<T, U extends RVHolder<T>> extends RecyclerView.A
      */
     public void setItems(List<T> list) {
         contents = list;
+        notifyDataSetChanged();
     }
 
 
@@ -132,9 +159,17 @@ public abstract class RVAdapter<T, U extends RVHolder<T>> extends RecyclerView.A
     }
 
     @Override
-    public void onBindViewHolder(U holder, final int position) {
+    public void onBindViewHolder(final U holder, final int position) {
         final T data = getItems().get(position);
-        holder.populate(data);
+        if (isClickEnabled) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClick(holder, data);
+                }
+            });
+        }
+        holder.populate(data, extra);
     }
 
     @Override

@@ -19,7 +19,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.9.2'
+    compile 'com.github.bijoysingh:android-basics:0.10.4'
     ...
 }
 ```
@@ -38,11 +38,11 @@ dependencies {
     compile 'net.danlew:android.joda:2.8.1'
     
     // For basic features from Google
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
     
     // For Recycler View
-    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
     
     ...
 }
@@ -53,6 +53,8 @@ dependencies {
 
 # Basic Usage
 ## Internet Access
+### Note: This is outdated, I'll update the README soon.
+
 Extend the ```AccessManager``` class. Use the ```Access``` class to send and get requests by using objects of ```AccessItem```.
 ```java
 public class Access extends AccessManager {
@@ -160,9 +162,11 @@ imageLoader.displayImage(image_link, imageAware);
 ## Some other useful functions
 These are some common useful functions. These will expand with time.
 ```java
-Functions.makeToast(context, message);
 Functions.dpToPixels(context, dp);
 ```
+
+## Toasts
+### NOTE: Will be adding docs soon.
 
 ## Locale String Format Wrappers
 ```java
@@ -173,6 +177,7 @@ This function will convert your variable to the String to these using the Locale
 
 
 ## Recycler View
+### NOTE: This has been recently updated will be adding docs soon.
 Using Recycler View cannot be easier!
 
 Extend the Recycler View Holder

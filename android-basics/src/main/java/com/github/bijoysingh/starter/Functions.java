@@ -18,16 +18,6 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 public class Functions {
 
     /**
-     * Makes a toast(this is much cleaner than the code for toast)
-     *
-     * @param context the activity context
-     * @param text    the text to be printed
-     */
-    public static void makeToast(Context context, String text) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
      * Converts dp value to pixel value
      *
      * @param context the app context

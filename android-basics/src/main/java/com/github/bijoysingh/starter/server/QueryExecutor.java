@@ -20,21 +20,12 @@ import java.util.Map;
  * The network call handler
  * Created by bijoy on 10/24/15.
  */
-@Deprecated
-public abstract class AccessManager {
-
-    // Timeout value for the request
-    public static final Integer TIMEOUT = 7500;
+public abstract class QueryExecutor {
 
     // The application context
-    public Context context;
+    protected Context context;
 
-    /**
-     * AccessManager default constructor
-     *
-     * @param context the application context
-     */
-    public AccessManager(Context context) {
+    protected QueryExecutor(Context context) {
         this.context = context;
     }
 
@@ -46,11 +37,11 @@ public abstract class AccessManager {
      * @param map    the key-values to be sent
      * @return the volley request object
      */
-    public JsonObjectRequest getJsonRequest(final AccessItem access,
+    protected JsonObjectRequest getJsonRequest(final QueryParams access,
                                             final Map<String, Object> map) {
         JsonObjectRequest jsonRequest = new JsonObjectRequest(
-            access.method,
-            access.url,
+            access.getMethod(),
+            access.getUrl(),
             new JSONObject(map),
             new Response.Listener<JSONObject>() {
                 @Override
@@ -67,7 +58,7 @@ public abstract class AccessManager {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                if (access.authenticated) {
+                if (access.getAuthenticated()) {
                     params.putAll(getAuthenticationData());
                 }
                 return params;
@@ -75,9 +66,9 @@ public abstract class AccessManager {
         };
 
         jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
-            TIMEOUT,
-            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            getTimeoutMillis(),
+            getMaxRetries(),
+            getBackoffMultiplier()));
 
         return jsonRequest;
     }
@@ -89,9 +80,9 @@ public abstract class AccessManager {
      * @param access the AccessItem instance
      * @return the volley StringRequest object
      */
-    public StringRequest getStringRequest(final AccessItem access) {
+    protected StringRequest getStringRequest(final QueryParams access) {
         StringRequest request = new StringRequest(
-            Request.Method.GET, access.url, new Response
+            Request.Method.GET, access.getUrl(), new Response
             .Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -107,7 +98,7 @@ public abstract class AccessManager {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                if (access.authenticated) {
+                if (access.getAuthenticated()) {
                     params.putAll(getAuthenticationData());
                 }
                 return params;
@@ -115,10 +106,31 @@ public abstract class AccessManager {
         };
 
         request.setRetryPolicy(new DefaultRetryPolicy(
-            TIMEOUT,
+            getTimeoutMillis(),
             DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         return request;
+    }
+
+    /**
+     * @return Timeout milliseconds
+     */
+    protected Integer getTimeoutMillis() {
+        return DefaultRetryPolicy.DEFAULT_TIMEOUT_MS;
+    }
+
+    /**
+     * @return Maximum number of retries
+     */
+    protected Integer getMaxRetries() {
+        return DefaultRetryPolicy.DEFAULT_MAX_RETRIES;
+    }
+
+    /**
+     * @return Backoff multiplier
+     */
+    protected float getBackoffMultiplier() {
+        return DefaultRetryPolicy.DEFAULT_BACKOFF_MULT;
     }
 
     /**
@@ -126,7 +138,7 @@ public abstract class AccessManager {
      *
      * @param access the AccessItem instance
      */
-    public void get(final AccessItem access) {
+    public void get(final QueryParams access) {
         StringRequest request = getStringRequest(access);
         Volley.newRequestQueue(context).add(request);
     }
@@ -137,7 +149,7 @@ public abstract class AccessManager {
      * @param access the AccessItem instance
      * @param map    the key-values to be sent
      */
-    public void send(final AccessItem access,
+    public void send(final QueryParams access,
                      final Map<String, Object> map) {
         JsonObjectRequest request = getJsonRequest(access, map);
         Volley.newRequestQueue(context).add(request);
@@ -148,37 +160,41 @@ public abstract class AccessManager {
      *
      * @return the extra header key-value pairs
      */
-    public abstract Map<String, String> getAuthenticationData();
+    protected Map<String, String> getAuthenticationData() {
+        return new HashMap<>();
+    }
+
 
     /**
      * Handler for when a get() function gets a successful response
      *
-     * @param access   the AccessItem instance used in the query
+     * @param access   the QueryParams instance used in the query
      * @param response the String response from the server
      */
-    public abstract void handleGetResponse(AccessItem access, String response);
+    protected abstract void handleGetResponse(QueryParams access, String response);
 
     /**
      * Handler for when a send() function gets a successful response
      *
-     * @param access   the AccessItem instance used in the query
+     * @param access   the QueryParams instance used in the query
      * @param response the JSON response from the server
      */
-    public abstract void handleSendResponse(AccessItem access, JSONObject response);
+    protected abstract void handleSendResponse(QueryParams access, JSONObject response);
 
     /**
      * Handler for when a get() function gets an error
      *
-     * @param access the AccessItem instance used in the query
+     * @param access the QueryParams instance used in the query
      * @param error  the volley error object
      */
-    public abstract void handleGetError(AccessItem access, VolleyError error);
+    protected abstract void handleGetError(QueryParams access, VolleyError error);
 
     /**
      * Handler for when a send() function gets an error
      *
-     * @param access the AccessItem instance used in the query
+     * @param access the QueryParams instance used in the query
      * @param error  the volley error object
      */
-    public abstract void handleSendError(AccessItem access, VolleyError error);
+    protected abstract void handleSendError(QueryParams access, VolleyError error);
+
 }

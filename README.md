@@ -53,20 +53,41 @@ dependencies {
 
 # Basic Usage
 ## Internet Access
-### Note: This is outdated, I'll update the README soon.
+Internet access is simpler than ever. 
+I have added a simple `DefaultQueryExecutor` class for convenient usage.
+```
+DefaultQueryExecutor executor = new DefaultQueryExecutor.Builder(context)
+    .setOnQueryListener(queryListener) // optional
+    .setAuthenticationProvider(authenticationProvider) // optional
+    .setTimeout(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS) // optional
+    .setMaxRetries() // optional
+    .setRetryBackoffMultiplier() // optional
+    .build();
+```
+You can create a `OnQueryListener` object or have the activity making the request `implement` it.
 
-Extend the ```AccessManager``` class. Use the ```Access``` class to send and get requests by using objects of ```AccessItem```.
 ```java
-public class Access extends AccessManager {
-....
-}
+QueryParams query = QueryParams.Builder(url)
+    .setCache(cacheFilename) // optional: the filename you want to save the result to as a cache
+    .setQueryIdentifier(queryId) // optional
+    .setAuthenticated(isAuthenticated) // optional: tells if you want to use the genAuthenticationData method of the AuthenticationProvider
+    .setMethod(Request.Method.POST) // optional
+    .setExtra(extraHashMap) // optional
+    .addExtra(key, value) // optional
+    .build();
 ```
 
-Use the class and the built in functions such as ```get``` and ```send```.
+Making a query is really simple too
 ```java
-Access access = new Access(context);
-access.get(new AccessItem(link));
-access.send(new AccessItem(link), data);
+executor.get(query);
+executor.send(query, data);
+```
+
+Extend the ```QueryExecutor``` class for more control on your queries and for supporting more things.
+```java
+public class MyQeuryExecutor extends MyQeuryExecutor {
+....
+}
 ```
 
 The ```AccessItem``` class provides more flexibility in adding queries.

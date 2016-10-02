@@ -10,6 +10,7 @@ import android.view.View;
 
 
 import com.github.bijoysingh.starter.R;
+import com.github.bijoysingh.starter.recyclerview.RVBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +44,9 @@ public abstract class RefreshBasedFragment<T> extends Fragment {
     }
 
     public void initializeRecyclerView(View rootView) {
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(false);
-
-        layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView = new RVBuilder(context)
+            .setView(rootView, R.id.recycler_view)
+            .build();
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

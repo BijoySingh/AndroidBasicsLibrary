@@ -45,8 +45,8 @@ public class RVBuilder {
   }
 
   public RecyclerView build() {
-    if (adapter == null || root == null || recyclerViewId == null) {
-      throw new IllegalArgumentException("Cannot instantiate with null adapter of view");
+    if (root == null || recyclerViewId == null) {
+      throw new IllegalArgumentException("Cannot instantiate with null view");
     }
 
     if (layoutManager == null) {
@@ -56,6 +56,7 @@ public class RVBuilder {
     RecyclerView recyclerView = (RecyclerView) root.findViewById(recyclerViewId);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
+    recyclerView.setHasFixedSize(false)
     if (onScrollListener != null) {
       recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
         @Override

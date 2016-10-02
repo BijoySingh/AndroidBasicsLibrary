@@ -90,17 +90,6 @@ public class MyQeuryExecutor extends MyQeuryExecutor {
 }
 ```
 
-The ```AccessItem``` class provides more flexibility in adding queries.
-You can mention whether a query is authenticated, the affects of which can be overloaded in the ```getAuthenticationData``` function of your ```AccessManager``` class.
-You can even mention a cache filename to store and later retreave the response from it.
-Access Identifier lets you differentiate the various kinds of queries that you can make and handle in one place in your ```AccessManager``` class.
-```java
-AccessItem item = new AccessItem(link);
-AccessItem item = new AccessItem(link, access_identifier);
-AccessItem item = new AccessItem(link, access_identifier, is_authenticated);
-AccessItem item = new AccessItem(link, is_authenticated);
-AccessItem item = new AccessItem(link, cache_filename, access_identifier, is_authenticated);
-```
 
 ## SharedPreferences storage and retrieval
 Extend the ```PreferenceManager``` class.
@@ -122,6 +111,12 @@ Preferences preferences = new Preferences(context);
 preferences.save(KEY, your_variable);
 preferences.load(KEY, your_default_variable);
 ```
+
+### NOTE: 
+If you plan to use SharedPreferences in Services due to recent changes in Android SharedPreferences this may not be your best option.
+You can goolde for a solution of use the library 'net.grandcentrix.tray:tray:0.10.0'` I have personally felt it to be really good
+and has a similar pattern as my library
+
 
 ## ImagePicker and Bitmap operations
 ```java

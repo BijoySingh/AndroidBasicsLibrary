@@ -166,7 +166,22 @@ Functions.dpToPixels(context, dp);
 ```
 
 ## Toasts
-### NOTE: Will be adding docs soon.
+I know toasts are pretty simple to use in Android. But I personally got pissed with typing the Toast.LENGTH_SHORT and a show() everytime.
+So I built a simple wrapper around it to reduce this boilerplate code.
+Using a `ToastHelper` static methods
+```java
+ToastHelper.show(context, R.string.your_toast_message);
+ToastHelper.show(context, "your toast message");
+```
+
+Using a `ToastHelper` object
+```java
+ToastHelper toastHelper = new ToastHelper(context);
+toastHelper.show("your toast method");
+toastHelper.show(R.string.your_toast_message);
+toastHelper.showLong("your toast method");
+toastHelper.showLong(R.string.your_toast_message);
+```
 
 ## Locale String Format Wrappers
 ```java

@@ -213,9 +213,7 @@ This function will convert your variable to the String to these using the Locale
 
 
 ## Recycler View
-### NOTE: This has been recently updated will be adding docs soon.
 Using Recycler View cannot be easier!
-
 Extend the Recycler View Holder
 ```java
 public class YourViewHolder extends RVHolder<YourItem> {
@@ -223,7 +221,7 @@ public class YourViewHolder extends RVHolder<YourItem> {
     ...
     
     @Override
-    public void populate(final YourItem data) {
+    public void populate(YourItem data, Bundle bundle) {
         // Populate your view. You can set on click listeners etc.
     }
 }
@@ -238,14 +236,11 @@ public class YourAdapter extends RVAdapter<YourItem, YourViewHolder> {
 
 Setup your recycler view
 ```java
-    recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-    recyclerView.setHasFixedSize(false);
-    
-    layoutManager = new LinearLayoutManager(context);
-    recyclerView.setLayoutManager(layoutManager);
-
-    YourAdapter adapter = new AppAdapter(context, R.layout.your_layout_item);
-    recyclerView.setAdapter(adapter);
+    recyclerView = new RVBuilder(context)
+        .setView(rootView, R.id.recycler_view)  
+        .setAdapter(yourAdapter)
+        .setOnScrollListener(onScrollListener) // optional
+        .build();
 ```
 
 A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp). The class ```RVAdapter``` is well documented to understand the other helper functions.

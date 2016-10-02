@@ -282,6 +282,24 @@ You can also, quickly serialize your item into a JSON Object
 JSONObject json = item.serialize();
 ```
 
+## TimestampItem
+Another common action you need to do is convert your timestamp string to time. And also convert it to the write timezone.
+```java
+String timestamp = "...." // your timestamp string
+TimestampItem item = new TimestampItem.Builder(timestamp)
+    .setTimezone(hours, minutes) // optional
+    .setDeviceTimezone() // optional
+    .setTimeFormat("hh:mm aa") // optional
+    .setDateFormat("dd MMMM yyyy") // optional
+    .setDateTimeFormat("hh:mm aa, dd MMMM yyyy") // optional
+    .buil()
+    
+item.getTime(); // the time string
+item.getDate(); // the date string
+item.getDateTime() // the date and time string
+item.getCompressedDateTime(); // the compressed date and time
+```
+
 ## PermissionManager
 Handling your permissions for Marshmallow made simpler, and cleaner
 ```java

@@ -1,25 +1,34 @@
-<!DOCTYPE html>
-<html lang="en-us">
+<!doctype html>
+<html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Android Basics Library by BijoySingh</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-    <section class="page-header">
-      <h1 class="project-name">Android Basics Library</h1>
-      <h2 class="project-tagline">This library offers some barebone code for android common to most applications. It provides simple classes and pre-written functions for - internet access, shared preferences storage and retrieval, image picker and bitmap operations, file read and write, recycler view, image downloading and quick database support</h2>
-      <a href="https://github.com/BijoySingh/AndroidBasicsLibrary" class="btn">View on GitHub</a>
-      <a href="https://github.com/BijoySingh/AndroidBasicsLibrary/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/BijoySingh/AndroidBasicsLibrary/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+    <div class="wrapper">
+      <header>
+        <h1>Android Basics Library</h1>
+        <p>This library offers some barebone code for android common to most applications. It provides simple classes and pre-written functions for - internet access, shared preferences storage and retrieval, image picker and bitmap operations, file read and write, recycler view, image downloading and quick database support</p>
 
-    <section class="main-content">
-      <h1>
+        <p class="view"><a href="https://github.com/BijoySingh/AndroidBasicsLibrary">View the Project on GitHub <small>BijoySingh/AndroidBasicsLibrary</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/BijoySingh/AndroidBasicsLibrary/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/BijoySingh/AndroidBasicsLibrary/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/BijoySingh/AndroidBasicsLibrary">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
 <a id="android-basics-library" class="anchor" href="#android-basics-library" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android Basics Library</h1>
 
 <p>This library offers some barebone code for android common to most applications.
@@ -47,7 +56,7 @@ It provides simple classes and pre-written functions for:</p>
 
 <div class="highlight highlight-source-groovy"><pre>dependencies {
     <span class="pl-k">..</span>.
-    compile <span class="pl-s"><span class="pl-pds">'</span>com.github.bijoysingh:android-basics:0.8.28<span class="pl-pds">'</span></span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.github.bijoysingh:android-basics:0.10.7<span class="pl-pds">'</span></span>
     <span class="pl-k">..</span>.
 }</pre></div>
 
@@ -66,11 +75,11 @@ It provides simple classes and pre-written functions for:</p>
     compile <span class="pl-s"><span class="pl-pds">'</span>net.danlew:android.joda:2.8.1<span class="pl-pds">'</span></span>
 
     <span class="pl-c">// For basic features from Google</span>
-    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:appcompat-v7:23.4.0<span class="pl-pds">'</span></span>
-    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:support-v4:23.4.0<span class="pl-pds">'</span></span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:appcompat-v7:24.2.1<span class="pl-pds">'</span></span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:support-v4:24.2.1<span class="pl-pds">'</span></span>
 
     <span class="pl-c">// For Recycler View</span>
-    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:recyclerview-v7:23.4.0<span class="pl-pds">'</span></span>
+    compile <span class="pl-s"><span class="pl-pds">'</span>com.android.support:recyclerview-v7:24.2.1<span class="pl-pds">'</span></span>
 
     <span class="pl-k">..</span>.
 }</pre></div>
@@ -84,28 +93,39 @@ It provides simple classes and pre-written functions for:</p>
 <h2>
 <a id="internet-access" class="anchor" href="#internet-access" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Internet Access</h2>
 
-<p>Extend the <code>AccessManager</code> class. Use the <code>Access</code> class to send and get requests by using objects of <code>AccessItem</code>.</p>
+<p>Internet access is simpler than ever. 
+I have added a simple <code>DefaultQueryExecutor</code> class for convenient usage.</p>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Access</span> <span class="pl-k">extends</span> <span class="pl-e">AccessManager</span> {
+<pre><code>DefaultQueryExecutor executor = new DefaultQueryExecutor.Builder(context)
+    .setOnQueryListener(queryListener) // optional
+    .setAuthenticationProvider(authenticationProvider) // optional
+    .setTimeout(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS) // optional
+    .setMaxRetries() // optional
+    .setRetryBackoffMultiplier() // optional
+    .build();
+</code></pre>
+
+<p>You can create a <code>OnQueryListener</code> object or have the activity making the request <code>implement</code> it.</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">QueryParams</span> query <span class="pl-k">=</span> <span class="pl-smi">QueryParams</span><span class="pl-k">.</span>Builder(url)
+    .setCache(cacheFilename) <span class="pl-c">// optional: the filename you want to save the result to as a cache</span>
+    .setQueryIdentifier(queryId) <span class="pl-c">// optional</span>
+    .setAuthenticated(isAuthenticated) <span class="pl-c">// optional: tells if you want to use the genAuthenticationData method of the AuthenticationProvider</span>
+    .setMethod(<span class="pl-smi">Request</span><span class="pl-k">.</span><span class="pl-smi">Method</span><span class="pl-c1"><span class="pl-k">.</span>POST</span>) <span class="pl-c">// optional</span>
+    .setExtra(extraHashMap) <span class="pl-c">// optional</span>
+    .addExtra(key, value) <span class="pl-c">// optional</span>
+    .build();</pre></div>
+
+<p>Making a query is really simple too</p>
+
+<div class="highlight highlight-source-java"><pre>executor<span class="pl-k">.</span>get(query);
+executor<span class="pl-k">.</span>send(query, data);</pre></div>
+
+<p>Extend the <code>QueryExecutor</code> class for more control on your queries and for supporting more things.</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyQeuryExecutor</span> <span class="pl-k">extends</span> <span class="pl-e">MyQeuryExecutor</span> {
 <span class="pl-c1">....</span>
 }</pre></div>
-
-<p>Use the class and the built in functions such as <code>get</code> and <code>send</code>.</p>
-
-<div class="highlight highlight-source-java"><pre><span class="pl-smi">Access</span> access <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Access</span>(context);
-access<span class="pl-k">.</span>get(<span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link));
-access<span class="pl-k">.</span>send(<span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link), data);</pre></div>
-
-<p>The <code>AccessItem</code> class provides more flexibility in adding queries.
-You can mention whether a query is authenticated, the affects of which can be overloaded in the <code>getAuthenticationData</code> function of your <code>AccessManager</code> class.
-You can even mention a cache filename to store and later retreave the response from it.
-Access Identifier lets you differentiate the various kinds of queries that you can make and handle in one place in your <code>AccessManager</code> class.</p>
-
-<div class="highlight highlight-source-java"><pre><span class="pl-smi">AccessItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link);
-<span class="pl-smi">AccessItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, access_identifier);
-<span class="pl-smi">AccessItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, access_identifier, is_authenticated);
-<span class="pl-smi">AccessItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, is_authenticated);
-<span class="pl-smi">AccessItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AccessItem</span>(link, cache_filename, access_identifier, is_authenticated);</pre></div>
 
 <h2>
 <a id="sharedpreferences-storage-and-retrieval" class="anchor" href="#sharedpreferences-storage-and-retrieval" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SharedPreferences storage and retrieval</h2>
@@ -128,6 +148,13 @@ Access Identifier lets you differentiate the various kinds of queries that you c
 preferences<span class="pl-k">.</span>save(<span class="pl-c1">KEY</span>, your_variable);
 preferences<span class="pl-k">.</span>load(<span class="pl-c1">KEY</span>, your_default_variable);</pre></div>
 
+<h3>
+<a id="note" class="anchor" href="#note" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>NOTE:</h3>
+
+<p>If you plan to use SharedPreferences in Services due to recent changes in Android SharedPreferences this may not be your best option.
+You can goolde for a solution of use the library 'net.grandcentrix.tray:tray:0.10.0'` I have personally felt it to be really good
+and has a similar pattern as my library</p>
+
 <h2>
 <a id="imagepicker-and-bitmap-operations" class="anchor" href="#imagepicker-and-bitmap-operations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ImagePicker and Bitmap operations</h2>
 
@@ -136,7 +163,7 @@ imageManager<span class="pl-k">.</span>showFileChooser(<span class="pl-v">this</
 
 <p>Handle the response for this using <code>handleResponse</code> in <code>onActivityResult</code></p>
 
-<div class="highlight highlight-source-java"><pre>@<span class="pl-smi">Override</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-k">@Override</span>
 <span class="pl-k">public</span> <span class="pl-k">void</span> onActivityResult(<span class="pl-k">int</span> requestCode, <span class="pl-k">int</span> resultCode, <span class="pl-smi">Intent</span> data) {
     <span class="pl-v">super</span><span class="pl-k">.</span>onActivityResult(requestCode, resultCode, data);
 
@@ -189,8 +216,25 @@ imageLoader<span class="pl-k">.</span>displayImage(image_link, imageAware);</pre
 
 <p>These are some common useful functions. These will expand with time.</p>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-smi">Functions</span><span class="pl-k">.</span>makeToast(context, message);
-<span class="pl-smi">Functions</span><span class="pl-k">.</span>dpToPixels(context, dp);</pre></div>
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Functions</span><span class="pl-k">.</span>dpToPixels(context, dp);</pre></div>
+
+<h2>
+<a id="toasts" class="anchor" href="#toasts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Toasts</h2>
+
+<p>I know toasts are pretty simple to use in Android. But I personally got pissed with typing the Toast.LENGTH_SHORT and a show() everytime.
+So I built a simple wrapper around it to reduce this boilerplate code.
+Using a <code>ToastHelper</code> static methods</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">ToastHelper</span><span class="pl-k">.</span>show(context, <span class="pl-smi">R</span><span class="pl-k">.</span>string<span class="pl-k">.</span>your_toast_message);
+<span class="pl-smi">ToastHelper</span><span class="pl-k">.</span>show(context, <span class="pl-s"><span class="pl-pds">"</span>your toast message<span class="pl-pds">"</span></span>);</pre></div>
+
+<p>Using a <code>ToastHelper</code> object</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">ToastHelper</span> toastHelper <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">ToastHelper</span>(context);
+toastHelper<span class="pl-k">.</span>show(<span class="pl-s"><span class="pl-pds">"</span>your toast method<span class="pl-pds">"</span></span>);
+toastHelper<span class="pl-k">.</span>show(<span class="pl-smi">R</span><span class="pl-k">.</span>string<span class="pl-k">.</span>your_toast_message);
+toastHelper<span class="pl-k">.</span>showLong(<span class="pl-s"><span class="pl-pds">"</span>your toast method<span class="pl-pds">"</span></span>);
+toastHelper<span class="pl-k">.</span>showLong(<span class="pl-smi">R</span><span class="pl-k">.</span>string<span class="pl-k">.</span>your_toast_message);</pre></div>
 
 <h2>
 <a id="locale-string-format-wrappers" class="anchor" href="#locale-string-format-wrappers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Locale String Format Wrappers</h2>
@@ -203,16 +247,15 @@ imageLoader<span class="pl-k">.</span>displayImage(image_link, imageAware);</pre
 <h2>
 <a id="recycler-view" class="anchor" href="#recycler-view" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Recycler View</h2>
 
-<p>Using Recycler View cannot be easier!</p>
-
-<p>Extend the Recycler View Holder</p>
+<p>Using Recycler View cannot be easier!
+Extend the Recycler View Holder</p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">YourViewHolder</span> <span class="pl-k">extends</span> <span class="pl-e">RVHolder&lt;<span class="pl-smi">YourItem</span>&gt;</span> {
 
     <span class="pl-c1">...</span>
 
     <span class="pl-k">@Override</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">populate</span>(<span class="pl-k">final</span> <span class="pl-smi">YourItem</span> <span class="pl-v">data</span>) {
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">populate</span>(<span class="pl-smi">YourItem</span> <span class="pl-v">data</span>, <span class="pl-smi">Bundle</span> <span class="pl-v">bundle</span>) {
         <span class="pl-c">// Populate your view. You can set on click listeners etc.</span>
     }
 }</pre></div>
@@ -225,14 +268,11 @@ imageLoader<span class="pl-k">.</span>displayImage(image_link, imageAware);</pre
 
 <p>Setup your recycler view</p>
 
-<div class="highlight highlight-source-java"><pre>    recyclerView <span class="pl-k">=</span> (<span class="pl-smi">RecyclerView</span>) findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>recycler_view);
-    recyclerView<span class="pl-k">.</span>setHasFixedSize(<span class="pl-c1">false</span>);
-
-    layoutManager <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">LinearLayoutManager</span>(context);
-    recyclerView<span class="pl-k">.</span>setLayoutManager(layoutManager);
-
-    <span class="pl-smi">YourAdapter</span> adapter <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">AppAdapter</span>(context, <span class="pl-smi">R</span><span class="pl-k">.</span>layout<span class="pl-k">.</span>your_layout_item);
-    recyclerView<span class="pl-k">.</span>setAdapter(adapter);</pre></div>
+<div class="highlight highlight-source-java"><pre>    recyclerView <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">RVBuilder</span>(context)
+        .setView(rootView, <span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>recycler_view)  
+        .setAdapter(yourAdapter)
+        .setOnScrollListener(onScrollListener) <span class="pl-c">// optional</span>
+        .build();</pre></div>
 
 <p>A full fledged example can be seen in my <a href="https://github.com/BijoySingh/TutorialApp">TutorialApp</a>. The class <code>RVAdapter</code> is well documented to understand the other helper functions.</p>
 
@@ -302,6 +342,25 @@ Further, it assumes that the name of the field is the JSON field, you can yet ag
 <p>You can also, quickly serialize your item into a JSON Object</p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">JSONObject</span> json <span class="pl-k">=</span> item<span class="pl-k">.</span>serialize();</pre></div>
+
+<h2>
+<a id="timestampitem" class="anchor" href="#timestampitem" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TimestampItem</h2>
+
+<p>Another common action you need to do is convert your timestamp string to time. And also convert it to the write timezone.</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">String</span> timestamp <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>....<span class="pl-pds">"</span></span> <span class="pl-c">// your timestamp string</span>
+<span class="pl-smi">TimestampItem</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">TimestampItem</span>.<span class="pl-smi">Builder</span>(timestamp)
+    .setTimezone(hours, minutes) <span class="pl-c">// optional</span>
+    .setDeviceTimezone() <span class="pl-c">// optional</span>
+    .setTimeFormat(<span class="pl-s"><span class="pl-pds">"</span>hh:mm aa<span class="pl-pds">"</span></span>) <span class="pl-c">// optional</span>
+    .setDateFormat(<span class="pl-s"><span class="pl-pds">"</span>dd MMMM yyyy<span class="pl-pds">"</span></span>) <span class="pl-c">// optional</span>
+    .setDateTimeFormat(<span class="pl-s"><span class="pl-pds">"</span>hh:mm aa, dd MMMM yyyy<span class="pl-pds">"</span></span>) <span class="pl-c">// optional</span>
+    .buil()
+
+item<span class="pl-k">.</span>getTime(); <span class="pl-c">// the time string</span>
+item<span class="pl-k">.</span>getDate(); <span class="pl-c">// the date string</span>
+item<span class="pl-k">.</span>getDateTime() <span class="pl-c">// the date and time string</span>
+item<span class="pl-k">.</span>getCompressedDateTime(); <span class="pl-c">// the compressed date and time</span></pre></div>
 
 <h2>
 <a id="permissionmanager" class="anchor" href="#permissionmanager" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PermissionManager</h2>
@@ -381,16 +440,14 @@ Copyright 2011-2015 Sergey Tarasevich
 </code></pre>
 
 <pre><code></code></pre>
-
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/BijoySingh/AndroidBasicsLibrary">Android Basics Library</a> is maintained by <a href="https://github.com/BijoySingh">BijoySingh</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/BijoySingh">BijoySingh</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
-
-    </section>
-
-            <script type="text/javascript">
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>

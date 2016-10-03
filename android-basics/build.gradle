@@ -46,7 +46,7 @@ ext {
     siteUrl = 'https://github.com/BijoySingh/BasicAndroidProject'
     gitUrl = 'https://github.com/BijoySingh/BasicAndroidProject.git'
 
-    libraryVersion = '0.10.6'
+    libraryVersion = '0.10.7'
 
     developerId = 'bijoysingh693'
     developerName = 'Bijoy Singh Kochar'

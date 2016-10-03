@@ -6,44 +6,91 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
+ * Builder
  * Created by bijoy on 10/2/16.
  */
 public class RVBuilder {
 
+  // The Activity context
   private Context context;
+
+  // The root view
   private View root;
+
+  // The layout manager
   private LinearLayoutManager layoutManager;
+
+  // The Scroll listener
   private OnScrollListener onScrollListener;
+
+  // The RV Adapter
   private RecyclerView.Adapter adapter;
 
+  // The RV layout id
   private Integer recyclerViewId;
 
+  /**
+   * Constructor for the RVBuilder
+   *
+   * @param context the activity context
+   */
   public RVBuilder(Context context) {
     this.context = context;
   }
 
+  /**
+   * Sets the view of the RV
+   *
+   * @param root           the root view
+   * @param recyclerViewId the layout id of the recycler view
+   * @return this instance
+   */
   public RVBuilder setView(View root, Integer recyclerViewId) {
     this.root = root;
     this.recyclerViewId = recyclerViewId;
     return this;
   }
 
+  /**
+   * Sets the recycler to linear
+   *
+   * @return this instance
+   */
   public RVBuilder setLinear() {
     layoutManager = new LinearLayoutManager(context);
     return this;
   }
 
+  /**
+   * Sets an over scroll listener
+   *
+   * @param scrollListener the listner
+   * @return this instance
+   */
   public RVBuilder setOnScrollListener(OnScrollListener scrollListener) {
     if (layoutManager == null) {
       setLinear();
     }
     onScrollListener = scrollListener;
+    return this;
   }
 
-  public RecyclerView setAdapter(RecyclerView.Adapter adapter) {
+  /**
+   * Set the adapter
+   *
+   * @param adapter the recycler view adapter
+   * @return this instance
+   */
+  public RVBuilder setAdapter(RecyclerView.Adapter adapter) {
     this.adapter = adapter;
+    return this;
   }
 
+  /**
+   * RVBuilder build method
+   *
+   * @return the recycler view
+   */
   public RecyclerView build() {
     if (root == null || recyclerViewId == null) {
       throw new IllegalArgumentException("Cannot instantiate with null view");
@@ -55,8 +102,12 @@ public class RVBuilder {
 
     RecyclerView recyclerView = (RecyclerView) root.findViewById(recyclerViewId);
     recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setAdapter(adapter);
-    recyclerView.setHasFixedSize(false)
+
+    if (adapter != null) {
+      recyclerView.setAdapter(adapter);
+    }
+
+    recyclerView.setHasFixedSize(false);
     if (onScrollListener != null) {
       recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
         @Override
@@ -77,6 +128,9 @@ public class RVBuilder {
     return recyclerView;
   }
 
+  /**
+   * Interface class for the Listener
+   */
   public interface OnScrollListener {
     void onScrollToBottom(RecyclerView recyclerView);
   }

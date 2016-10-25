@@ -226,7 +226,7 @@ public class TimestampItem {
    */
   public static Pair<Integer, Integer> getTimezoneOffset() {
     TimeZone timeZone = Calendar.getInstance().getTimeZone();
-    int mGMTOffset = timeZone.getRawOffset();
+    int mGMTOffset = timeZone.getRawOffset() + timeZone.getDSTSavings();
     Integer minutes = mGMTOffset / 60000;
     Integer hours = minutes / 60;
     minutes -= hours * 60;

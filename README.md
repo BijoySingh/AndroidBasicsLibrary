@@ -55,7 +55,7 @@ dependencies {
 ## Internet Access
 Internet access is simpler than ever. 
 I have added a simple `DefaultQueryExecutor` class for convenient usage.
-```
+```java
 DefaultQueryExecutor executor = new DefaultQueryExecutor.Builder(context)
     .setOnQueryListener(queryListener) // optional
     .setAuthenticationProvider(authenticationProvider) // optional
@@ -230,6 +230,7 @@ public class YourAdapter extends RVAdapter<YourItem, YourViewHolder> {
 ```
 
 Setup your recycler view
+You could either do the following
 ```java
     recyclerView = new RVBuilder(context)
         .setView(rootView, R.id.recycler_view)  
@@ -237,6 +238,7 @@ Setup your recycler view
         .setOnScrollListener(onScrollListener) // optional
         .build();
 ```
+or the usual way will also work of course.
 
 A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp). The class ```RVAdapter``` is well documented to understand the other helper functions.
 

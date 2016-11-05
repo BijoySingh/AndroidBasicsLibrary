@@ -29,6 +29,9 @@ public class RVBuilder {
   // The RV layout id
   private Integer recyclerViewId;
 
+  // The RV
+  private RecyclerView recyclerView;
+
   /**
    * Constructor for the RVBuilder
    *
@@ -48,6 +51,17 @@ public class RVBuilder {
   public RVBuilder setView(View root, Integer recyclerViewId) {
     this.root = root;
     this.recyclerViewId = recyclerViewId;
+    return this;
+  }
+
+  /**
+   * Sets the RV
+   *
+   * @param recyclerView the recycler view
+   * @return this instance
+   */
+  public RVBuilder setRecyclerView(RecyclerView recyclerView) {
+    this.recyclerView = recyclerView;
     return this;
   }
 
@@ -92,7 +106,7 @@ public class RVBuilder {
    * @return the recycler view
    */
   public RecyclerView build() {
-    if (root == null || recyclerViewId == null) {
+    if ((root == null || recyclerViewId == null) && recyclerView == null) {
       throw new IllegalArgumentException("Cannot instantiate with null view");
     }
 
@@ -100,7 +114,9 @@ public class RVBuilder {
       setLinear();
     }
 
-    RecyclerView recyclerView = (RecyclerView) root.findViewById(recyclerViewId);
+    recyclerView = recyclerView == null
+        ? (RecyclerView) root.findViewById(recyclerViewId)
+        : recyclerView;
     recyclerView.setLayoutManager(layoutManager);
 
     if (adapter != null) {

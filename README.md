@@ -19,7 +19,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.10.10'
+    compile 'com.github.bijoysingh:android-basics:0.10.11'
     ...
 }
 ```
@@ -38,11 +38,11 @@ dependencies {
     compile 'net.danlew:android.joda:2.8.1'
     
     // For basic features from Google
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:support-v4:25.0.0'
     
     // For Recycler View
-    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
     
     ...
 }

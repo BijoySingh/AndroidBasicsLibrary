@@ -45,10 +45,11 @@ public class SimpleThreadExecutor {
    * Executes this runnable (immediately if possible)
    * @param runnable the runnable
    */
-  public void execute(Runnable runnable) {
+  public SimpleThreadExecutor executeNow(Runnable runnable) {
     if (mThreadPool != null) {
       mThreadPool.execute(runnable);
     }
+    return this;
   }
 
   /**
@@ -60,5 +61,14 @@ public class SimpleThreadExecutor {
         mThreadPool.execute(runnable);
       }
     }
+  }
+
+  /**
+   * Executes this runnable
+   * @param runnable the runnable
+   */
+  public static void execute(Runnable runnable) {
+    SimpleThreadExecutor executor = new SimpleThreadExecutor();
+    executor.executeNow(runnable);
   }
 }

@@ -19,7 +19,15 @@ public abstract class SimpleAsyncTask<T> extends AsyncTask<Void, Void, T> {
     handle(t);
   }
 
+  /**
+   * Run code to get the object of type T
+   * @return the object of type T
+   */
   protected abstract T run();
 
+  /**
+   * Handle the response of type T
+   * @param t the object got from run()
+   */
   protected abstract void handle(T t);
 }

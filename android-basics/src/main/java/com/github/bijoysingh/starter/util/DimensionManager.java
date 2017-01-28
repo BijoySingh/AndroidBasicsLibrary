@@ -20,4 +20,16 @@ public class DimensionManager {
     DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
     return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
   }
+
+  /**
+   * Converts pixel value to dp value
+   *
+   * @param context the app context
+   * @param pixels  the length in pixels
+   * @return the dp size
+   */
+  public static int pixelsToDp(Context context, int pixels) {
+    DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+    return Math.round(pixels / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+  }
 }

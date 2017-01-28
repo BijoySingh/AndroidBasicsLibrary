@@ -19,7 +19,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.10.11'
+    compile 'com.github.bijoysingh:android-basics:0.10.13'
     ...
 }
 ```
@@ -179,7 +179,8 @@ imageLoader.displayImage(image_link, imageAware);
 ## Some other useful functions
 These are some common useful functions. These will expand with time.
 ```java
-Functions.dpToPixels(context, dp);
+DimensionManager.dpToPixels(context, dp);
+DimensionManager.pixelsToDp(context, pixels);
 ```
 
 ## Toasts

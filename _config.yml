@@ -1,0 +1,8 @@
+title: Android Basics Library
+description: This library offers some barebone code for android common to most applications. It provides simple classes and pre-written functions for - internet access, shared preferences storage and retrieval, image picker and bitmap operations, file read and write, recycler view, image downloading and quick database support
+google_analytics: UA-73798143-1
+show_downloads: true
+theme: jekyll-theme-minimal
+
+gems:
+  - jekyll-mentions

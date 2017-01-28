@@ -15,7 +15,8 @@ It provides simple classes and pre-written functions for:
 # Installation
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidBasicsLibrary-green.svg?style=true)](https://android-arsenal.com/details/1/3226)
 
-The library is on Jcenter, so usage is really simple. Add the following dependency in your app's ```build.gradle```:
+The library is on Jcenter, so usage is really simple. Add the following dependency in your app's `build.gradle`:
+
 ```groovy
 dependencies {
     ...
@@ -23,7 +24,9 @@ dependencies {
     ...
 }
 ```
+
 You might need to also include these in case you use the corresponding dependencies
+
 ```groovy
 dependencies {
     ...
@@ -64,6 +67,7 @@ DefaultQueryExecutor executor = new DefaultQueryExecutor.Builder(context)
     .setRetryBackoffMultiplier() // optional
     .build();
 ```
+
 You can create a `OnQueryListener` object or have the activity making the request `implement` it.
 
 ```java
@@ -83,7 +87,8 @@ executor.get(query);
 executor.send(query, data);
 ```
 
-Extend the ```QueryExecutor``` class for more control on your queries and for supporting more things.
+Extend the `QueryExecutor` class for more control on your queries and for supporting more things.
+
 ```java
 public class MyQeuryExecutor extends MyQeuryExecutor {
 ....
@@ -93,14 +98,15 @@ public class MyQeuryExecutor extends MyQeuryExecutor {
 
 ## SharedPreferences storage and retrieval
 
-Use the class and built in functions using ```save``` and ```load```.
+Use the class and built in functions using `save` and `load`.
 ```java
 Preferences preferences = new Preferences(context);
 preferences.save(KEY, your_variable);
 preferences.load(KEY, your_default_variable);
 ```
 
-*Optionally* Extend the ```PreferenceManager``` class.
+*Optionally* Extend the `PreferenceManager` class.
+
 ```java
 public class Preferences extends PreferenceManager {
     
@@ -115,7 +121,7 @@ public class Preferences extends PreferenceManager {
 
 ### NOTE: 
 If you plan to use SharedPreferences in Services due to recent changes in Android SharedPreferences this may not be your best option.
-You can goolde for a solution of use the library 'net.grandcentrix.tray:tray:0.10.0'` I have personally felt it to be really good
+You can goolde for a solution of use the library `'net.grandcentrix.tray:tray:0.10.0'` I have personally felt it to be really good
 and has a similar pattern as my library
 
 
@@ -125,7 +131,7 @@ ImageManager imageManager = new ImageManager();
 imageManager.showFileChooser(this);
 ```
 
-Handle the response for this using ```handleResponse``` in ```onActivityResult```
+Handle the response for this using `handleResponse` in `onActivityResult`
 ```java
 @Override
 public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -206,7 +212,7 @@ toastHelper.showLong(R.string.your_toast_message);
 LocaleManager.toString(Character/Float/Double/Integer/Boolean variable);
 LocaleManager.toString(Float/Double variable, precision);
 ```
-This function will convert your variable to the String to these using the Locale. This functions is a wrapper around the code ```String.format```. The function will prevent Lint Warning for the same.
+This function will convert your variable to the String to these using the Locale. This functions is a wrapper around the code `String.format`. The function will prevent Lint Warning for the same.
 
 
 ## Recycler View
@@ -242,7 +248,7 @@ You could either do the following
 ```
 or the usual way will also work of course.
 
-A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp). The class ```RVAdapter``` is well documented to understand the other helper functions.
+A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp). The class `RVAdapter` is well documented to understand the other helper functions.
 
 ## TimestampItem
 Another common action you need to do is convert your timestamp string to time. And also convert it to the write timezone.
@@ -352,7 +358,7 @@ public class YourDatabaseItem extends DatabaseModel {
 }
 ```
 
-Using ```@DBColumn``` you can add custom arguments like
+Using `@DBColumn` you can add custom arguments like
 ```java
 fieldType = DBColumn.Type.INTEGER
 unique = True
@@ -439,5 +445,4 @@ https://github.com/dlew/joda-time-android/blob/master/LICENSE
 ```
 Apache 2.0 License
 Copyright 2011-2015 Sergey Tarasevich
-```
 ```

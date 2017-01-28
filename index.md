@@ -19,7 +19,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.10.7'
+    compile 'com.github.bijoysingh:android-basics:0.10.13'
     ...
 }
 ```
@@ -38,11 +38,11 @@ dependencies {
     compile 'net.danlew:android.joda:2.8.1'
     
     // For basic features from Google
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:support-v4:25.0.0'
     
     // For Recycler View
-    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
     
     ...
 }
@@ -55,7 +55,7 @@ dependencies {
 ## Internet Access
 Internet access is simpler than ever. 
 I have added a simple `DefaultQueryExecutor` class for convenient usage.
-```
+```java
 DefaultQueryExecutor executor = new DefaultQueryExecutor.Builder(context)
     .setOnQueryListener(queryListener) // optional
     .setAuthenticationProvider(authenticationProvider) // optional
@@ -92,7 +92,15 @@ public class MyQeuryExecutor extends MyQeuryExecutor {
 
 
 ## SharedPreferences storage and retrieval
-Extend the ```PreferenceManager``` class.
+
+Use the class and built in functions using ```save``` and ```load```.
+```java
+Preferences preferences = new Preferences(context);
+preferences.save(KEY, your_variable);
+preferences.load(KEY, your_default_variable);
+```
+
+*Optionally* Extend the ```PreferenceManager``` class.
 ```java
 public class Preferences extends PreferenceManager {
     
@@ -103,13 +111,6 @@ public class Preferences extends PreferenceManager {
         return "YOUR_PREFERENCE_FOLDER_NAME";
     }
 }
-```
-
-Use the class and built in functions using ```save``` and ```load```.
-```java
-Preferences preferences = new Preferences(context);
-preferences.save(KEY, your_variable);
-preferences.load(KEY, your_default_variable);
 ```
 
 ### NOTE: 
@@ -178,7 +179,8 @@ imageLoader.displayImage(image_link, imageAware);
 ## Some other useful functions
 These are some common useful functions. These will expand with time.
 ```java
-Functions.dpToPixels(context, dp);
+DimensionManager.dpToPixels(context, dp);
+DimensionManager.pixelsToDp(context, pixels);
 ```
 
 ## Toasts
@@ -230,6 +232,7 @@ public class YourAdapter extends RVAdapter<YourItem, YourViewHolder> {
 ```
 
 Setup your recycler view
+You could either do the following
 ```java
     recyclerView = new RVBuilder(context)
         .setView(rootView, R.id.recycler_view)  
@@ -237,8 +240,100 @@ Setup your recycler view
         .setOnScrollListener(onScrollListener) // optional
         .build();
 ```
+or the usual way will also work of course.
 
 A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp). The class ```RVAdapter``` is well documented to understand the other helper functions.
+
+## TimestampItem
+Another common action you need to do is convert your timestamp string to time. And also convert it to the write timezone.
+```java
+String timestamp = "...." // your timestamp string
+TimestampItem item = new TimestampItem.Builder(timestamp)
+    .setTimezone(hours, minutes) // optional
+    .setDeviceTimezone() // optional
+    .setTimeFormat("hh:mm aa") // optional
+    .setDateFormat("dd MMMM yyyy") // optional
+    .setDateTimeFormat("hh:mm aa, dd MMMM yyyy") // optional
+    .buil()
+    
+item.getTime(); // the time string
+item.getDate(); // the date string
+item.getDateTime() // the date and time string
+item.getCompressedDateTime(); // the compressed date and time
+```
+
+## DateFormatter
+If you have to repeatted format your Dates here is a simple wrapper on your code
+```java
+// Get Today's formatted date
+DateFormatter.getToday();
+DateFormatter.getToday(format);
+
+// Get any Date's formatted date
+DateFormatter.getDate(date);
+DateFormatter.getDate("dd mmmm yyyy", date);
+DateFormatter.getDate(date, locale);
+DateFormatter.getDate("hh:MM a, dd mmmm yyyy", date, locale);
+
+// Some default formats exist (a lot more exist)
+Formats.DD_MM_YYYY.getFormat()
+Formats.HH_MM_A.getFormat();
+Formats.HH_MM_DD_MM_YYYY.getFormat();
+Formats.HH_MM_A_DD_MMMM_YYYY.getFormat();
+```
+
+## Threading and Async
+Hate writting a lot boilerplate code to use Executors or AsyncTasks, we got you covered
+```java
+// Want to run something in background and handle it in UI thread
+SimpleAsyncTask<String> task = new SimpleAsyncTask<>() { ... }
+task.execute();
+
+// Want to run something huge, with high priority, but in background
+
+// Simply run something in the background
+SimpleThreadExecutor.execute(runnable);
+
+// Or get more control
+SimpleThreadExecutor executor = new SimpleThreadExecutor();
+executor.addRunnable(runnable1)
+    .addRunnable(runnable2)
+    .execute();
+```
+
+## PermissionManager
+Handling your permissions for Marshmallow made simpler, and cleaner
+```java
+// Could be more than one permissions here
+String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+
+// Initialise the manager object, with required permissions
+PermissionManager manager = new PermissionManager(context, permissions);
+
+/*
+ * Or set them as you need them
+ * PermissionManager manager = new PermissionManager(context);
+ * manager.setPermissions(permissions);
+ */
+```
+
+Now checking for permission is really simple
+```java
+manager.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+```
+
+And requesting for permissions too
+```java
+
+// Using an access code fixed in the library
+manager.requestPermissions();
+
+// Using a custom access code, for more control
+manager.requestPermissions(SOME_REQUEST_CODE);
+```
+
+It will automatically detect which permissions are already allowed, and will request the missing permissions.
+To handle a response, the procedure is same as that in the usual case. You override the ```onRequestPermissionsResult``` listener.
 
 ## Database Support
 Adding database setup is super simple. You have to do very little work!
@@ -307,58 +402,6 @@ You can also, quickly serialize your item into a JSON Object
 ```java
 JSONObject json = item.serialize();
 ```
-
-## TimestampItem
-Another common action you need to do is convert your timestamp string to time. And also convert it to the write timezone.
-```java
-String timestamp = "...." // your timestamp string
-TimestampItem item = new TimestampItem.Builder(timestamp)
-    .setTimezone(hours, minutes) // optional
-    .setDeviceTimezone() // optional
-    .setTimeFormat("hh:mm aa") // optional
-    .setDateFormat("dd MMMM yyyy") // optional
-    .setDateTimeFormat("hh:mm aa, dd MMMM yyyy") // optional
-    .buil()
-    
-item.getTime(); // the time string
-item.getDate(); // the date string
-item.getDateTime() // the date and time string
-item.getCompressedDateTime(); // the compressed date and time
-```
-
-## PermissionManager
-Handling your permissions for Marshmallow made simpler, and cleaner
-```java
-// Could be more than one permissions here
-String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-
-// Initialise the manager object, with required permissions
-PermissionManager manager = new PermissionManager(context, permissions);
-
-/*
- * Or set them as you need them
- * PermissionManager manager = new PermissionManager(context);
- * manager.setPermissions(permissions);
- */
-```
-
-Now checking for permission is really simple
-```java
-manager.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-```
-
-And requesting for permissions too
-```java
-
-// Using an access code fixed in the library
-manager.requestPermissions();
-
-// Using a custom access code, for more control
-manager.requestPermissions(SOME_REQUEST_CODE);
-```
-
-It will automatically detect which permissions are already allowed, and will request the missing permissions.
-To handle a response, the procedure is same as that in the usual case. You override the ```onRequestPermissionsResult``` listener.
 
 ## License
 ```

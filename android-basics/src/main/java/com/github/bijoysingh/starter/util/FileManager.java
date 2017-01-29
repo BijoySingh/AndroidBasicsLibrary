@@ -39,12 +39,20 @@ public class FileManager {
    * @param filedata the string to be stored
    */
   public static void write(Context context, String filename, String filedata) {
+    FileOutputStream fos = null;
     try {
-      FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
+      fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
       fos.write(filedata.getBytes());
-      fos.close();
     } catch (Exception e) {
       Log.e(FileManager.class.getSimpleName(), e.getMessage(), e);
+    } finally {
+      try {
+        if (fos != null) {
+          fos.close();
+        }
+      } catch (Exception e) {
+        Log.e(FileManager.class.getSimpleName(), e.getMessage(), e);
+      }
     }
   }
 
@@ -56,9 +64,9 @@ public class FileManager {
    * @return the string read
    */
   public static String read(Context context, String filename) {
-
+    FileInputStream fis = null;
     try {
-      FileInputStream fis = context.openFileInput(filename);
+      fis = context.openFileInput(filename);
       StringBuilder builder = new StringBuilder();
       int ch;
       while ((ch = fis.read()) != -1) {
@@ -68,6 +76,12 @@ public class FileManager {
       return builder.toString();
     } catch (Exception e) {
       Log.e(FileManager.class.getSimpleName(), e.getMessage(), e);
+    } finally {
+      try {
+        fis.close();
+      } catch (Exception e) {
+        Log.e(FileManager.class.getSimpleName(), e.getMessage(), e);
+      }
     }
 
     return "";

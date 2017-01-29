@@ -19,7 +19,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.10.13'
+    compile 'com.github.bijoysingh:android-basics:0.10.14'
     ...
 }
 ```
@@ -149,10 +149,13 @@ ImageManager.getScaledBitmapWithWidth(bitmap, width);
 To store and retreive some text, some basic support code is available. This is needed if you want to save some file/ json you receive from the server to act as cache.
 ```java
 FileManager.write(context, filename, text_to_write);
-String text_read = FileManager.read(context, filename);
+String textRead = FileManager.read(context, filename);
 ```
 
-NOTE: Asynchronous read/write coming soon. 
+Asynchronous write is now supported (I will be updated the way to access these functions to ease usage)
+```java
+FileManager.writeAsync(context, filename, text_to_write);
+```
 
 ## Image Downloading
 This library uses the Universal Image Loader library. To use this some basic configuration is pre-built. You can do this as follows

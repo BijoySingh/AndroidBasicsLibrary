@@ -19,7 +19,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.10.14'
+    compile 'com.github.bijoysingh:android-basics:0.10.15'
     ...
 }
 ```

@@ -15,19 +15,19 @@ public class DateFormatter {
    * Some common formats to quicken usages
    */
   public enum Formats {
-    DD_MM_YYYY("dd mm yyyy"),
-    DD_MMM_YYYY("dd mmm yyyy"),
-    DD_MMMM_YYYY("dd mmmm yyyy"),
-    HH_MM_SS("HH:MM.SS"),
-    HH_MM("HH:MM"),
-    HH_MM_A("hh:MM a"),
-    HH_MM_SS_A("hh:MM.SS a"),
-    HH_MM_DD_MM_YYYY("HH:MM, dd mm yyyy"),
-    HH_MM_DD_MMM_YYYY("HH:MM, dd mmm yyyy"),
-    HH_MM_DD_MMMM_YYYY("HH:MM, dd mmmm yyyy"),
-    HH_MM_A_DD_MM_YYYY("hh:MM a, dd mm yyyy"),
-    HH_MM_A_DD_MMM_YYYY("hh:MM a, dd mmm yyyy"),
-    HH_MM_A_DD_MMMM_YYYY("hh:MM a, dd mmmm yyyy");
+    DD_MM_YYYY("dd MM yyyy"),
+    DD_MMM_YYYY("dd MMM yyyy"),
+    DD_MMMM_YYYY("dd MMM yyyy"),
+    HH_MM_SS("HH:mm.ss"),
+    HH_MM("HH:mm"),
+    HH_MM_A("hh:mm a"),
+    HH_MM_SS_A("hh:mm.ss a"),
+    HH_MM_DD_MM_YYYY("HH:mm, dd MM yyyy"),
+    HH_MM_DD_MMM_YYYY("HH:mm, dd MMM yyyy"),
+    HH_MM_DD_MMMM_YYYY("HH:mm, dd MMMM yyyy"),
+    HH_MM_A_DD_MM_YYYY("hh:mm a, dd MM yyyy"),
+    HH_MM_A_DD_MMM_YYYY("hh:mm a, dd MMM yyyy"),
+    HH_MM_A_DD_MMMM_YYYY("hh:mm a, dd MMMM yyyy");
 
     private String format;
 

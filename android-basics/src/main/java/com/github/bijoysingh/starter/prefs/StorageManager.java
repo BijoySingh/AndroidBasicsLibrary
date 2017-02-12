@@ -39,6 +39,16 @@ public class StorageManager {
   }
 
   /**
+   * Tell if it has the key
+   *
+   * @param key the key
+   * @return has the key
+   */
+  public boolean has(String key) {
+    return data.has(key);
+  }
+
+  /**
    * Saves the data into the storage
    *
    * @param key   the key

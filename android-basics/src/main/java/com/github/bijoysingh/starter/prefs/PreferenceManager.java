@@ -32,8 +32,8 @@ public abstract class PreferenceManager {
    * @param key the key of the data
    * @return the value stored or a default
    */
-  public String load(String key) {
-    return load(key, "");
+  public String get(String key) {
+    return get(key, "");
   }
 
   /**
@@ -43,7 +43,7 @@ public abstract class PreferenceManager {
    * @param defaultString the default string value
    * @return the value stored or a default
    */
-  public String load(String key, String defaultString) {
+  public String get(String key, String defaultString) {
     SharedPreferences sp = context.getSharedPreferences(
         getPreferencesFolder(), Activity.MODE_PRIVATE);
     return sp.getString(key, defaultString);
@@ -55,7 +55,7 @@ public abstract class PreferenceManager {
    * @param key   the key of the data
    * @param value the value to store
    */
-  public void save(String key, String value) {
+  public void put(String key, String value) {
     SharedPreferences sp = context.getSharedPreferences(
         getPreferencesFolder(), Activity.MODE_PRIVATE);
     SharedPreferences.Editor editor = sp.edit();
@@ -69,7 +69,7 @@ public abstract class PreferenceManager {
    * @param key  the key
    * @param bool the bool to store
    */
-  public void save(String key, Boolean bool) {
+  public void put(String key, Boolean bool) {
     SharedPreferences sp = context.getSharedPreferences(
         getPreferencesFolder(), Activity.MODE_PRIVATE);
     SharedPreferences.Editor editor = sp.edit();
@@ -83,7 +83,7 @@ public abstract class PreferenceManager {
    * @param key     the key
    * @param integer the integer to store
    */
-  public void save(String key, Integer integer) {
+  public void put(String key, Integer integer) {
     SharedPreferences sp = context.getSharedPreferences(
         getPreferencesFolder(), Activity.MODE_PRIVATE);
     SharedPreferences.Editor editor = sp.edit();
@@ -98,7 +98,7 @@ public abstract class PreferenceManager {
    * @param defaultBool boolean if it wasnt stored before or is not a bool
    * @return the stored value as boolean
    */
-  public Boolean load(String key, Boolean defaultBool) {
+  public Boolean get(String key, Boolean defaultBool) {
     SharedPreferences sp = context.getSharedPreferences(
         getPreferencesFolder(), Activity.MODE_PRIVATE);
     return sp.getBoolean(key, defaultBool);
@@ -111,7 +111,7 @@ public abstract class PreferenceManager {
    * @param defaultInteger integer if it wasnt stored before
    * @return the stored value as integer
    */
-  public Integer load(String key, Integer defaultInteger) {
+  public Integer get(String key, Integer defaultInteger) {
     SharedPreferences sp = context.getSharedPreferences(
         getPreferencesFolder(), Activity.MODE_PRIVATE);
     return sp.getInt(key, defaultInteger);

@@ -93,11 +93,11 @@ public class MyQeuryExecutor extends MyQeuryExecutor {
 
 ## SharedPreferences storage and retrieval
 
-Use the class and built in functions using ```save``` and ```load```.
+Use the class and built in functions using ```put``` and ```get```.
 ```java
-Preferences preferences = new Preferences(context);
-preferences.save(KEY, your_variable);
-preferences.load(KEY, your_default_variable);
+PreferenceManager preferences = new PreferenceManager(context);
+preferences.put(KEY, your_variable);
+preferences.get(KEY, your_default_variable);
 ```
 
 *Optionally* Extend the ```PreferenceManager``` class.
@@ -115,9 +115,19 @@ public class Preferences extends PreferenceManager {
 
 ### NOTE: 
 If you plan to use SharedPreferences in Services due to recent changes in Android SharedPreferences this may not be your best option.
-You can goolde for a solution of use the library 'net.grandcentrix.tray:tray:0.10.0'` I have personally felt it to be really good
-and has a similar pattern as my library
+You can go for a solution of use the library `'net.grandcentrix.tray:tray:0.11.1'` But I have recently seen that it has bugs like 
+deletion during updates. Try the new class `StorageManager` described next:
 
+## Async safe Storage Preferences (Experimental)
+Use this class for saving/ retrieving content using ```put``` and ```get```.
+```java
+StorageManager storage = new StorageManager(context);
+storage.put(KEY, your_variable);
+storage.get(KEY, your_default_variable);
+
+// For using in services, you might want to refresh before accessing a variable
+storage.refresh().get(KEY, your_default_variable);
+```
 
 ## ImagePicker and Bitmap operations
 ```java

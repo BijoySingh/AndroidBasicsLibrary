@@ -1,4 +1,4 @@
-package com.github.bijoysingh.starter.util;
+package com.github.bijoysingh.starter.prefs;
 
 import android.app.Activity;
 import android.content.Context;

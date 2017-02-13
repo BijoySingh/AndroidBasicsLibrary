@@ -21,7 +21,7 @@ public class Parallel<I, O> {
   private ParallelExecutionListener<I, O> listener;
 
   public Parallel() {
-    numberOfThreads = Runtime.getRuntime().availableProcessors();
+    setDefaultNumberOfThreads();
   }
 
   public Parallel(int numberOfThreads) {
@@ -29,6 +29,7 @@ public class Parallel<I, O> {
   }
 
   public Parallel(ParallelExecutionListener<I, O> listener) {
+    setDefaultNumberOfThreads();
     this.listener = listener;
   }
 
@@ -36,6 +37,15 @@ public class Parallel<I, O> {
       int numberOfThreads,
       ParallelExecutionListener<I, O> listener) {
     this.numberOfThreads = numberOfThreads;
+    this.listener = listener;
+  }
+
+  /**
+   * Set the listener for execution
+   *
+   * @param listener the listener
+   */
+  public void setListener(ParallelExecutionListener<I, O> listener) {
     this.listener = listener;
   }
 
@@ -75,5 +85,13 @@ public class Parallel<I, O> {
    */
   public interface ParallelExecutionListener<I, O> {
     O onExecution(I input);
+  }
+
+  /**
+   * Sets the default number of threads
+   */
+  private void setDefaultNumberOfThreads() {
+    numberOfThreads = Runtime.getRuntime().availableProcessors();
+    numberOfThreads = numberOfThreads <= 0 ? 1 : numberOfThreads;
   }
 }

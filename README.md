@@ -11,6 +11,8 @@ It provides simple classes and pre-written functions for:
 - Database support
 - Json Parsing
 - Marshmallow Permissions Support
+- Simple Profiler
+- Parallel Execution
 
 # Installation
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidBasicsLibrary-green.svg?style=true)](https://android-arsenal.com/details/1/3226)
@@ -19,7 +21,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.10.15'
+    compile 'com.github.bijoysingh:android-basics:0.11.1'
     ...
 }
 ```
@@ -303,9 +305,25 @@ SimpleAsyncTask<String> task = new SimpleAsyncTask<>() { ... }
 task.execute();
 
 // Want to run something huge, with high priority, but in background
+```
 
+```java
 // Simply run something in the background
 SimpleThreadExecutor.execute(runnable);
+
+// Or get more control
+SimpleThreadExecutor executor = new SimpleThreadExecutor();
+executor.addRunnable(runnable1)
+    .addRunnable(runnable2)
+    .execute();
+```
+
+```java
+List<String> names = ...;
+Parallel<String, Integer> parallel = new Parallel();
+parallel.setListener(new ParallelExecutionListener<String, Integer>() {
+    
+});
 
 // Or get more control
 SimpleThreadExecutor executor = new SimpleThreadExecutor();

@@ -13,6 +13,7 @@ It provides simple classes and pre-written functions for:
 - Marshmallow Permissions Support
 - Simple Profiler
 - Parallel Execution
+- Text Utilities
 
 # Installation
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidBasicsLibrary-green.svg?style=true)](https://android-arsenal.com/details/1/3226)
@@ -21,7 +22,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.11.1'
+    compile 'com.github.bijoysingh:android-basics:1.0.0'
     ...
 }
 ```
@@ -365,6 +366,26 @@ manager.requestPermissions(SOME_REQUEST_CODE);
 
 It will automatically detect which permissions are already allowed, and will request the missing permissions.
 To handle a response, the procedure is same as that in the usual case. You override the ```onRequestPermissionsResult``` listener.
+
+## Text Utils
+Some common actions which need to be done with Text is now part of the library
+
+To share a text to other applications on the device
+```java
+new TextUtils.ShareBuilder(context)
+  .setSubject(subjectString)
+  .setText(textString)
+  .setChooserText("Share using...") // Optional
+  .share();
+```
+
+```java
+// To copy text to a clipboard
+TextUtils.copyToClipboard(context, textToCopy);
+
+// To check if a string is null or empty
+TextUtils.isNullOrEmpty(text);
+```
 
 ## Database Support
 Adding database setup is super simple. You have to do very little work!

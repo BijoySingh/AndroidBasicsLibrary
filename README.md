@@ -22,7 +22,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:1.0.0'
+    compile 'com.github.bijoysingh:android-basics:1.0.2'
     ...
 }
 ```
@@ -386,6 +386,42 @@ TextUtils.copyToClipboard(context, textToCopy);
 // To check if a string is null or empty
 TextUtils.isNullOrEmpty(text);
 ```
+
+## View Pager Activity and Fragment
+There is a lot of boiler plate code which needs to be done for view pagers. This will save that for you
+```java
+public class YourActivity extends SimpleViewPagerActivity {
+
+  @Override
+  protected Fragment getPageFragment(int position) { ... }
+
+  @Override
+  protected void onPageChanged(int position) { ... }
+
+  @Override
+  protected int getPagesCount() { ... }
+
+  @Override
+  protected int getViewPagerResourceId() {
+    return R.id.pager;
+  }
+}
+```
+
+```java
+public class YourFragment extends SimpleFragment {
+  @Override
+  protected int getLayoutId() {
+    return R.layout.your_fragment_layout;
+  }
+
+  @Override
+  protected void onCreateView(View root) {
+    // Simply use the root for UI
+  }
+}
+```
+
 
 ## Database Support
 Adding database setup is super simple. You have to do very little work!

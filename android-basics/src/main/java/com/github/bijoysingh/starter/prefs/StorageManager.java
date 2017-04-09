@@ -3,10 +3,10 @@ package com.github.bijoysingh.starter.prefs;
 import android.content.Context;
 import android.util.Log;
 
+import com.github.bijoysingh.starter.json.SafeJson;
 import com.github.bijoysingh.starter.util.FileManager;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Alternative to PreferenceManager.
@@ -17,7 +17,8 @@ import org.json.JSONObject;
 public class StorageManager {
 
   private Context context;
-  private JSONObject data;
+  private static SafeJson data;
+  private boolean isAsync;
 
   /**
    * StorageManager construct
@@ -26,7 +27,8 @@ public class StorageManager {
    */
   public StorageManager(Context context) {
     this.context = context;
-    refresh();
+    this.isAsync = false;
+    maybeRefresh();
   }
 
   /**
@@ -116,11 +118,7 @@ public class StorageManager {
    * @return the value or default value
    */
   public boolean get(String key, boolean defaultValue) {
-    try {
-      return data.getBoolean(key);
-    } catch (JSONException exception) {
-      return defaultValue;
-    }
+    return data.getBoolean(key, defaultValue);
   }
 
   /**
@@ -131,11 +129,7 @@ public class StorageManager {
    * @return the value or default value
    */
   public int get(String key, int defaultValue) {
-    try {
-      return data.getInt(key);
-    } catch (JSONException exception) {
-      return defaultValue;
-    }
+    return data.getInt(key, defaultValue);
   }
 
   /**
@@ -146,11 +140,7 @@ public class StorageManager {
    * @return the value or default value
    */
   public String get(String key, String defaultValue) {
-    try {
-      return data.getString(key);
-    } catch (JSONException exception) {
-      return defaultValue;
-    }
+    return data.getString(key, defaultValue);
   }
 
   /**
@@ -161,11 +151,7 @@ public class StorageManager {
    * @return the value or default value
    */
   public double get(String key, double defaultValue) {
-    try {
-      return data.getDouble(key);
-    } catch (JSONException exception) {
-      return defaultValue;
-    }
+    return data.getDouble(key, defaultValue);
   }
 
   /**
@@ -176,11 +162,7 @@ public class StorageManager {
    * @return the value or default value
    */
   public float get(String key, float defaultValue) {
-    try {
-      return (float) data.getDouble(key);
-    } catch (JSONException exception) {
-      return defaultValue;
-    }
+    return (float) data.getDouble(key, defaultValue);
   }
 
   /**
@@ -191,11 +173,7 @@ public class StorageManager {
    * @return the value or default value
    */
   public long get(String key, long defaultValue) {
-    try {
-      return data.getLong(key);
-    } catch (JSONException exception) {
-      return defaultValue;
-    }
+    return data.getLong(key, defaultValue);
   }
 
   /**
@@ -215,14 +193,39 @@ public class StorageManager {
 
   /**
    * Reloads the preferences. Essential for service accesses
+   *
+   * @return this reference
    */
   public StorageManager refresh() {
     String content = FileManager.read(context, getFilename());
     try {
-      data = new JSONObject(content);
+      data = new SafeJson(content);
     } catch (JSONException exception) {
-      data = new JSONObject();
+      data = new SafeJson();
     }
+    return this;
+  }
+
+  /**
+   * Maybe refresh the file.
+   *
+   * @return this reference
+   */
+  private StorageManager maybeRefresh() {
+    if (data == null) {
+      return refresh();
+    }
+    return this;
+  }
+
+  /**
+   * Writing is async.
+   *
+   * @param isAsync is async
+   * @return this reference
+   */
+  private StorageManager setIsAsync(boolean isAsync) {
+    this.isAsync = isAsync;
     return this;
   }
 
@@ -230,6 +233,10 @@ public class StorageManager {
    * Write the contents into the storage
    */
   private void write() {
+    if (isAsync) {
+      FileManager.writeAsync(context, getFilename(), data.toString());
+      return;
+    }
     FileManager.write(context, getFilename(), data.toString());
   }
 }

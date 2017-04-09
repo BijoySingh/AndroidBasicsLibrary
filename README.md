@@ -122,14 +122,13 @@ You can go for a solution of use the library `'net.grandcentrix.tray:tray:0.11.1
 deletion during updates. Try the new class `StorageManager` described next:
 
 ## Async safe Storage Preferences (Experimental)
-Use this class for saving/ retrieving content using ```put``` and ```get```.
+Use this class for saving/ retrieving content using ```put``` and ```get```. You can get the content from services / main system alike. The access will be fast and will be the same.
 ```java
 StorageManager storage = new StorageManager(context);
+storage.setIsAsync(true); // optional -> speeds up writes, does not affect the reading consistencies due to caching.
+
 storage.put(KEY, your_variable);
 storage.get(KEY, your_default_variable);
-
-// For using in services, you might want to refresh before accessing a variable
-storage.refresh().get(KEY, your_default_variable);
 ```
 
 ## ImagePicker and Bitmap operations
@@ -416,8 +415,9 @@ public class YourFragment extends SimpleFragment {
   }
 
   @Override
-  protected void onCreateView(View root) {
-    // Simply use the root for UI
+  protected void onCreateView() {
+    // Simply use like a activity
+    TextView yourTextView = (TextView) findViewById(R.id.your_textview);
   }
 }
 ```

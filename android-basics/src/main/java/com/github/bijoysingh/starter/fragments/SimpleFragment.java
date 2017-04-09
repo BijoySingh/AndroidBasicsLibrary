@@ -13,17 +13,45 @@ import android.view.ViewGroup;
 
 public abstract class SimpleFragment extends Fragment {
 
+  protected View rootView;
+
   @Override
   public View onCreateView(
       LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    View root = inflater.inflate(getLayoutId(), container, false);
-    onCreateView(root);
-    return root;
+    rootView = inflater.inflate(getLayoutId(), container, false);
+    onCreateView();
+    return rootView;
   }
 
+  /**
+   * The layout id of the fragment
+   *
+   * @return the layout id
+   */
   protected abstract int getLayoutId();
 
-  protected abstract void onCreateView(View root);
+  /**
+   * When the view is created
+   */
+  protected abstract void onCreateView();
 
+  /**
+   * When the root view of the fragment
+   *
+   * @return the root view
+   */
+  protected View getRootView() {
+    return rootView;
+  }
+
+  /**
+   * The findViewById from the root view.
+   *
+   * @param resourceId the resource id of the layout
+   * @return the view
+   */
+  protected View findViewById(int resourceId) {
+    return rootView.findViewById(resourceId);
+  }
 }

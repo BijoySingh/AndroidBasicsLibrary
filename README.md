@@ -22,7 +22,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:1.0.5'
+    compile 'com.github.bijoysingh:android-basics:1.0.10'
     ...
 }
 ```
@@ -424,10 +424,12 @@ public class YourFragment extends SimpleFragment {
 
 
 ## Database Support
+
 Adding database setup is super simple. You have to do very little work!
 
 Just add a simple model like
 ```java
+// DEPRECATED
 public class YourDatabaseItem extends DatabaseModel {
     @DBColumn(primaryKey = true, autoIncrement = true)
     public Integer id;
@@ -442,6 +444,7 @@ public class YourDatabaseItem extends DatabaseModel {
 
 Using ```@DBColumn``` you can add custom arguments like
 ```java
+// DEPRECATED
 fieldType = DBColumn.Type.INTEGER
 unique = True
 primaryKey = true, autoIncrement = true
@@ -450,6 +453,7 @@ fieldName = "custom_field_name"
 
 You can create a custom class for your databases, or you can simply use the default database:
 ```java
+// DEPRECATED
 DatabaseManager db = new DatabaseManager(this, new DatabaseModel[]{new YourDatabaseItem()});
 
 // To add an item
@@ -460,6 +464,60 @@ db.add(your_item);
 List<YourDatabaseItem> items = db.get(YourDatabaseItem.class);
 ```
 A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
+
+## Database Support (Alternate)
+We have a custom Database support which does not use the SQLlite DB but uses a file and JSON.
+This let's you have more control, like caching, update policy, etc.
+```java
+public class ExampleDatabase extends SimpleDatabase<ExampleModel> {
+
+  private static List<MedicineStorageModel> cache;
+
+  public ExampleDatabase(Context context) {
+    super(context);
+  }
+
+  @Override
+  protected String getDatabaseFilename() {
+    return "database.txt";
+  }
+
+  @Override
+  protected void setCacheList(List<ExampleModel> list) {
+    cache = list;
+  }
+
+  @Override
+  protected List<ExampleModel> getCacheList() {
+    return cache;
+  }
+
+  @Override
+  protected String getId(ExampleModel object) {
+    // Get a unique object id
+    return object.getId();
+  }
+
+  @Override
+  protected JSONObject serialise(ExampleModel object) {
+    // This is the function which gets the JSONObject from a ExampleModel
+    return null;
+  }
+
+  @Override
+  protected ExampleModel deSerialise(JSONObject serialised) {
+    // This is the function which gets the ExampleModel from a JSONObject
+    return null;
+  }
+
+  @Override
+  protected int compareModels(ExampleModel model1, ExampleModel model2) {
+    // Optional comparison function, the output of getAll is ordered by this rule
+    return 0;
+  }
+
+}
+```
 
 ## JSON Parsing
 

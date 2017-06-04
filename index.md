@@ -11,22 +11,22 @@ It provides simple classes and pre-written functions for:
 - Database support
 - Json Parsing
 - Marshmallow Permissions Support
+- Simple Profiler
+- Parallel Execution
+- Text Utilities
 
 # Installation
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidBasicsLibrary-green.svg?style=true)](https://android-arsenal.com/details/1/3226)
 
-The library is on Jcenter, so usage is really simple. Add the following dependency in your app's `build.gradle`:
-
+The library is on Jcenter, so usage is really simple. Add the following dependency in your app's ```build.gradle```:
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:0.10.13'
+    compile 'com.github.bijoysingh:android-basics:1.0.10'
     ...
 }
 ```
-
 You might need to also include these in case you use the corresponding dependencies
-
 ```groovy
 dependencies {
     ...
@@ -67,7 +67,6 @@ DefaultQueryExecutor executor = new DefaultQueryExecutor.Builder(context)
     .setRetryBackoffMultiplier() // optional
     .build();
 ```
-
 You can create a `OnQueryListener` object or have the activity making the request `implement` it.
 
 ```java
@@ -87,8 +86,7 @@ executor.get(query);
 executor.send(query, data);
 ```
 
-Extend the `QueryExecutor` class for more control on your queries and for supporting more things.
-
+Extend the ```QueryExecutor``` class for more control on your queries and for supporting more things.
 ```java
 public class MyQeuryExecutor extends MyQeuryExecutor {
 ....
@@ -98,15 +96,14 @@ public class MyQeuryExecutor extends MyQeuryExecutor {
 
 ## SharedPreferences storage and retrieval
 
-Use the class and built in functions using `save` and `load`.
+Use the class and built in functions using ```put``` and ```get```.
 ```java
-Preferences preferences = new Preferences(context);
-preferences.save(KEY, your_variable);
-preferences.load(KEY, your_default_variable);
+PreferenceManager preferences = new PreferenceManager(context);
+preferences.put(KEY, your_variable);
+preferences.get(KEY, your_default_variable);
 ```
 
-*Optionally* Extend the `PreferenceManager` class.
-
+*Optionally* Extend the ```PreferenceManager``` class.
 ```java
 public class Preferences extends PreferenceManager {
     
@@ -121,9 +118,18 @@ public class Preferences extends PreferenceManager {
 
 ### NOTE: 
 If you plan to use SharedPreferences in Services due to recent changes in Android SharedPreferences this may not be your best option.
-You can goolde for a solution of use the library `'net.grandcentrix.tray:tray:0.10.0'` I have personally felt it to be really good
-and has a similar pattern as my library
+You can go for a solution of use the library `'net.grandcentrix.tray:tray:0.11.1'` But I have recently seen that it has bugs like 
+deletion during updates. Try the new class `StorageManager` described next:
 
+## Async safe Storage Preferences (Experimental)
+Use this class for saving/ retrieving content using ```put``` and ```get```. You can get the content from services / main system alike. The access will be fast and will be the same.
+```java
+StorageManager storage = new StorageManager(context);
+storage.setIsAsync(true); // optional -> speeds up writes, does not affect the reading consistencies due to caching.
+
+storage.put(KEY, your_variable);
+storage.get(KEY, your_default_variable);
+```
 
 ## ImagePicker and Bitmap operations
 ```java
@@ -131,7 +137,7 @@ ImageManager imageManager = new ImageManager();
 imageManager.showFileChooser(this);
 ```
 
-Handle the response for this using `handleResponse` in `onActivityResult`
+Handle the response for this using ```handleResponse``` in ```onActivityResult```
 ```java
 @Override
 public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -155,10 +161,13 @@ ImageManager.getScaledBitmapWithWidth(bitmap, width);
 To store and retreive some text, some basic support code is available. This is needed if you want to save some file/ json you receive from the server to act as cache.
 ```java
 FileManager.write(context, filename, text_to_write);
-String text_read = FileManager.read(context, filename);
+String textRead = FileManager.read(context, filename);
 ```
 
-NOTE: Asynchronous read/write coming soon. 
+Asynchronous write is now supported (I will be updated the way to access these functions to ease usage)
+```java
+FileManager.writeAsync(context, filename, text_to_write);
+```
 
 ## Image Downloading
 This library uses the Universal Image Loader library. To use this some basic configuration is pre-built. You can do this as follows
@@ -212,7 +221,7 @@ toastHelper.showLong(R.string.your_toast_message);
 LocaleManager.toString(Character/Float/Double/Integer/Boolean variable);
 LocaleManager.toString(Float/Double variable, precision);
 ```
-This function will convert your variable to the String to these using the Locale. This functions is a wrapper around the code `String.format`. The function will prevent Lint Warning for the same.
+This function will convert your variable to the String to these using the Locale. This functions is a wrapper around the code ```String.format```. The function will prevent Lint Warning for the same.
 
 
 ## Recycler View
@@ -248,7 +257,7 @@ You could either do the following
 ```
 or the usual way will also work of course.
 
-A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp). The class `RVAdapter` is well documented to understand the other helper functions.
+A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp). The class ```RVAdapter``` is well documented to understand the other helper functions.
 
 ## TimestampItem
 Another common action you need to do is convert your timestamp string to time. And also convert it to the write timezone.
@@ -296,9 +305,25 @@ SimpleAsyncTask<String> task = new SimpleAsyncTask<>() { ... }
 task.execute();
 
 // Want to run something huge, with high priority, but in background
+```
 
+```java
 // Simply run something in the background
 SimpleThreadExecutor.execute(runnable);
+
+// Or get more control
+SimpleThreadExecutor executor = new SimpleThreadExecutor();
+executor.addRunnable(runnable1)
+    .addRunnable(runnable2)
+    .execute();
+```
+
+```java
+List<String> names = ...;
+Parallel<String, Integer> parallel = new Parallel();
+parallel.setListener(new ParallelExecutionListener<String, Integer>() {
+    
+});
 
 // Or get more control
 SimpleThreadExecutor executor = new SimpleThreadExecutor();
@@ -341,11 +366,70 @@ manager.requestPermissions(SOME_REQUEST_CODE);
 It will automatically detect which permissions are already allowed, and will request the missing permissions.
 To handle a response, the procedure is same as that in the usual case. You override the ```onRequestPermissionsResult``` listener.
 
+## Text Utils
+Some common actions which need to be done with Text is now part of the library
+
+To share a text to other applications on the device
+```java
+new TextUtils.ShareBuilder(context)
+  .setSubject(subjectString)
+  .setText(textString)
+  .setChooserText("Share using...") // Optional
+  .share();
+```
+
+```java
+// To copy text to a clipboard
+TextUtils.copyToClipboard(context, textToCopy);
+
+// To check if a string is null or empty
+TextUtils.isNullOrEmpty(text);
+```
+
+## View Pager Activity and Fragment
+There is a lot of boiler plate code which needs to be done for view pagers. This will save that for you
+```java
+public class YourActivity extends SimpleViewPagerActivity {
+
+  @Override
+  protected Fragment getPageFragment(int position) { ... }
+
+  @Override
+  protected void onPageChanged(int position) { ... }
+
+  @Override
+  protected int getPagesCount() { ... }
+
+  @Override
+  protected int getViewPagerResourceId() {
+    return R.id.pager;
+  }
+}
+```
+
+```java
+public class YourFragment extends SimpleFragment {
+  @Override
+  protected int getLayoutId() {
+    return R.layout.your_fragment_layout;
+  }
+
+  @Override
+  protected void onCreateView() {
+    // Simply use like a activity
+    TextView yourTextView = (TextView) findViewById(R.id.your_textview);
+  }
+}
+```
+
+
 ## Database Support
+
 Adding database setup is super simple. You have to do very little work!
 
 Just add a simple model like
 ```java
+// DEPRECATED
 public class YourDatabaseItem extends DatabaseModel {
     @DBColumn(primaryKey = true, autoIncrement = true)
     public Integer id;
@@ -358,8 +442,9 @@ public class YourDatabaseItem extends DatabaseModel {
 }
 ```
 
-Using `@DBColumn` you can add custom arguments like
+Using ```@DBColumn``` you can add custom arguments like
 ```java
+// DEPRECATED
 fieldType = DBColumn.Type.INTEGER
 unique = True
 primaryKey = true, autoIncrement = true
@@ -368,6 +453,7 @@ fieldName = "custom_field_name"
 
 You can create a custom class for your databases, or you can simply use the default database:
 ```java
+// DEPRECATED
 DatabaseManager db = new DatabaseManager(this, new DatabaseModel[]{new YourDatabaseItem()});
 
 // To add an item
@@ -378,6 +464,60 @@ db.add(your_item);
 List<YourDatabaseItem> items = db.get(YourDatabaseItem.class);
 ```
 A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
+
+## Database Support (Alternate)
+We have a custom Database support which does not use the SQLlite DB but uses a file and JSON.
+This let's you have more control, like caching, update policy, etc.
+```java
+public class ExampleDatabase extends SimpleDatabase<ExampleModel> {
+
+  private static List<MedicineStorageModel> cache;
+
+  public ExampleDatabase(Context context) {
+    super(context);
+  }
+
+  @Override
+  protected String getDatabaseFilename() {
+    return "database.txt";
+  }
+
+  @Override
+  protected void setCacheList(List<ExampleModel> list) {
+    cache = list;
+  }
+
+  @Override
+  protected List<ExampleModel> getCacheList() {
+    return cache;
+  }
+
+  @Override
+  protected String getId(ExampleModel object) {
+    // Get a unique object id
+    return object.getId();
+  }
+
+  @Override
+  protected JSONObject serialise(ExampleModel object) {
+    // This is the function which gets the JSONObject from a ExampleModel
+    return null;
+  }
+
+  @Override
+  protected ExampleModel deSerialise(JSONObject serialised) {
+    // This is the function which gets the ExampleModel from a JSONObject
+    return null;
+  }
+
+  @Override
+  protected int compareModels(ExampleModel model1, ExampleModel model2) {
+    // Optional comparison function, the output of getAll is ordered by this rule
+    return 0;
+  }
+
+}
+```
 
 ## JSON Parsing
 
@@ -445,4 +585,5 @@ https://github.com/dlew/joda-time-android/blob/master/LICENSE
 ```
 Apache 2.0 License
 Copyright 2011-2015 Sergey Tarasevich
+```
 ```

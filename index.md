@@ -22,7 +22,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:1.0.10'
+    compile 'com.github.bijoysingh:android-basics:1.1'
     ...
 }
 ```
@@ -225,39 +225,131 @@ This function will convert your variable to the String to these using the Locale
 
 
 ## Recycler View
-Using Recycler View cannot be easier!
-Extend the Recycler View Holder
+### Simple Recycler View
+This is a recycler view with a simple one kind of view item.
+Extend the Recycler View Holder -> This is the holder for the view contents of one item.
+We will show you how to use this for a simple item
 ```java
-public class YourViewHolder extends RVHolder<YourItem> {
-    
-    ...
+
+/**
+ * @example
+ * View Item inside a layout R.layout.content_item
+ *  ------------------------------------
+ * |   TextView                         |
+ * |   id -> content                    |
+ *  ------------------------------------
+ */
+public class YourViewHolder extends RecyclerViewHolder<YourItem> {
+
+    /**
+     * @example
+     * TextView content;
+     */
+
+    public YourViewHolder(Context context, View itemView) {
+      super(context, itemView);
+      /**
+       * @example
+       * content = (TextView) itemView.findViewById(R.id.content);
+       */
+    }
     
     @Override
     public void populate(YourItem data, Bundle bundle) {
         // Populate your view. You can set on click listeners etc.
+        /**
+         * @example
+         * content.setText(data.getContent());
+         */
     }
 }
 ```
 
-Extend the Recycler View Adapter
+Extend the Recycler View Adapter, this is the controller to your recycler view.
+Most of the basic functions have already been done for you.
 ```java
-public class YourAdapter extends RVAdapter<YourItem, YourViewHolder> {
-    ...    
+public class YourAdapter extends RecyclerViewAdapter<YourItem, YourViewHolder> {
+
+  /**
+   * The recycler view adapter constructor
+   *
+   * @param context the application/activity context
+   */
+  public YourAdapter(Context context) {
+    super(context, R.layout.your_layout_file, YourViewHolder.class);
+  }
 }
+```
+
+```java
+// Using this adapter is easy
+YourAdapter yourAdapter = new YourAdapter(context);
+
+// You can do a lot from this adapter. This will take your list of items
+yourAdapter.setItems(items);
+yourAdapter.addItems(items);
+yourAdapter.addItem(item);
+yourAdapter.addItem(item, position);
+yourAdapter.removeItem(item);
+yourAdapter.removeItem(position);
+yourAdapter.clearItems();
+
+// You can get the default layout manager as well from the adapter.
+// A layout manager controls the way your recycler view is rendered.
+// This is basically like a simple list - LinearLayoutManager or
+// a grid layout - GridLayoutManager
+recyclerView.setLayoutManager(yourAdapter.getLinearLayoutManager())
+recyclerView.setLayoutManager(yourAdapter.getGridLayoutManager(columns))
 ```
 
 Setup your recycler view
 You could either do the following
 ```java
-    recyclerView = new RVBuilder(context)
-        .setView(rootView, R.id.recycler_view)  
+    recyclerView = new RecyclerViewBuilder(context)
+        .setView(rootView, R.id.recycler_view)
+        .setView(activity, R.id.recycler_view) // or use this
+        .setRecyclerView(recyclerView) // or use this
         .setAdapter(yourAdapter)
         .setOnScrollListener(onScrollListener) // optional
+        .setLayoutManager(layoutManager) // set the layout manager
         .build();
 ```
 or the usual way will also work of course.
 
-A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp). The class ```RVAdapter``` is well documented to understand the other helper functions.
+### Multi View Recycler View
+A common use case for recycler views is to use it with multiple view holders / views.
+This involves some common setup which has been taken care for you here.
+```java
+public class YourAdapter extends MultiRecyclerViewAdapter<YourItem> {
+  public YourAdapter(
+    Context context,
+    List<MultiRecyclerViewControllerItem<YourItem>> items) {
+    super(context, items);
+  }
+
+  @Override
+  public int getItemViewType(int position) {
+    // Return an int value indicating your view type for the given position
+  }
+}
+```
+
+```java
+// To set this up, you need to create this list of MultiRecyclerViewControllerItem items
+// Each of these items maps, view type to some common properties like:
+MultiRecyclerViewControllerItem<YourItem> item = new MultiRecyclerViewControllerItem.Builder<YourItem>()
+    .viewType(VIEW_TYPE) // the view type for this view holder
+    .spanSize(VIEW_SPAN) // optional for grid view: the number of columns the view spans
+    .layoutFile(R.layout.your_view_item) // the view item layout for this view type
+    .holderClass(YourRecyclerViewHolder.class) // the class of the holder
+    .build();
+
+// You can create a list of these items for each view, and set it to the adapter constructor.
+YourAdapter adapter = new YourAdapter(context, items);
+
+// Optional for grid views: using this handles the span size properties for you.
+recyclerView.setLayoutManager(yourAdapter.getGridLayoutManager());
+```
 
 ## TimestampItem
 Another common action you need to do is convert your timestamp string to time. And also convert it to the write timezone.
@@ -422,6 +514,19 @@ public class YourFragment extends SimpleFragment {
 }
 ```
 
+
+## Random Helper
+Sometimes you need to generate secure random numbers like IDs etc which are alphanumeric etc.
+```
+// Get a alpha numeric random string of length 16
+RandomHelper.getRandom();
+
+// Get a alpha numeric random string of a fixed length
+RandomHelper.getRandomString(stringLength);
+
+// Get a Big Integer which has upto a fixed approx length (this is because we use nearest power of 2)
+RandomHelper.getRandomInteger(approxMaxIntegerLength);
+```
 
 ## Database Support
 

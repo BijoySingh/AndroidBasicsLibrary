@@ -1,5 +1,6 @@
 package com.github.bijoysingh.starter.recyclerview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,25 +10,19 @@ import android.view.View;
  * Builder
  * Created by bijoy on 10/2/16.
  */
-public class RVBuilder {
+public class RecyclerViewBuilder {
 
   // The Activity context
   private Context context;
 
-  // The root view
-  private View root;
-
   // The layout manager
-  private LinearLayoutManager layoutManager;
+  private RecyclerView.LayoutManager layoutManager;
 
   // The Scroll listener
   private OnScrollListener onScrollListener;
 
   // The RV Adapter
   private RecyclerView.Adapter adapter;
-
-  // The RV layout id
-  private Integer recyclerViewId;
 
   // The RV
   private RecyclerView recyclerView;
@@ -37,7 +32,7 @@ public class RVBuilder {
    *
    * @param context the activity context
    */
-  public RVBuilder(Context context) {
+  public RecyclerViewBuilder(Context context) {
     this.context = context;
   }
 
@@ -48,9 +43,21 @@ public class RVBuilder {
    * @param recyclerViewId the layout id of the recycler view
    * @return this instance
    */
-  public RVBuilder setView(View root, Integer recyclerViewId) {
-    this.root = root;
-    this.recyclerViewId = recyclerViewId;
+  public RecyclerViewBuilder setView(View root, Integer recyclerViewId) {
+    this.recyclerView = (RecyclerView) root.findViewById(recyclerViewId);
+    return this;
+  }
+
+
+  /**
+   * Sets the view of the RV
+   *
+   * @param activity       the activity which contains the view
+   * @param recyclerViewId the layout id of the recycler view
+   * @return this instance
+   */
+  public RecyclerViewBuilder setView(Activity activity, Integer recyclerViewId) {
+    this.recyclerView = (RecyclerView) activity.findViewById(recyclerViewId);
     return this;
   }
 
@@ -60,7 +67,7 @@ public class RVBuilder {
    * @param recyclerView the recycler view
    * @return this instance
    */
-  public RVBuilder setRecyclerView(RecyclerView recyclerView) {
+  public RecyclerViewBuilder setRecyclerView(RecyclerView recyclerView) {
     this.recyclerView = recyclerView;
     return this;
   }
@@ -70,8 +77,13 @@ public class RVBuilder {
    *
    * @return this instance
    */
-  public RVBuilder setLinear() {
+  public RecyclerViewBuilder setLinear() {
     layoutManager = new LinearLayoutManager(context);
+    return this;
+  }
+
+  public RecyclerViewBuilder setLayoutManager(RecyclerView.LayoutManager manager) {
+    layoutManager = manager;
     return this;
   }
 
@@ -81,7 +93,7 @@ public class RVBuilder {
    * @param scrollListener the listner
    * @return this instance
    */
-  public RVBuilder setOnScrollListener(OnScrollListener scrollListener) {
+  public RecyclerViewBuilder setOnScrollListener(OnScrollListener scrollListener) {
     if (layoutManager == null) {
       setLinear();
     }
@@ -95,7 +107,7 @@ public class RVBuilder {
    * @param adapter the recycler view adapter
    * @return this instance
    */
-  public RVBuilder setAdapter(RecyclerView.Adapter adapter) {
+  public RecyclerViewBuilder setAdapter(RecyclerView.Adapter adapter) {
     this.adapter = adapter;
     return this;
   }
@@ -106,7 +118,7 @@ public class RVBuilder {
    * @return the recycler view
    */
   public RecyclerView build() {
-    if ((root == null || recyclerViewId == null) && recyclerView == null) {
+    if (recyclerView == null) {
       throw new IllegalArgumentException("Cannot instantiate with null view");
     }
 
@@ -114,9 +126,6 @@ public class RVBuilder {
       setLinear();
     }
 
-    recyclerView = recyclerView == null
-        ? (RecyclerView) root.findViewById(recyclerViewId)
-        : recyclerView;
     recyclerView.setLayoutManager(layoutManager);
 
     if (adapter != null) {
@@ -124,14 +133,15 @@ public class RVBuilder {
     }
 
     recyclerView.setHasFixedSize(false);
-    if (onScrollListener != null) {
+    if (onScrollListener != null && layoutManager instanceof LinearLayoutManager) {
       recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
           if (dy > 0) {
             Integer visibleItemCount = layoutManager.getChildCount();
             Integer totalItemCount = layoutManager.getItemCount();
-            Integer pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+            Integer pastVisiblesItems = ((LinearLayoutManager) layoutManager)
+                .findFirstVisibleItemPosition();
 
             if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
               onScrollListener.onScrollToBottom(recyclerView);

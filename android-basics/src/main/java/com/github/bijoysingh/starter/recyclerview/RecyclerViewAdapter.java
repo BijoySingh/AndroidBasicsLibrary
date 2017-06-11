@@ -2,6 +2,8 @@ package com.github.bijoysingh.starter.recyclerview;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +16,8 @@ import java.util.List;
  * The recycler view adapter for list of content
  * Created by bijoy on 1/7/16.
  */
-public abstract class RVAdapter<T, U extends RVHolder<T>> extends RecyclerView.Adapter<U> {
+public abstract class RecyclerViewAdapter<T, U extends RecyclerViewHolder<T>> extends
+    RecyclerView.Adapter<U> {
 
   // The application/activity context
   protected Context context;
@@ -34,6 +37,9 @@ public abstract class RVAdapter<T, U extends RVHolder<T>> extends RecyclerView.A
   // Extra bundle to pass
   protected Bundle extra;
 
+  // The Layout manager
+  protected RecyclerView.LayoutManager layoutManager;
+
   /**
    * The recycler view adapter constructor
    *
@@ -41,7 +47,7 @@ public abstract class RVAdapter<T, U extends RVHolder<T>> extends RecyclerView.A
    * @param layout  the layout resource file id
    * @param type    the class of the Recycler View Holder
    */
-  public RVAdapter(Context context, Integer layout, Class<U> type) {
+  public RecyclerViewAdapter(Context context, Integer layout, Class<U> type) {
     this.context = context;
     this.layout = layout;
     this.type = type;
@@ -75,6 +81,38 @@ public abstract class RVAdapter<T, U extends RVHolder<T>> extends RecyclerView.A
    */
   public void onItemClick(U holder, T item) {
     return;
+  }
+
+
+  @Override
+  public U onCreateViewHolder(ViewGroup parent, int viewType) {
+    View v = LayoutInflater.from(parent.getContext())
+        .inflate(layout, parent, false);
+
+    try {
+      return type.getConstructor(Context.class, View.class).newInstance(context, v);
+    } catch (Exception exception) {
+      return null;
+    }
+  }
+
+  @Override
+  public void onBindViewHolder(final U holder, final int position) {
+    final T data = getItems().get(position);
+    if (isClickEnabled) {
+      holder.itemView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          onItemClick(holder, data);
+        }
+      });
+    }
+    holder.populate(data, extra);
+  }
+
+  @Override
+  public int getItemCount() {
+    return getItems().size();
   }
 
   /**
@@ -146,43 +184,46 @@ public abstract class RVAdapter<T, U extends RVHolder<T>> extends RecyclerView.A
   }
 
   /**
+   * Remove all the items in the list of contents
+   */
+  public void clearItems() {
+    contents.clear();
+    notifyDataSetChanged();
+  }
+
+  /**
    * Remove an item by position from the list of contents
    *
-   * @param position the postion
+   * @param position the position
    */
   public void removeItem(int position) {
     contents.remove(position);
     notifyItemRemoved(position);
   }
 
-  @Override
-  public U onCreateViewHolder(ViewGroup parent, int viewType) {
-    View v = LayoutInflater.from(parent.getContext())
-        .inflate(layout, parent, false);
-
-    try {
-      return type.getConstructor(Context.class, View.class).newInstance(context, v);
-    } catch (Exception exception) {
-      return null;
+  /**
+   * Get the quick variable for the Linear Layout Manager
+   *
+   * @return the linear layout manager
+   */
+  public LinearLayoutManager getLinearLayoutManager() {
+    if (layoutManager == null || !(layoutManager instanceof LinearLayoutManager)) {
+      layoutManager = new LinearLayoutManager(context);
     }
+    return (LinearLayoutManager) layoutManager;
   }
 
-  @Override
-  public void onBindViewHolder(final U holder, final int position) {
-    final T data = getItems().get(position);
-    if (isClickEnabled) {
-      holder.itemView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-          onItemClick(holder, data);
-        }
-      });
+  /**
+   * Get a quick variable for the Grid Layout Manager
+   *
+   * @param columns the number of columns
+   * @return the gird layout manager
+   */
+  public GridLayoutManager getGridLayoutManager(int columns) {
+    if (layoutManager == null || !(layoutManager instanceof GridLayoutManager)) {
+      layoutManager = new GridLayoutManager(context, columns);
     }
-    holder.populate(data, extra);
+    return (GridLayoutManager) layoutManager;
   }
 
-  @Override
-  public int getItemCount() {
-    return getItems().size();
-  }
 }

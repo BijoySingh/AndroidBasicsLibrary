@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 
 import com.github.bijoysingh.starter.R;
-import com.github.bijoysingh.starter.recyclerview.RVBuilder;
+import com.github.bijoysingh.starter.recyclerview.RecyclerViewBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public abstract class RefreshBasedFragment<T> extends Fragment {
     }
 
     public void initializeRecyclerView(View rootView) {
-        recyclerView = new RVBuilder(context)
+        recyclerView = new RecyclerViewBuilder(context)
             .setView(rootView, R.id.recycler_view)
             .build();
 

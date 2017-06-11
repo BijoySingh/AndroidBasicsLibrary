@@ -10,7 +10,7 @@ import android.view.View;
  * <p>
  * Created by bijoy on 1/7/16.
  */
-public abstract class RVHolder<T> extends RecyclerView.ViewHolder {
+public abstract class RecyclerViewHolder<T> extends RecyclerView.ViewHolder {
 
   // The Context object
   protected Context context;
@@ -21,7 +21,7 @@ public abstract class RVHolder<T> extends RecyclerView.ViewHolder {
    * @param context  the application/activity context
    * @param itemView the view of the current item
    */
-  public RVHolder(Context context, View itemView) {
+  public RecyclerViewHolder(Context context, View itemView) {
     super(itemView);
     this.context = context;
   }

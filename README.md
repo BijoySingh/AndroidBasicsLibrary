@@ -423,6 +423,19 @@ public class YourFragment extends SimpleFragment {
 ```
 
 
+## Random Helper
+Sometimes you need to generate secure random numbers like IDs etc which are alphanumeric etc.
+```
+// Get a alpha numeric random string of length 16
+RandomHelper.getRandom();
+
+// Get a alpha numeric random string of a fixed length
+RandomHelper.getRandomString(stringLength);
+
+// Get a Big Integer which has upto a fixed approx length (this is because we use nearest power of 2)
+RandomHelper.getRandomInteger(approxMaxIntegerLength);
+```
+
 ## Database Support
 
 Adding database setup is super simple. You have to do very little work!

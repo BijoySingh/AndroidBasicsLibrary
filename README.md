@@ -22,7 +22,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:1.1'
+    compile 'com.github.bijoysingh:android-basics:1.3.1'
     ...
 }
 ```
@@ -458,17 +458,25 @@ manager.requestPermissions(SOME_REQUEST_CODE);
 It will automatically detect which permissions are already allowed, and will request the missing permissions.
 To handle a response, the procedure is same as that in the usual case. You override the ```onRequestPermissionsResult``` listener.
 
-## Text Utils
-Some common actions which need to be done with Text is now part of the library
-
+## Intent Utils
+Some common actions around intents
 To share a text to other applications on the device
 ```java
-new TextUtils.ShareBuilder(context)
+new IntentUtils.ShareBuilder(context)
   .setSubject(subjectString)
   .setText(textString)
   .setChooserText("Share using...") // Optional
   .share();
 ```
+
+```java
+IntentUtils.openAppPlayStore(context);
+
+IntentUtils.openAppPlayStore(context, packageName);
+```
+
+## Text Utils
+Some common actions which need to be done with Text is now part of the library
 
 ```java
 // To copy text to a clipboard

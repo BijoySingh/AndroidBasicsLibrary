@@ -68,7 +68,7 @@ public abstract class MultiRecyclerViewAdapter<T>
 
   @Override
   public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-    final Class<RecyclerViewHolder<T>> classToCast =
+    final Class<? extends RecyclerViewHolder<T>> classToCast =
         controller.get(getItemViewType(position)).getHolderClass();
     final RecyclerViewHolder<T> castedHolder = classToCast.cast(holder);
     final T data = getItems().get(position);

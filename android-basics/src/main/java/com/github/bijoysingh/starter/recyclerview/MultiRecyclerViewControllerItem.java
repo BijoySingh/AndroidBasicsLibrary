@@ -20,7 +20,7 @@ public class MultiRecyclerViewControllerItem<T> {
   private Integer layoutFile = null;
 
   // The Class for the Recycler View Holder
-  private Class<RecyclerViewHolder<T>> holderClass = null;
+  private Class<? extends RecyclerViewHolder<T>> holderClass = null;
 
   private MultiRecyclerViewControllerItem(Builder<T> builder) {
     viewType = builder.viewType;
@@ -41,7 +41,7 @@ public class MultiRecyclerViewControllerItem<T> {
     return layoutFile;
   }
 
-  public Class<RecyclerViewHolder<T>> getHolderClass() {
+  public Class<? extends RecyclerViewHolder<T>> getHolderClass() {
     return holderClass;
   }
 
@@ -49,7 +49,7 @@ public class MultiRecyclerViewControllerItem<T> {
     private Integer viewType;
     private Integer spanSize;
     private Integer layoutFile;
-    private Class<RecyclerViewHolder<U>> holderClass;
+    private Class<? extends RecyclerViewHolder<U>> holderClass;
 
     public Builder() {
       viewType = DEFAULT_VIEW_TYPE;
@@ -71,7 +71,7 @@ public class MultiRecyclerViewControllerItem<T> {
       return this;
     }
 
-    public Builder<U> holderClass(Class<RecyclerViewHolder<U>> val) {
+    public Builder<U> holderClass(Class<? extends RecyclerViewHolder<U>> val) {
       holderClass = val;
       return this;
     }

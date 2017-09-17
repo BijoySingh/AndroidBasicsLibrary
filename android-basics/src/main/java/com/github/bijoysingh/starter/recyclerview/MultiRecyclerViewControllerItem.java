@@ -45,42 +45,42 @@ public class MultiRecyclerViewControllerItem<T> {
     return holderClass;
   }
 
-  public static final class Builder<T> {
+  public static final class Builder<U> {
     private Integer viewType;
     private Integer spanSize;
     private Integer layoutFile;
-    private Class<RecyclerViewHolder<T>> holderClass;
+    private Class<RecyclerViewHolder<U>> holderClass;
 
     public Builder() {
       viewType = DEFAULT_VIEW_TYPE;
       spanSize = DEFAULT_SPAN_SIZE;
     }
 
-    public Builder viewType(Integer val) {
+    public Builder<U> viewType(Integer val) {
       viewType = val;
       return this;
     }
 
-    public Builder spanSize(Integer val) {
+    public Builder<U> spanSize(Integer val) {
       spanSize = val;
       return this;
     }
 
-    public Builder layoutFile(Integer val) {
+    public Builder<U> layoutFile(Integer val) {
       layoutFile = val;
       return this;
     }
 
-    public Builder holderClass(Class<RecyclerViewHolder<T>> val) {
+    public Builder<U> holderClass(Class<RecyclerViewHolder<U>> val) {
       holderClass = val;
       return this;
     }
 
-    public MultiRecyclerViewControllerItem<T> build() {
+    public MultiRecyclerViewControllerItem<U> build() {
       if (layoutFile == null || holderClass == null || viewType == null) {
         throw new IllegalArgumentException("Layout file cannot be null");
       }
-      return new MultiRecyclerViewControllerItem<T>(this);
+      return new MultiRecyclerViewControllerItem<U>(this);
     }
   }
 }

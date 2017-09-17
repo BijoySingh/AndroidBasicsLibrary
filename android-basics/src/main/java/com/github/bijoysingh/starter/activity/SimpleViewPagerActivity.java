@@ -13,15 +13,10 @@ import android.support.v7.app.AppCompatActivity;
  * Created by bijoy on 3/31/17.
  */
 
-public abstract class SimpleViewPagerActivity extends AppCompatActivity {
+public abstract class SimpleViewPagerActivity extends SimpleAppCompatActivity {
 
   protected ViewPager viewPager;
   protected ViewPagerAdapter viewPagerAdapter;
-
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  }
 
   /**
    * The id of the view pager

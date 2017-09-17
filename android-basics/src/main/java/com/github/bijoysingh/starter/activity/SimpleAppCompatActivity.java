@@ -1,6 +1,8 @@
 package com.github.bijoysingh.starter.activity;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,37 +18,45 @@ import android.widget.TextView;
  * Created by bijoy on 9/17/17.
  */
 
-public class SimpleAppCompatActivity extends AppCompatActivity {
+public class SimpleAppCompatActivity extends AppCompatActivity implements ViewContainer {
 
-  protected TextView getTextView(int id) {
-    return (TextView) findViewById(id);
+  public View findView(int id) {
+    return findViewById(id);
   }
 
-  protected EditText getEditText(int id) {
-    return (EditText) findViewById(id);
+  public TextView findTextView(int id) {
+    return (TextView) findView(id);
   }
 
-  protected ImageView getImageView(int id) {
-    return (ImageView) findViewById(id);
+  public EditText findEditText(int id) {
+    return (EditText) findView(id);
   }
 
-  protected LinearLayout getLinearLayout(int id) {
-    return (LinearLayout) findViewById(id);
+  public ImageView findImageView(int id) {
+    return (ImageView) findView(id);
   }
 
-  protected RelativeLayout getRelativeLayout(int id) {
-    return (RelativeLayout) findViewById(id);
+  public LinearLayout findLinearLayout(int id) {
+    return (LinearLayout) findView(id);
   }
 
-  protected FrameLayout getFrameLayout(int id) {
-    return (FrameLayout) findViewById(id);
+  public RelativeLayout findRelativeLayout(int id) {
+    return (RelativeLayout) findView(id);
   }
 
-  protected ViewGroup getViewGroup(int id) {
-    return (ViewGroup) findViewById(id);
+  public FrameLayout findFrameLayout(int id) {
+    return (FrameLayout) findView(id);
   }
 
-  protected CheckBox getCheckBox(int id) {
-    return (CheckBox) findViewById(id);
+  public ViewGroup findViewGroup(int id) {
+    return (ViewGroup) findView(id);
+  }
+
+  public CheckBox findCheckBox(int id) {
+    return (CheckBox) findView(id);
+  }
+
+  public RecyclerView findRecyclerView(int id) {
+    return (RecyclerView) findView(id);
   }
 }

@@ -22,9 +22,12 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:1.3.1'
+    compile 'com.github.bijoysingh:android-basics:1.4.0' 
     ...
 }
+
+// compile 'com.github.bijoysingh:android-basics:1.3.1' // Android Compat for Support Library 25.3.1 (wont be supported further)
+    
 ```
 You might need to also include these in case you use the corresponding dependencies
 ```groovy
@@ -39,13 +42,6 @@ dependencies {
     
     // For Timestamp utility
     compile 'net.danlew:android.joda:2.8.1'
-    
-    // For basic features from Google
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.android.support:support-v4:25.0.0'
-    
-    // For Recycler View
-    compile 'com.android.support:recyclerview-v7:25.0.0'
     
     ...
 }

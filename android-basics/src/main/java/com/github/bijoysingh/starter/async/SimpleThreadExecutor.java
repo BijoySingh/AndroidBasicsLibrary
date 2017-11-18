@@ -1,9 +1,13 @@
 package com.github.bijoysingh.starter.async;
 
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Simple Thread Usage
@@ -61,6 +65,21 @@ public class SimpleThreadExecutor {
         mThreadPool.execute(runnable);
       }
     }
+  }
+
+  public <T> Future<T> submit(Callable<T> callable) {
+    if (mThreadPool != null) {
+      return mThreadPool.submit(callable);
+    }
+    return null;
+  }
+
+  /**
+   * Get the thread pool for specific operations
+   * @return the threadpool
+   */
+  public ExecutorService getThreadPool() {
+    return mThreadPool;
   }
 
   /**

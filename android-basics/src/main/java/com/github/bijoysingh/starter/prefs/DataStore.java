@@ -3,10 +3,15 @@ package com.github.bijoysingh.starter.prefs;
 import android.content.Context;
 import android.util.Log;
 
+import com.github.bijoysingh.starter.async.SimpleThreadExecutor;
 import com.github.bijoysingh.starter.json.SafeJson;
 import com.github.bijoysingh.starter.util.FileManager;
 
 import org.json.JSONException;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Alternative to PreferenceManager.
@@ -14,20 +19,48 @@ import org.json.JSONException;
  * Created by bijoy on 2/12/17.
  */
 
-public class StorageManager {
+public class DataStore {
+
+  private static final String FILENAME_PREFIX =  "StorageManager.";
+  private static final String FILENAME_SUFFIX =  ".txt";
+
+  private static SafeJson data;
+  private static SimpleThreadExecutor executor;
 
   private Context context;
-  private static SafeJson data;
-  private boolean isAsync;
 
   /**
-   * StorageManager construct
+   * Get the DataStore synchronously
+   * @param context the application context
+   * @return instance of DataStore
+   */
+  public static DataStore get(Context context) {
+    return new DataStore(context);
+  }
+
+  /**
+   * Get the DataStore synchronously
+   * @param context the application context
+   * @return instance of DataStore
+   */
+  public static Future<DataStore> getLater(final Context context) {
+    executor = executor == null ? new SimpleThreadExecutor() : executor;
+    return executor.submit(new Callable<DataStore>() {
+      @Override
+      public DataStore call() throws Exception {
+        return new DataStore(context);
+      }
+    });
+  }
+
+  /**
+   * DataStore construct
    *
    * @param context the application context
    */
-  public StorageManager(Context context) {
+  private DataStore(Context context) {
     this.context = context;
-    this.isAsync = false;
+    executor = executor == null ? new SimpleThreadExecutor() : executor;
     maybeRefresh();
   }
 
@@ -37,7 +70,7 @@ public class StorageManager {
    * @return the filename
    */
   protected String getFilename() {
-    return "StorageManager." + context.getPackageName() + ".txt";
+    return FILENAME_PREFIX + context.getPackageName() + FILENAME_SUFFIX;
   }
 
   /**
@@ -187,7 +220,7 @@ public class StorageManager {
       data.put(key, value);
       write();
     } catch (JSONException exception) {
-      Log.e(StorageManager.class.getSimpleName(), "Put Failed", exception);
+      Log.e(DataStore.class.getSimpleName(), "Put Failed", exception);
     }
   }
 
@@ -196,7 +229,7 @@ public class StorageManager {
    *
    * @return this reference
    */
-  public StorageManager refresh() {
+  public DataStore refresh() {
     String content = FileManager.read(context, getFilename());
     try {
       data = new SafeJson(content);
@@ -208,35 +241,22 @@ public class StorageManager {
 
   /**
    * Maybe refresh the file.
-   *
-   * @return this reference
    */
-  private StorageManager maybeRefresh() {
+  private void maybeRefresh() {
     if (data == null) {
-      return refresh();
+      refresh();
     }
-    return this;
-  }
-
-  /**
-   * Writing is async.
-   *
-   * @param isAsync is async
-   * @return this reference
-   */
-  private StorageManager setIsAsync(boolean isAsync) {
-    this.isAsync = isAsync;
-    return this;
   }
 
   /**
    * Write the contents into the storage
    */
   private void write() {
-    if (isAsync) {
-      FileManager.writeAsync(context, getFilename(), data.toString());
-      return;
-    }
-    FileManager.write(context, getFilename(), data.toString());
+    executor.execute(new Runnable() {
+      @Override
+      public void run() {
+        FileManager.write(context, getFilename(), data.toString());
+      }
+    });
   }
 }

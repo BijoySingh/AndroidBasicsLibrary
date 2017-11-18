@@ -9,6 +9,9 @@ import com.github.bijoysingh.starter.util.FileManager;
 
 import org.json.JSONException;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -28,6 +31,8 @@ public class DataStore {
   private static SimpleThreadExecutor executor;
 
   private Context context;
+
+  private boolean writeSynchronous;
 
   /**
    * Get the DataStore synchronously
@@ -51,6 +56,10 @@ public class DataStore {
         return new DataStore(context);
       }
     });
+  }
+
+  public void setWriteSynchronous(boolean writeSynchronous) {
+    this.writeSynchronous = writeSynchronous;
   }
 
   /**
@@ -240,6 +249,30 @@ public class DataStore {
   }
 
   /**
+   * Removes the entire data store
+   */
+  public void empty() {
+    Iterator<String> keyIterator = data.keys();
+    Set<String> keys = new HashSet<>();
+    while(keyIterator.hasNext()) {
+      keys.add(keyIterator.next());
+    }
+    for (String key : keys) {
+      data.remove(key);
+    }
+    write();
+  }
+
+  /**
+   * Clears all the static objects.
+   * NOTE: Use carefully, ideally you shouldn't need to use this in production applications
+   */
+  public static void reset() {
+    executor = null;
+    data = null;
+  }
+
+  /**
    * Maybe refresh the file.
    */
   private void maybeRefresh() {
@@ -252,11 +285,24 @@ public class DataStore {
    * Write the contents into the storage
    */
   private void write() {
-    executor.execute(new Runnable() {
+    final String dataState = data.toString();
+    if (writeSynchronous) {
+      flush(dataState);
+      return;
+    }
+
+    executor.executeNow(new Runnable() {
       @Override
       public void run() {
-        FileManager.write(context, getFilename(), data.toString());
+        flush(dataState);
       }
     });
+  }
+
+  /**
+   * Writes the data into file
+   */
+  private void flush(String data) {
+    FileManager.write(context, getFilename(), data);
   }
 }

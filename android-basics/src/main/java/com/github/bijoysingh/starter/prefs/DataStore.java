@@ -48,7 +48,7 @@ public class DataStore {
    * @param context the application context
    * @return instance of DataStore
    */
-  public static Future<DataStore> getLater(final Context context) {
+  public static Future<DataStore> getFuture(final Context context) {
     executor = executor == null ? new SimpleThreadExecutor() : executor;
     return executor.submit(new Callable<DataStore>() {
       @Override

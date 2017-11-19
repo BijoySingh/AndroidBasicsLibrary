@@ -117,14 +117,22 @@ If you plan to use SharedPreferences in Services due to recent changes in Androi
 You can go for a solution of use the library `'net.grandcentrix.tray:tray:0.11.1'` But I have recently seen that it has bugs like 
 deletion during updates. Try the new class `StorageManager` described next:
 
-## Async safe Storage Preferences (Experimental)
-Use this class for saving/ retrieving content using ```put``` and ```get```. You can get the content from services / main system alike. The access will be fast and will be the same.
+## Async safe DataStore
+Use this class for saving / retrieving content using ```put``` and ```get```. You can get the content from services / main system alike. The access will be fast and will be the same.
 ```java
-StorageManager storage = new StorageManager(context);
-storage.setIsAsync(true); // optional -> speeds up writes, does not affect the reading consistencies due to caching.
-
+DataStore storage = DataStore.get(context);
+    
 storage.put(KEY, your_variable);
 storage.get(KEY, your_default_variable);
+```
+
+Additional control is possible. You can see this in action in the Sample App : `DataStoreActivity.java`
+```java
+// You can get a future too
+Future<DataStore> storeFuture = DataStore.getFuture(this);
+
+// You can also force the update writes to be synchronous
+store.setWriteSynchronous(true);
 ```
 
 ## ImagePicker and Bitmap operations

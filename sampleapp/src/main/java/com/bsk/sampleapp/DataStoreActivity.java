@@ -100,7 +100,7 @@ public class DataStoreActivity extends AppCompatActivity {
 
   private void testAsynchronousLoad() {
     log("INFO", "Starting testAsynchronousLoad()");
-    Future<DataStore> storeFuture = DataStore.getLater(this);
+    Future<DataStore> storeFuture = DataStore.getFuture(this);
 
     while (!storeFuture.isDone()) {
       // Do nothing

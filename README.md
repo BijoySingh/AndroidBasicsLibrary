@@ -18,11 +18,11 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:1.4.0' 
+    compile 'com.github.bijoysingh:android-basics:3.0.0-alpha' 
     ...
 }
 
-// compile 'com.github.bijoysingh:android-basics:1.3.1' // Android Compat for Support Library 25.3.1 (wont be supported further)
+// compile 'com.github.bijoysingh:android-basics:2.1.0' last stable version
     
 ```
 You might need to also include these in case you use the corresponding dependencies

@@ -2,7 +2,7 @@
 This library offers some barebone code for android common to most applications.
 It provides simple classes and pre-written functions for:
 - Internet Access
-- SharedPreferences storage and retrieval
+- SharedPreferences / DataStore storage and retrieval
 - ImagePicker and Bitmap operations
 - File read and write
 - Recycler View
@@ -115,7 +115,7 @@ public class Preferences extends PreferenceManager {
 ### NOTE: 
 If you plan to use SharedPreferences in Services due to recent changes in Android SharedPreferences this may not be your best option.
 You can go for a solution of use the library `'net.grandcentrix.tray:tray:0.11.1'` But I have recently seen that it has bugs like 
-deletion during updates. Try the new class `StorageManager` described next:
+deletion during updates. Try the new class `DataStore` described next:
 
 ## Async safe DataStore
 Use this class for saving / retrieving content using ```put``` and ```get```. You can get the content from services / main system alike. The access will be fast and will be the same.
@@ -414,6 +414,22 @@ executor.addRunnable(runnable1)
     .execute();
 ```
 
+Async Tasks have an issue that they only work synchronously. This is generally a problem for
+doing more things. Introducing MultiAsyncTask for this usecase
+```java
+MultiAsyncTask.execute(this, new MultiAsyncTask.Task<Result>() {
+  @Override
+  public Result run() {
+    return doHeavyOperation();
+  }
+
+  @Override
+  public void handle(Result result) {
+    doUiOperation(result);
+  }
+});
+```
+
 ```java
 List<String> names = ...;
 Parallel<String, Integer> parallel = new Parallel();
@@ -421,11 +437,6 @@ parallel.setListener(new ParallelExecutionListener<String, Integer>() {
     
 });
 
-// Or get more control
-SimpleThreadExecutor executor = new SimpleThreadExecutor();
-executor.addRunnable(runnable1)
-    .addRunnable(runnable2)
-    .execute();
 ```
 
 ## PermissionManager

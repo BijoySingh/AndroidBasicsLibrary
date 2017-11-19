@@ -20,5 +20,12 @@ public class MainActivity extends SimpleAppCompatActivity {
         IntentUtils.startActivity(view.getContext(), DataStoreActivity.class);
       }
     });
+    findView(R.id.test_async_task).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        IntentUtils.startActivity(view.getContext(), AsyncActivity.class);
+      }
+    });
+
   }
 }

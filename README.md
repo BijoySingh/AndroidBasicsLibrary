@@ -3,13 +3,9 @@ This library offers some barebone code for android common to most applications.
 It provides simple classes and pre-written functions for:
 - Internet Access
 - SharedPreferences / DataStore storage and retrieval
-- ImagePicker and Bitmap operations
 - File read and write
 - Recycler View
-- Image Downloading
 - Some other basic functions like dp2pixel, etc.
-- Database support
-- Json Parsing
 - Marshmallow Permissions Support
 - Simple Profiler
 - Parallel Execution
@@ -33,10 +29,7 @@ You might need to also include these in case you use the corresponding dependenc
 ```groovy
 dependencies {
     ...
-    
-    // For Image Downloader
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
-    
+
     // For internet access
     compile 'com.mcxiaoke.volley:library:1.0.17'
     
@@ -135,31 +128,9 @@ Future<DataStore> storeFuture = DataStore.getFuture(this);
 store.setWriteSynchronous(true);
 ```
 
-## ImagePicker and Bitmap operations
-```java
-ImageManager imageManager = new ImageManager();
-imageManager.showFileChooser(this);
-```
-
-Handle the response for this using ```handleResponse``` in ```onActivityResult```
-```java
-@Override
-public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    
-    Bitmap bmp = imageManager.handleResponse(requestCode, resultCode, data);
-    ...
-    
-}
-```
-
-You can perform a number of Bitmap operations
-```java
-ImageManager.getScaledBitmap(bitmap, scale);
-ImageManager.resizeBitmap(bitmap, width, height)
-ImageManager.getScaledBitmapWithHeight(bitmap, height);
-ImageManager.getScaledBitmapWithWidth(bitmap, width);
-```
+## Image operations
+This library used to support Image operations, but they are being removed as  
+directly using Picasso and Fresco for these is the best idea. 
 
 ## File read and write
 To store and retreive some text, some basic support code is available. This is needed if you want to save some file/ json you receive from the server to act as cache.
@@ -171,28 +142,6 @@ String textRead = FileManager.read(context, filename);
 Asynchronous write is now supported (I will be updated the way to access these functions to ease usage)
 ```java
 FileManager.writeAsync(context, filename, text_to_write);
-```
-
-## Image Downloading
-This library uses the Universal Image Loader library. To use this some basic configuration is pre-built. You can do this as follows
-```java
-ImageLoaderManager.displayImage(context, image_url, image_view);
-```
-or
-```java
-ImageLoaderManager loader = new ImageLoaderManager(context);
-loader.displayImage(image_url, image_view);
-```
-
-You can also customize the image loader using
-```java
-ImageLoader imageLoader = ImageLoaderManager.getImageLoader(context);
-ImageLoader imageLoader = ImageLoaderManager.getImageLoader(context, diskCacheInMB, memoryCacheInMB);
-```
-and use it as follows:
-```java
-ImageAware imageAware = new ImageViewAware(image_view, false);
-imageLoader.displayImage(image_link, imageAware);
 ```
 
 ## Some other useful functions
@@ -355,24 +304,6 @@ YourAdapter adapter = new YourAdapter(context, items);
 recyclerView.setLayoutManager(yourAdapter.getGridLayoutManager());
 ```
 
-## TimestampItem
-Another common action you need to do is convert your timestamp string to time. And also convert it to the write timezone.
-```java
-String timestamp = "...." // your timestamp string
-TimestampItem item = new TimestampItem.Builder(timestamp)
-    .setTimezone(hours, minutes) // optional
-    .setDeviceTimezone() // optional
-    .setTimeFormat("hh:mm aa") // optional
-    .setDateFormat("dd MMMM yyyy") // optional
-    .setDateTimeFormat("hh:mm aa, dd MMMM yyyy") // optional
-    .buil()
-    
-item.getTime(); // the time string
-item.getDate(); // the date string
-item.getDateTime() // the date and time string
-item.getCompressedDateTime(); // the compressed date and time
-```
-
 ## DateFormatter
 If you have to repeatted format your Dates here is a simple wrapper on your code
 ```java
@@ -504,7 +435,7 @@ TextUtils.isNullOrEmpty(text);
 ## View Pager Activity and Fragment
 There is a lot of boiler plate code which needs to be done for view pagers. This will save that for you
 ```java
-public class YourActivity extends SimpleViewPagerActivity {
+public class YourActivity extends ViewPagerActivity {
 
   @Override
   protected Fragment getPageFragment(int position) { ... }
@@ -552,130 +483,10 @@ RandomHelper.getRandomInteger(approxMaxIntegerLength);
 ```
 
 ## Database Support
-
-Adding database setup is super simple. You have to do very little work!
-
-Just add a simple model like
-```java
-// DEPRECATED
-public class YourDatabaseItem extends DatabaseModel {
-    @DBColumn(primaryKey = true, autoIncrement = true)
-    public Integer id;
-
-    @DBColumn
-    public String title;
-
-    @DBColumn
-    public String description;
-}
-```
-
-Using ```@DBColumn``` you can add custom arguments like
-```java
-// DEPRECATED
-fieldType = DBColumn.Type.INTEGER
-unique = True
-primaryKey = true, autoIncrement = true
-fieldName = "custom_field_name"
-```
-
-You can create a custom class for your databases, or you can simply use the default database:
-```java
-// DEPRECATED
-DatabaseManager db = new DatabaseManager(this, new DatabaseModel[]{new YourDatabaseItem()});
-
-// To add an item
-YourDatabaseItem your_item = ...;
-db.add(your_item);
-
-// To get all items for a custom class
-List<YourDatabaseItem> items = db.get(YourDatabaseItem.class);
-```
-A full fledged example can be seen in my [TutorialApp](https://github.com/BijoySingh/TutorialApp).
-
-## Database Support (Alternate)
-We have a custom Database support which does not use the SQLlite DB but uses a file and JSON.
-This let's you have more control, like caching, update policy, etc.
-```java
-public class ExampleDatabase extends SimpleDatabase<ExampleModel> {
-
-  private static List<MedicineStorageModel> cache;
-
-  public ExampleDatabase(Context context) {
-    super(context);
-  }
-
-  @Override
-  protected String getDatabaseFilename() {
-    return "database.txt";
-  }
-
-  @Override
-  protected void setCacheList(List<ExampleModel> list) {
-    cache = list;
-  }
-
-  @Override
-  protected List<ExampleModel> getCacheList() {
-    return cache;
-  }
-
-  @Override
-  protected String getId(ExampleModel object) {
-    // Get a unique object id
-    return object.getId();
-  }
-
-  @Override
-  protected JSONObject serialise(ExampleModel object) {
-    // This is the function which gets the JSONObject from a ExampleModel
-    return null;
-  }
-
-  @Override
-  protected ExampleModel deSerialise(JSONObject serialised) {
-    // This is the function which gets the ExampleModel from a JSONObject
-    return null;
-  }
-
-  @Override
-  protected int compareModels(ExampleModel model1, ExampleModel model2) {
-    // Optional comparison function, the output of getAll is ordered by this rule
-    return 0;
-  }
-
-}
-```
+Removing this support too as Reflection is not very efficient or reliable. Try using google's Room library.
 
 ## JSON Parsing
-
-Making a JSON Parser is simple to work
-```java
-public class YourItem extends JsonModel { 
-    @JsonField
-    public Integer integer_field;
-    
-    @JsonField(field = "alternate_json_field_name") 
-    public String string_field;
-    
-    @JsonField
-    public Double real_field;
-    
-    @JsonField(field = Type.BOOLEAN)
-    public Boolean boolean_field;
-    
-    @JsonField(field = Type.JSON)
-    public JSONObject json_field;
-}
-```
-
-The method automatically detects the type of the JSON field, you can still choose to override it.
-Further, it assumes that the name of the field is the JSON field, you can yet again choose to override it
-
-You can also, quickly serialize your item into a JSON Object
-```java
-JSONObject json = item.serialize();
-```
+Removing this support too as Reflection is not very efficient or reliable.
 
 ## License
 ```
@@ -707,11 +518,4 @@ Copyright (C) 2011 The Android Open Source Project
 ```
 Apache 2.0 License
 https://github.com/dlew/joda-time-android/blob/master/LICENSE
-```
-
-### Universal Image Loader
-```
-Apache 2.0 License
-Copyright 2011-2015 Sergey Tarasevich
-```
 ```

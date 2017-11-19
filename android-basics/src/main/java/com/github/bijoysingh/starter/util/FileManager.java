@@ -44,14 +44,14 @@ public class FileManager {
       fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
       fos.write(filedata.getBytes());
     } catch (Exception e) {
-      Log.e(FileManager.class.getSimpleName(), e.getMessage(), e);
+      // Ignore the exception
     } finally {
       try {
         if (fos != null) {
           fos.close();
         }
       } catch (Exception e) {
-        Log.e(FileManager.class.getSimpleName(), e.getMessage(), e);
+        // Ignore the exception
       }
     }
   }
@@ -75,12 +75,12 @@ public class FileManager {
 
       return builder.toString();
     } catch (Exception e) {
-      Log.e(FileManager.class.getSimpleName(), e.getMessage(), e);
+      // Ignore the exception
     } finally {
       try {
         fis.close();
       } catch (Exception e) {
-        Log.e(FileManager.class.getSimpleName(), e.getMessage(), e);
+        // Ignore the exception
       }
     }
 

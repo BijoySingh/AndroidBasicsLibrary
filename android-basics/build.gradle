@@ -23,7 +23,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.mcxiaoke.volley:library:1.0.17'
     compile 'net.danlew:android.joda:2.8.1'
     compile 'com.android.support:appcompat-v7:26.1.0'
@@ -46,7 +45,7 @@ ext {
     siteUrl = 'https://github.com/BijoySingh/BasicAndroidProject'
     gitUrl = 'https://github.com/BijoySingh/BasicAndroidProject.git'
 
-    libraryVersion = '2.1.0'
+    libraryVersion = '3.0.0-alpha'
 
     developerId = 'bijoysingh693'
     developerName = 'Bijoy Singh Kochar'

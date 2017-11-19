@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
  * Created by bijoy on 3/31/17.
  */
 
-public abstract class SimpleViewPagerActivity extends SimpleAppCompatActivity {
+public abstract class ViewPagerActivity extends AppCompatActivity {
 
   protected ViewPager viewPager;
   protected ViewPagerAdapter viewPagerAdapter;

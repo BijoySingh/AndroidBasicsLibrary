@@ -64,6 +64,39 @@ public class DateFormatter {
   }
 
   /**
+   * Convert the date to string
+   *
+   * @param unixTimestamp the timestamp
+   * @return the formatted timestamp
+   */
+  public static String getDate(long unixTimestamp) {
+    return getDate(getDefaultFormat(), unixTimestamp);
+  }
+
+  /**
+   * Convert the date to string
+   *
+   * @param format        the formatting string based on http://bit.ly/1ODjMxk
+   * @param unixTimestamp the timestamp
+   * @return the formatted timestamp
+   */
+  public static String getDate(String format, long unixTimestamp) {
+    return getDate(format, new Date(unixTimestamp), Locale.getDefault());
+  }
+
+  /**
+   * Convert the date to string
+   *
+   * @param format        the formatting string based on http://bit.ly/1ODjMxk
+   * @param unixTimestamp the timestamp
+   * @param locale        the Locale to convert in
+   * @return the formatted timestamp
+   */
+  public static String getDate(String format, long unixTimestamp, Locale locale) {
+    return getDate(format, new Date(unixTimestamp), locale);
+  }
+
+  /**
    * Convert the date to String
    *
    * @param calendar the Calendar variable to convert

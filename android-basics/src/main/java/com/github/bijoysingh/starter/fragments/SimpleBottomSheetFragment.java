@@ -47,7 +47,7 @@ public abstract class SimpleBottomSheetFragment extends BottomSheetDialogFragmen
       ((BottomSheetBehavior) behavior).setBottomSheetCallback(mBottomSheetBehaviorCallback);
     }
 
-    setupView(contentView);
+    setupView(dialog);
   }
 
   /**
@@ -61,9 +61,9 @@ public abstract class SimpleBottomSheetFragment extends BottomSheetDialogFragmen
   /**
    * Setup the view once inflated
    *
-   * @param contentView the inflated view
+   * @param dialog the dialog with the view inflated
    */
-  public abstract void setupView(View contentView);
+  public abstract void setupView(Dialog dialog);
 
   /**
    * Callback for when the state of the bottom sheet is changed

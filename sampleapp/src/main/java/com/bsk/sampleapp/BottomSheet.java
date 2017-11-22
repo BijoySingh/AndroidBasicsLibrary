@@ -1,5 +1,6 @@
 package com.bsk.sampleapp;
 
+import android.app.Dialog;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,7 +13,7 @@ public class BottomSheet extends SimpleBottomSheetFragment {
   }
 
   @Override
-  public void setupView(View contentView) {
+  public void setupView(Dialog contentView) {
     TextView title = contentView.findViewById(R.id.title);
     title.setText("What is Lorem Ipsum?");
   }

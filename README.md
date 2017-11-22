@@ -18,7 +18,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:3.1.1'
+    compile 'com.github.bijoysingh:android-basics:3.1.2'
     ...
 }
 
@@ -427,6 +427,10 @@ TextUtils.copyToClipboard(context, textToCopy);
 
 // To check if a string is null or empty
 TextUtils.isNullOrEmpty(text);
+
+// Check if two nullable strings are equal
+TextUtils.areEqual(string1, string2);
+TextUtils.areEqualNullIsEmpty(string1, string2);
 ```
 
 ## Bottom Sheet Fragment 

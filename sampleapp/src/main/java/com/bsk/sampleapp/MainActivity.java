@@ -26,5 +26,12 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
+    findViewById(R.id.test_bottom_sheet).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        IntentUtils.startActivity(view.getContext(), BottomSheetActivity.class);
+      }
+    });
+
   }
 }

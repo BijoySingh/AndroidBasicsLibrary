@@ -40,9 +40,6 @@ dependencies {
 }
 ```
 
-## Checkout on Android Arsenal
-
-
 # Basic Usage
 ## Internet Access
 Internet access is simpler than ever. 
@@ -432,6 +429,35 @@ TextUtils.copyToClipboard(context, textToCopy);
 TextUtils.isNullOrEmpty(text);
 ```
 
+## Bottom Sheet Fragment 
+There is a lot of boiler plate code using the bottom sheet fragment. This code allows for using that
+The XML for the activity MUST be surrounded by a `CoordinatorLayout`
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout 
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+  ...
+</android.support.design.widget.CoordinatorLayout>
+```
+
+
+You also need a layout file for the bottom sheet. Let's say it's `layout_bottom_sheet.xml` 
+```java
+public class BottomSheet extends SimpleBottomSheetFragment {
+  @Override
+  public int getLayout() {
+    return R.layout.layout_bottom_sheet;
+  }
+
+  @Override
+  public void setupView(View contentView) {
+    // find views inside the layout_bottom_sheet.xml
+  }
+}
+```
+
 ## View Pager Activity and Fragment
 There is a lot of boiler plate code which needs to be done for view pagers. This will save that for you
 ```java
@@ -467,7 +493,6 @@ public class YourFragment extends SimpleFragment {
   }
 }
 ```
-
 
 ## Random Helper
 Sometimes you need to generate secure random numbers like IDs etc which are alphanumeric etc.

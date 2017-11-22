@@ -56,20 +56,20 @@ public abstract class SimpleBottomSheetFragment extends BottomSheetDialogFragmen
    * @return the layout resource id
    */
   @LayoutRes
-  abstract int getLayout();
+  public abstract int getLayout();
 
   /**
    * Setup the view once inflated
    *
    * @param contentView the inflated view
    */
-  abstract void setupView(View contentView);
+  public abstract void setupView(View contentView);
 
   /**
    * Callback for when the state of the bottom sheet is changed
    *
    * @param bottomSheet the bottom sheet view
-   * @param newState    @link{BottomSheetBehavior} the new state
+   * @param newState    BottomSheetBehavior type, the new state
    */
   protected void onStateChanged(@NonNull View bottomSheet, int newState) {
     if (newState == BottomSheetBehavior.STATE_HIDDEN) {

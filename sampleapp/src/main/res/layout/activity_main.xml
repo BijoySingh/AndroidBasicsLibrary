@@ -8,24 +8,38 @@
     tools:context="com.bsk.sampleapp.MainActivity">
 
   <Button
-      android:id="@+id/test_data_store"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Test DataStore"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="parent"/>
+    android:id="@+id/test_data_store"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Test DataStore"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintHorizontal_bias="0.502"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.412" />
 
   <Button
-      android:id="@+id/test_async_task"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Test Async"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.604"/>
+    android:id="@+id/test_async_task"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Test Async"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.516" />
+
+  <Button
+    android:id="@+id/test_bottom_sheet"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Test Bottom Sheet"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintHorizontal_bias="0.502"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.619" />
 
 </android.support.constraint.ConstraintLayout>

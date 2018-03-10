@@ -6,10 +6,17 @@ import com.github.bijoysingh.starter.async.SimpleThreadExecutor;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * Created by bijoy on 1/1/16.
@@ -55,6 +62,40 @@ public class FileManager {
    */
   public static String read(Context context, String filename) {
     return readFromFile(context.getFileStreamPath(filename));
+  }
+
+  public static String readCompressedFile(File file) {
+    try {
+      GZIPInputStream inputStream = new GZIPInputStream(new FileInputStream(file));
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      byte[] buffer = new byte[1024];
+      int length;
+      while ((length = inputStream.read(buffer)) != -1) {
+        outputStream.write(buffer, 0, length);
+      }
+      outputStream.close();
+      inputStream.close();
+      return new String(outputStream.toByteArray());
+    } catch (IOException ex) {
+      // Handle exception
+      return "";
+    }
+  }
+
+  public static void writeCompressedFile(File file, String content) {
+    try {
+      InputStream inputStream = new ByteArrayInputStream(content.getBytes());
+      GZIPOutputStream outputStream = new GZIPOutputStream(new FileOutputStream(file));
+      byte[] buffer = new byte[1024];
+      int length;
+      while ((length = inputStream.read(buffer)) != -1) {
+        outputStream.write(buffer, 0, length);
+      }
+      outputStream.close();
+      inputStream.close();
+    } catch (IOException ex) {
+      // Ignore exception
+    }
   }
 
   public static String readFromFile(File fileToRead) {

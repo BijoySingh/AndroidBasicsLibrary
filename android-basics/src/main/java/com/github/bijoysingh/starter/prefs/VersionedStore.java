@@ -49,6 +49,7 @@ public class VersionedStore extends Store {
       return;
     }
     if (mMigration == null) {
+      put(STORE_VERSION_KEY, mVersionNumber);
       return;
     }
     for (int startIndex = versionKey; startIndex < mVersionNumber; startIndex++) {

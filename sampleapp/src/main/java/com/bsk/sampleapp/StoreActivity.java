@@ -30,7 +30,8 @@ public class StoreActivity extends AppCompatActivity {
     initStore();
 
     store.clear();
-    versionedStore.clear();
+    versionedStore.clearSync();
+    versionedStore = VersionedStore.get(this, "VERSIONED", 1);
     alternateStore.clear();
 
     testingOutput = findViewById(R.id.testing_output);
@@ -42,7 +43,7 @@ public class StoreActivity extends AppCompatActivity {
     store = Store.get(this);
     copyStore = Store.get(this);
     alternateStore = Store.get(this, "ALTERNATE");
-    versionedStore = VersionedStore.get(this, "VERSIONED", 1);
+    versionedStore = Store.get(this, "VERSIONED");
   }
 
   private void startTesting() {
@@ -88,7 +89,7 @@ public class StoreActivity extends AppCompatActivity {
 
         startWriting(versionedStore);
         writeOnUIThread("[DONE] Versioned Writing the contents");
-        SystemClock.sleep(500);
+        SystemClock.sleep(1000);
 
         isValid = readCache(versionedStore, true);
         writeOnUIThread(isValid ? "[DONE] Versioned Memory Read Passed" : "[FAILED] Versioned Memory Read Failed");
@@ -98,16 +99,19 @@ public class StoreActivity extends AppCompatActivity {
         isValid = readCache(versionedStore, true);
         writeOnUIThread(isValid ? "[DONE] Versioned Disk Read Passed" : "[FAILED] Versioned Disk Read Failed");
 
+        SystemClock.sleep(1000);
+
         versionedStore = VersionedStore.get(StoreActivity.this, "VERSIONED", 3, new VersionedStore.Migration() {
           @Override
-          public void onMigration(int startVersion, int endVersion, VersionedStore store) {
+          public void onMigration(int startVersion, int endVersion, VersionedStore vstore) {
             if (startVersion == 2) {
-              store.clear();
+              vstore.clear();
+
+              boolean isValid = readCache(versionedStore, false);
+              writeOnUIThread(isValid ? "[DONE] Versioned Clear Read Passed" : "[FAILED] Versioned Clear Read Failed");
             }
           }
         });
-        isValid = readCache(versionedStore, false);
-        writeOnUIThread(isValid ? "[DONE] Versioned Clear Read Passed" : "[FAILED] Versioned Clear Read Failed");
       }
     });
     thread.start();

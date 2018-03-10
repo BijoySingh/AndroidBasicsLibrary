@@ -11,14 +11,15 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
  * Faster and more reliable alternative to DataStore
  * which does not store a reference to the context after creation.
  * Soon the DataStore will be removed.
- *
+ * <p>
  * Allows for cross service preferences
  * Created by bijoy on 2/12/17.
  */
@@ -32,13 +33,13 @@ public class Store {
   protected final String mStoreName;
   protected final File mPathToStore;
   protected final Map<String, Object> mMemoryCache;
-  protected final Executor mSingleThreadExecutor;
+  protected final ExecutorService mSingleThreadExecutor;
   protected final Runnable mUpdateDiskRunnable;
 
   protected Store(Context context, String storeName) {
     mStoreName = storeName;
     mPathToStore = new File(context.getFilesDir(), STORE_NAME_PREFIX + storeName);
-    mMemoryCache = new HashMap<>();
+    mMemoryCache = new ConcurrentHashMap<>();
     mSingleThreadExecutor = Executors.newSingleThreadExecutor();
     mUpdateDiskRunnable = new Runnable() {
       @Override
@@ -151,12 +152,12 @@ public class Store {
    */
   private void putAndWrite(String key, Object value) {
     mMemoryCache.put(key, value);
-    mSingleThreadExecutor.execute(mUpdateDiskRunnable);
+    mSingleThreadExecutor.submit(mUpdateDiskRunnable);
   }
 
   private void writeToDisk() {
     JSONObject json = new JSONObject(mMemoryCache);
-    FileManager.writeToFile(mPathToStore, json.toString());
+    FileManager.writeCompressedFile(mPathToStore, json.toString());
   }
 
   /**
@@ -230,6 +231,11 @@ public class Store {
     mSingleThreadExecutor.execute(mUpdateDiskRunnable);
   }
 
+  public void clearSync() {
+    mMemoryCache.clear();
+    mUpdateDiskRunnable.run();
+  }
+
   public void destroy() {
     sStores.remove(mStoreName);
     mMemoryCache.clear();
@@ -240,7 +246,7 @@ public class Store {
   }
 
   private void readFromDisk() {
-    String cache = FileManager.readFromFile(mPathToStore);
+    String cache = FileManager.readCompressedFile(mPathToStore);
     try {
       JSONObject json = new JSONObject(cache);
       Iterator<String> keys = json.keys();

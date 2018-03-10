@@ -8,6 +8,7 @@ import com.github.bijoysingh.starter.json.SafeJson;
 import com.github.bijoysingh.starter.util.FileManager;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,6 +23,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * Created by bijoy on 2/12/17.
  */
 
+@Deprecated
 public class DataStore {
 
   private static final String FILENAME_PREFIX =  "StorageManager.";
@@ -297,6 +299,19 @@ public class DataStore {
         flush(dataState);
       }
     });
+  }
+
+  public void migrateToStore(Store store) {
+    Iterator<String> keys = data.keys();
+    boolean needsWriting = false;
+    while (keys.hasNext()) {
+      String key = keys.next();
+      store.put(key, data.get(key));
+      needsWriting = true;
+    }
+    if (needsWriting) {
+      empty();
+    }
   }
 
   /**

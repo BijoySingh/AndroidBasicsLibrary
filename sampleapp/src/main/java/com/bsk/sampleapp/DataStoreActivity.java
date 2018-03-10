@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.github.bijoysingh.starter.prefs.DataStore;
+import com.github.bijoysingh.starter.prefs.Store;
 
 import java.util.concurrent.Future;
 
@@ -47,6 +48,7 @@ public class DataStoreActivity extends AppCompatActivity {
     testSynchronousLoadAndWrite();
     testSynchronousLoad();
     testAsynchronousLoad();
+    testMigrateToStore();
   }
 
   private void notifyText() {
@@ -125,6 +127,23 @@ public class DataStoreActivity extends AppCompatActivity {
     }
   }
 
+  private void testMigrateToStore() {
+    log("INFO", "Starting testMigrateToStore()");
+    DataStore store = DataStore.get(this);
+    loadData(store);
+    verifyData(store);
+
+    Store finalStore = Store.get(this);
+    store.migrateToStore(finalStore);
+    verifyNoData(store);
+
+    if (finalStore.get(KEY_STRING, "").equals(TEST_STRING)) {
+      log("DONE", "Data Store Migration Successful");
+      return;
+    }
+    log("FAILED", "Data Store Migration Failed");
+  }
+
   private void loadData(DataStore store) {
     store.put(KEY_STRING, TEST_STRING);
     store.put(KEY_INTEGER, TEST_INTEGER);
@@ -151,6 +170,25 @@ public class DataStoreActivity extends AppCompatActivity {
       log("FAILED", "Double Add/Load Failed");
     }
     log("DONE", "Data Verified");
+  }
+
+  private void verifyNoData(DataStore store) {
+    if (!store.get(KEY_STRING, "").contentEquals("")) {
+      log("FAILED", "String Add/Load Failed");
+    }
+    if (store.get(KEY_INTEGER, 0) != 0) {
+      log("FAILED", "Integer Add/Load Failed");
+    }
+    if (store.get(KEY_BOOL, false) != false) {
+      log("FAILED", "Boolean Add/Load Failed");
+    }
+    if (store.get(KEY_LONG, 0L) != 0L) {
+      log("FAILED", "Long Add/Load Failed");
+    }
+    if (store.get(KEY_DOUBLE, 0.0) != 0.0) {
+      log("FAILED", "Double Add/Load Failed");
+    }
+    log("DONE", "No Data Verified");
   }
 
   private void log(String state, String value) {

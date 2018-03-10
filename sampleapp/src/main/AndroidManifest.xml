@@ -16,9 +16,10 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".DataStoreActivity"></activity>
-    <activity android:name=".AsyncActivity"></activity>
-    <activity android:name=".BottomSheetActivity"></activity>
+    <activity android:name=".DataStoreActivity" />
+    <activity android:name=".AsyncActivity" />
+    <activity android:name=".BottomSheetActivity" />
+    <activity android:name=".StoreActivity"></activity>
   </application>
 
 </manifest>

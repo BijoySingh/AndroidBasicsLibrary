@@ -108,23 +108,24 @@ If you plan to use SharedPreferences in Services due to recent changes in Androi
 You can go for a solution of use the library `'net.grandcentrix.tray:tray:0.11.1'` But I have recently seen that it has bugs like 
 deletion during updates. Try the new class `DataStore` described next:
 
-## Async safe DataStore
+## Async safe Store
 Use this class for saving / retrieving content using ```put``` and ```get```. You can get the content from services / main system alike. The access will be fast and will be the same.
 ```java
-DataStore storage = DataStore.get(context);
+Store storage = Store.get(context);
     
 storage.put(KEY, your_variable);
 storage.get(KEY, your_default_variable);
 ```
 
-Additional control is possible. You can see this in action in the Sample App : `DataStoreActivity.java`
-```java
-// You can get a future too
-Future<DataStore> storeFuture = DataStore.getFuture(this);
+Note: If you were using the older DataStore class, you can migrate to the Store API using:
+dataStore.migrateToStore(store);
 
-// You can also force the update writes to be synchronous
-store.setWriteSynchronous(true);
-```
+- Store offers no context solution vs DataStore
+- Compressed storage
+- It also allows you to have multiple smaller Stores, with names, so you can segregate your store based on use cases.  `Store.get(context, NAME)`
+- Further it allows for a VersionedStore, which allows for you to specify a version with the Store. And migrations are handled gracefully, using a Migration object
+ `VersionedStore.get(context, NAME, version)` or `VersionedStore.get(context, NAME, version, migration)` 
+
 
 ## Image operations
 This library used to support Image operations, but they are being removed as  

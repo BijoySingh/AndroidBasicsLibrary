@@ -27,13 +27,20 @@ public class VersionedStore extends Store {
     if (versionNumber <= 0) {
       throw new IllegalArgumentException("Version should not be negative");
     }
+    if (sVersionedStores.containsKey(storeName)) {
+      VersionedStore store = sVersionedStores.get(storeName);
+      if (store.mVersionNumber == versionNumber) {
+        return store;
+      }
+      store.destroy();
+    }
     if (sStores.containsKey(storeName)) {
       sStores.get(storeName).destroy();
     }
 
     VersionedStore store = new VersionedStore(context, storeName, versionNumber, migration);
     store.initialise();
-    sStores.put(storeName, store);
+    sVersionedStores.put(storeName, store);
     return store;
   }
 
@@ -56,6 +63,12 @@ public class VersionedStore extends Store {
       mMigration.onMigration(startIndex, startIndex + 1, this);
     }
     put(STORE_VERSION_KEY, mVersionNumber);
+  }
+
+  @Override
+  public void destroy() {
+    super.destroy();
+    sVersionedStores.remove(mStoreName);
   }
 
   public interface Migration {

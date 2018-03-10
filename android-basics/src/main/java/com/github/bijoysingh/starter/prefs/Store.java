@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.github.bijoysingh.starter.util.FileManager;
 
+import junit.runner.Version;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,6 +31,7 @@ public class Store {
   private static final String DEFAULT_STORE = "DEFAULT_STORE";
 
   protected static Map<String, Store> sStores = new HashMap<>();
+  protected static Map<String, VersionedStore> sVersionedStores = new HashMap<>();
 
   protected final String mStoreName;
   protected final File mPathToStore;
@@ -57,6 +60,9 @@ public class Store {
   public static Store get(Context context, String storeName) {
     if (sStores.containsKey(storeName)) {
       return sStores.get(storeName);
+    }
+    if (sVersionedStores.containsKey(storeName)) {
+      return sVersionedStores.get(storeName);
     }
     Store store = new Store(context, storeName);
     store.initialise();

@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.github.bijoysingh.starter.util.FileManager;
 
-import junit.runner.Version;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,6 +11,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -241,6 +240,15 @@ public class Store {
   public void destroy() {
     sStores.remove(mStoreName);
     mMemoryCache.clear();
+  }
+
+  public Set<String> keys() {
+    return mMemoryCache.keySet();
+  }
+
+  public void remove(String key) {
+    mMemoryCache.remove(key);
+    mSingleThreadExecutor.submit(mUpdateDiskRunnable);
   }
 
   protected void initialise() {

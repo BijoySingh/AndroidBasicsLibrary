@@ -3,10 +3,12 @@ package com.bsk.sampleapp;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.bijoysingh.starter.prefs.Store;
 import com.github.bijoysingh.starter.prefs.VersionedStore;
+import com.github.bijoysingh.starter.util.IntentUtils;
 
 public class StoreActivity extends AppCompatActivity {
 
@@ -27,6 +29,20 @@ public class StoreActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_store);
+
+    findViewById(R.id.test_data_store).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        IntentUtils.startActivity(view.getContext(), DataStoreActivity.class);
+      }
+    });
+    findViewById(R.id.test_data_store_v_store).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        IntentUtils.startActivity(view.getContext(), TestStoreVsDataStore.class);
+      }
+    });
+
     initStore();
 
     store.clear();

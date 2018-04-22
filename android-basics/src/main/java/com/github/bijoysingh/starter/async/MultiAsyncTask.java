@@ -1,6 +1,8 @@
 package com.github.bijoysingh.starter.async;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
 
 public final class MultiAsyncTask {
 
@@ -12,12 +14,29 @@ public final class MultiAsyncTask {
     return executor;
   }
 
+  @Deprecated
   public static <T> void execute(final Activity activity, final Task<T> task) {
     getExecutor().executeNow(new Runnable() {
       @Override
       public void run() {
         final T result = task.run();
         activity.runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            task.handle(result);
+          }
+        });
+      }
+    });
+  }
+
+  public static <T> void execute(final Task<T> task) {
+    getExecutor().executeNow(new Runnable() {
+      @Override
+      public void run() {
+        final T result = task.run();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
           @Override
           public void run() {
             task.handle(result);

@@ -320,4 +320,9 @@ public class DataStore {
   private void flush(String data) {
     FileManager.write(context, getFilename(), data);
   }
+
+  public void destroy() {
+    data = null;
+    executor = null;
+  }
 }

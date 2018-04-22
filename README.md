@@ -18,14 +18,15 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    compile 'com.github.bijoysingh:android-basics:4.2.2'
+    compile 'com.github.bijoysingh:android-basics:4.4.0'
     ...
 }
 
+// compile 'com.github.bijoysingh:android-basics:4.2.2' for Android Support Lib v27.1.0
 // compile 'com.github.bijoysingh:android-basics:4.0.0' for Android Support Lib v27.0.2
 // compile 'com.github.bijoysingh:android-basics:3.1.2' for Android Support Lib v26
 // compile 'com.github.bijoysingh:android-basics:2.1.0' last stable version
-    
+
 ```
 You might need to also include these in case you use the corresponding dependencies
 ```groovy
@@ -122,11 +123,11 @@ Note: If you were using the older DataStore class, you can migrate to the Store 
 dataStore.migrateToStore(store);
 
 - Store offers no context solution vs DataStore
-- Compressed storage
+- Compressed storage - less storage space
+- Much much faster than DataStore
 - It also allows you to have multiple smaller Stores, with names, so you can segregate your store based on use cases.  `Store.get(context, NAME)`
 - Further it allows for a VersionedStore, which allows for you to specify a version with the Store. And migrations are handled gracefully, using a Migration object
  `VersionedStore.get(context, NAME, version)` or `VersionedStore.get(context, NAME, version, migration)` 
-
 
 ## Image operations
 This library used to support Image operations, but they are being removed as  

@@ -13,12 +13,6 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    findViewById(R.id.test_data_store).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        IntentUtils.startActivity(view.getContext(), DataStoreActivity.class);
-      }
-    });
     findViewById(R.id.test_store).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {

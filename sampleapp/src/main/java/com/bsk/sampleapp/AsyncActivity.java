@@ -50,7 +50,7 @@ public class AsyncActivity extends AppCompatActivity {
   private void testMultiAsyncTask() {
     for (int index = 1; index <= 10; index++) {
       final int staticIndex = index;
-      MultiAsyncTask.execute(this, new MultiAsyncTask.Task<Integer>() {
+      MultiAsyncTask.execute(new MultiAsyncTask.Task<Integer>() {
         @Override
         public Integer run() {
           return heavyOperation(staticIndex);

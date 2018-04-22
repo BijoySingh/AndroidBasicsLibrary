@@ -5,6 +5,19 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
+  <Button
+    android:id="@+id/test_data_store"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Test DataStore" />
+
+  <Button
+    android:id="@+id/test_data_store_v_store"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Test DataStore vs Store" />
+
+
   <TextView
     android:id="@+id/testing_output"
     android:layout_width="wrap_content"

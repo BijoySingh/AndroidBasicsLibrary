@@ -19,7 +19,8 @@
     <activity android:name=".DataStoreActivity" />
     <activity android:name=".AsyncActivity" />
     <activity android:name=".BottomSheetActivity" />
-    <activity android:name=".StoreActivity"></activity>
+    <activity android:name=".StoreActivity" />
+    <activity android:name=".TestStoreVsDataStore"></activity>
   </application>
 
 </manifest>

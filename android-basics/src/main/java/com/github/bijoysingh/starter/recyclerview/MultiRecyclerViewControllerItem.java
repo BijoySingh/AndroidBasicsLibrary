@@ -56,17 +56,17 @@ public class MultiRecyclerViewControllerItem<T> {
       spanSize = DEFAULT_SPAN_SIZE;
     }
 
-    public Builder<U> viewType(Integer val) {
+    public Builder<U> viewType(int val) {
       viewType = val;
       return this;
     }
 
-    public Builder<U> spanSize(Integer val) {
+    public Builder<U> spanSize(int val) {
       spanSize = val;
       return this;
     }
 
-    public Builder<U> layoutFile(Integer val) {
+    public Builder<U> layoutFile(int val) {
       layoutFile = val;
       return this;
     }

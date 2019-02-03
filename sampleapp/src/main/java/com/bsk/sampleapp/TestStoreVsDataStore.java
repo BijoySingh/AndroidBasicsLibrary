@@ -27,6 +27,7 @@ public class TestStoreVsDataStore extends AppCompatActivity {
 
     setupStoreTest();
     setupDataStoreTest();
+    testMigration();
   }
 
   private void setupStoreTest() {
@@ -99,6 +100,30 @@ public class TestStoreVsDataStore extends AppCompatActivity {
     totalMessage += (System.nanoTime() - time)/(1000*1000.0) + "ms\n";
     totalMessage += "--Ending DataStore Test--\n";
     addTextView( "[DONE]... " + totalMessage);
+  }
+
+  public void testMigration() {
+    DataStore dataStore = DataStore.get(this);
+    dataStore.empty();
+    dataStore.put("k_string", "String");
+    dataStore.put("k_long", LONG_TEST_VALUE);
+    dataStore.put("k_int", INT_TEST_VALUE);
+    dataStore.put("k_float", FLOAT_TEST_VALUE);
+    dataStore.put("k_double", DOUBLE_TEST_VALUE);
+    dataStore.put("k_boolean", true);
+
+    Store store = Store.get(this);
+    store.clearSync();
+
+    String textResult = "";
+    dataStore.migrateToStore(store);
+    textResult += "String worked? " + (store.get("k_string", "").equals("String")) + "\n";
+    textResult += "Int worked? " + (store.get("k_int", 0) == INT_TEST_VALUE) + "\n";
+    textResult += "Double worked? " + (store.get("k_double", 0.0) == DOUBLE_TEST_VALUE) + "\n";
+    textResult += "Long worked? " + (store.get("k_long", 0L) == LONG_TEST_VALUE) + "\n";
+    textResult += "Float worked? " + (store.get("k_float", 0.0f) == FLOAT_TEST_VALUE) + "\n";
+    textResult += "Boolean worked? " + (store.get("k_boolean", false) == true) + "\n";
+    addTextView( "[DONE]... " + textResult);
   }
 
   private void addTextView(String text) {

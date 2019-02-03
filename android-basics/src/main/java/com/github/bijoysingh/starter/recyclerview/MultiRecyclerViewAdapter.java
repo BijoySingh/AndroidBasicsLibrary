@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,8 @@ import java.util.Map;
  * Created by bijoy on 6/11/17.
  */
 
-public abstract class MultiRecyclerViewAdapter<T>
-    extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class MultiRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerView
+    .ViewHolder> {
 
   // The type map indicating the view type => view holder class
   protected Map<Integer, MultiRecyclerViewControllerItem<T>> controller;
@@ -41,8 +42,7 @@ public abstract class MultiRecyclerViewAdapter<T>
   protected RecyclerView.LayoutManager layoutManager;
 
   public MultiRecyclerViewAdapter(
-      Context context,
-      List<MultiRecyclerViewControllerItem<T>> controllerItemList) {
+      Context context, List<MultiRecyclerViewControllerItem<T>> controllerItemList) {
     this.context = context;
     this.contents = new ArrayList<>();
     this.isClickEnabled = false;
@@ -55,12 +55,10 @@ public abstract class MultiRecyclerViewAdapter<T>
   @Override
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     MultiRecyclerViewControllerItem<T> item = controller.get(viewType);
-    View v = LayoutInflater.from(parent.getContext())
-        .inflate(item.getLayoutFile(), parent, false);
+    View v = LayoutInflater.from(parent.getContext()).inflate(item.getLayoutFile(), parent, false);
     try {
-      return item.getHolderClass()
-          .getConstructor(Context.class, View.class)
-          .newInstance(context, v);
+      return item.getHolderClass().getConstructor(Context.class, View.class).newInstance(context,
+                                                                                         v);
     } catch (Exception exception) {
       return null;
     }
@@ -68,8 +66,10 @@ public abstract class MultiRecyclerViewAdapter<T>
 
   @Override
   public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-    final Class<? extends RecyclerViewHolder<T>> classToCast =
-        controller.get(getItemViewType(position)).getHolderClass();
+    int viewType = getItemViewType(position);
+    MultiRecyclerViewControllerItem<T> item = controller.get(viewType);
+
+    final Class<? extends RecyclerViewHolder<T>> classToCast = item.getHolderClass();
     final RecyclerViewHolder<T> castedHolder = classToCast.cast(holder);
     final T data = getItems().get(position);
     if (isClickEnabled) {

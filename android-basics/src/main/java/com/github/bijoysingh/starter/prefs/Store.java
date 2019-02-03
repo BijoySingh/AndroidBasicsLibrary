@@ -37,9 +37,14 @@ public class Store {
   protected final ExecutorService mSingleThreadExecutor;
   protected final Runnable mUpdateDiskRunnable;
 
+  private long mLastModifiedTime = 0L;
+
   protected Store(Context context, String storeName) {
     mStoreName = storeName;
+
     mPathToStore = new File(context.getFilesDir(), STORE_NAME_PREFIX + storeName);
+    mLastModifiedTime = mPathToStore.exists() ? mPathToStore.lastModified() : 0L;
+
     mMemoryCache = new ConcurrentHashMap<>();
     mSingleThreadExecutor = Executors.newSingleThreadExecutor();
     mUpdateDiskRunnable = new Runnable() {
@@ -251,12 +256,22 @@ public class Store {
     mSingleThreadExecutor.submit(mUpdateDiskRunnable);
   }
 
+  public void refresh() {
+    mMemoryCache.clear();
+    readFromDisk();
+  }
+
+  public boolean hasChanged() {
+    return mLastModifiedTime != mPathToStore.lastModified();
+  }
+
   protected void initialise() {
     readFromDisk();
   }
 
-  private void readFromDisk() {
+  private synchronized void readFromDisk() {
     String cache = FileManager.readCompressedFile(mPathToStore);
+    mLastModifiedTime = mPathToStore.lastModified();
     try {
       JSONObject json = new JSONObject(cache);
       Iterator<String> keys = json.keys();

@@ -3,8 +3,8 @@ package com.github.bijoysingh.starter.util;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 /**
  * Simple functions for Texts and Strings on Android

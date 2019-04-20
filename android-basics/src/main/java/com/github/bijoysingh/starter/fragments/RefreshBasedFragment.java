@@ -2,11 +2,10 @@ package com.github.bijoysingh.starter.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
-
 
 import com.github.bijoysingh.starter.R;
 import com.github.bijoysingh.starter.recyclerview.RecyclerViewBuilder;

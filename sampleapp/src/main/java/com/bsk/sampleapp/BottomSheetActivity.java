@@ -1,12 +1,8 @@
 package com.bsk.sampleapp;
 
-import android.annotation.SuppressLint;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
-
-import com.github.bijoysingh.starter.fragments.SimpleBottomSheetFragment;
 
 public class BottomSheetActivity extends AppCompatActivity {
 

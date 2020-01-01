@@ -11,6 +11,7 @@ import java.util.Map;
  * Created by bijoy on 1/1/16.
  * The access item
  */
+@Deprecated
 public class QueryParams {
 
   private final String url;

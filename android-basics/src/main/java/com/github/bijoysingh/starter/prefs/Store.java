@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -29,10 +28,11 @@ public class Store {
   private static final String STORE_NAME_PREFIX = "store__";
   private static final String DEFAULT_STORE = "DEFAULT_STORE";
 
-  protected static Map<String, Store> sStores = new HashMap<>();
+  protected static Map<String, Store> sStores = new ConcurrentHashMap<>();
 
   protected final String mStoreName;
   protected final File mPathToStore;
+  protected final File mTempPathToStore;
   protected final Map<String, Object> mMemoryCache;
   protected final ExecutorService mSingleThreadExecutor;
   protected final Runnable mUpdateDiskRunnable;
@@ -42,7 +42,9 @@ public class Store {
   protected Store(Context context, String storeName) {
     mStoreName = storeName;
 
-    mPathToStore = new File(context.getFilesDir(), STORE_NAME_PREFIX + storeName);
+    String filename = STORE_NAME_PREFIX + storeName;
+    mPathToStore = new File(context.getFilesDir(), filename);
+    mTempPathToStore = new File(context.getFilesDir(), filename + ".temp");
     mLastModifiedTime = mPathToStore.exists() ? mPathToStore.lastModified() : 0L;
 
     mMemoryCache = new ConcurrentHashMap<>();
@@ -163,7 +165,8 @@ public class Store {
 
   private void writeToDisk() {
     JSONObject json = new JSONObject(mMemoryCache);
-    FileManager.writeCompressedFile(mPathToStore, json.toString());
+    FileManager.writeCompressedFile(mTempPathToStore, json.toString());
+    mTempPathToStore.renameTo(mPathToStore);
   }
 
   /**

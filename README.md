@@ -18,7 +18,7 @@ The library is on Jcenter, so usage is really simple. Add the following dependen
 ```groovy
 dependencies {
     ...
-    implementation 'com.github.bijoysingh:android-basics:5.1.0-x'
+    implementation 'com.github.bijoysingh:android-basics:5.1.1-x'
     ...
 }
 

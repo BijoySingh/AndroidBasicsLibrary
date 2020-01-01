@@ -1,17 +1,15 @@
 package com.github.bijoysingh.starter.activity;
 
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * The View Pager Activity base for easy usage
  * Created by bijoy on 3/31/17.
  */
-
 public abstract class ViewPagerActivity extends AppCompatActivity {
 
   protected ViewPager viewPager;

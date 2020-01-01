@@ -23,9 +23,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.volley:volley:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.0.0'
 }
 
@@ -44,7 +44,7 @@ ext {
     siteUrl = 'https://github.com/BijoySingh/BasicAndroidProject'
     gitUrl = 'https://github.com/BijoySingh/BasicAndroidProject.git'
 
-    libraryVersion = '5.1.0-x'
+    libraryVersion = '5.1.1-x'
 
     developerId = 'bijoysingh693'
     developerName = 'Bijoy Singh Kochar'

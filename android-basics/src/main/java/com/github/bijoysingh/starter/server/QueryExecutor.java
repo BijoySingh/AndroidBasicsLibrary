@@ -20,6 +20,7 @@ import java.util.Map;
  * The network call handler
  * Created by bijoy on 10/24/15.
  */
+@Deprecated
 public abstract class QueryExecutor {
 
   // The application context
